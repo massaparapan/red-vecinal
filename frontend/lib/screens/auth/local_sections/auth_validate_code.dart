@@ -6,11 +6,19 @@ import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 
 class AuthValidateCode extends StatelessWidget {
+  final VoidCallback onBack;
+  final VoidCallback onValidate;
+  
+  const AuthValidateCode({
+    super.key,
+    required this.onBack,
+    required this.onValidate,
+  });
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -40,6 +48,7 @@ class AuthValidateCode extends StatelessWidget {
             foregroundColor: Colors.white,
             border: false,
             backgroundColor: AppColors.primary,
+            onPressed: onValidate,
           ),
           SizedBox(height: 10),
           AuthButton(
@@ -47,6 +56,7 @@ class AuthValidateCode extends StatelessWidget {
             foregroundColor: AppColors.primary,
             border: true,
             backgroundColor: Colors.white,
+            onPressed: onBack,
           ),
         ],
       ),

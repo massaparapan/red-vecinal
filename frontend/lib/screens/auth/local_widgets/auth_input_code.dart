@@ -6,7 +6,7 @@ class AuthInputCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 65,
       width: 50,
       
       child: TextField(

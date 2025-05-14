@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DecorativeCircle extends StatelessWidget {
-  final double? left;
-  final double? right;
-  final double? top;
-  final double? bottom;
-  final double size;
+  final List<double?> position;
   final List<Color> colors;
 
   const DecorativeCircle({
     super.key,
-    this.left,
-    this.right,
-    this.top,
-    this.bottom,
+    required this.position,
     required this.colors,
-    required this.size
   });
 
   @override
@@ -23,10 +15,10 @@ class DecorativeCircle extends StatelessWidget {
     return AnimatedPositioned(
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
-      top: top,
-      left: left,
-      right: right,
-      bottom: bottom,
+      top: position[0],
+      left: position[2],
+      right: position[3],
+      bottom: position[1],
       child: Container(
         width: 400,
         height: 400,

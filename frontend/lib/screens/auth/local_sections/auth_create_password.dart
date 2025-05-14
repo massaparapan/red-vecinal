@@ -5,39 +5,40 @@ import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
 
-class AuthPhoneNumber extends StatelessWidget {
+class AuthCreatePassword extends StatelessWidget {
   final VoidCallback onBack;
   final VoidCallback onNext;
 
-  const AuthPhoneNumber({
+  const AuthCreatePassword({
     super.key,
     required this.onBack,
     required this.onNext,
   });
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        AuthText(label: 'Crear cuenta', isTitle: true),
-        SizedBox(height: 20),
-        AuthStepper(step: 1),
-        SizedBox(height: 20),
+        AuthText(label: 'Crear contraseña', isTitle: true),
+        SizedBox(height: 30),
+        AuthStepper(step: 3),
+        SizedBox(height: 30),
         AuthText(
-          label:
-              'Proporcione su número telefónico para continuar con el registro.',
+          label: '¡Ya casi terminamos! Elige una contraseña.',
           isTitle: false,
         ),
         SizedBox(height: 40),
+        AuthTextField(label: 'Contraseña', hint: '', isPassword: true),
+        SizedBox(height: 20),
         AuthTextField(
-          label: 'Numero Telefonico',
-          hint: '+56900000000',
-          isPassword: false,
+          label: 'Confirmar contraseña',
+          hint: '',
+          isPassword: true,
         ),
         SizedBox(height: 30),
         AuthButton(
-          title: 'Siguiente',
+          title: 'Continuar',
           foregroundColor: Colors.white,
           border: false,
           backgroundColor: AppColors.primary,
