@@ -15,10 +15,10 @@ class DecorativeCircle extends StatelessWidget {
     return AnimatedPositioned(
       duration: Duration(milliseconds: 500),
       curve: Curves.easeInOut,
-      top: position[0],
-      left: position[2],
-      right: position[3],
-      bottom: position[1],
+      top: position[0]! * 0.8,
+      left: position[2]! * 0.8,
+      right: position[3]! * 0.8,
+      bottom: position[1]! * 0.8,
       child: Container(
         width: 400,
         height: 400,

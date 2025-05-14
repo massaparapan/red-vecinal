@@ -14,7 +14,7 @@ class AuthCreatePassword extends StatelessWidget {
     required this.onBack,
     required this.onNext,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,7 +30,7 @@ class AuthCreatePassword extends StatelessWidget {
         ),
         SizedBox(height: 40),
         AuthTextField(label: 'Contraseña', hint: '', isPassword: true),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         AuthTextField(
           label: 'Confirmar contraseña',
           hint: '',
