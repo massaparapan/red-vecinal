@@ -10,7 +10,7 @@ class AuthTextField extends StatefulWidget {
     super.key,
     required this.label,
     required this.hint,
-    this.isPassword = false,
+    required this.isPassword,
   });
 
   @override
@@ -23,7 +23,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
   @override
   void initState() {
     super.initState();
-    _isObscured = false;
+    _isObscured = widget.isPassword;
   }
 
   @override

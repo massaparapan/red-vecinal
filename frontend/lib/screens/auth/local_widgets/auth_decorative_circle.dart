@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DecorativeCircle extends StatelessWidget {
-
   final double? left;
   final double? right;
   final double? top;
   final double? bottom;
-  final double? size;
+  final double size;
   final List<Color> colors;
 
   const DecorativeCircle({
