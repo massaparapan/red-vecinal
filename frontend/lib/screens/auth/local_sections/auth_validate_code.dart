@@ -8,7 +8,7 @@ import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 class AuthValidateCode extends StatelessWidget {
   final VoidCallback onBack;
   final VoidCallback onValidate;
-  
+
   const AuthValidateCode({
     super.key,
     required this.onBack,
@@ -35,9 +35,13 @@ class AuthValidateCode extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AuthInputCode(),
+              SizedBox(width: 10),
               AuthInputCode(),
+              SizedBox(width: 10),
               AuthInputCode(),
+              SizedBox(width: 10),
               AuthInputCode(),
+              SizedBox(width: 10),
               AuthInputCode(),
             ],
           ),

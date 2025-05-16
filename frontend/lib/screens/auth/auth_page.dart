@@ -14,54 +14,53 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPage extends State<AuthPage> {
-  int currentPage = 0;
+  int currentSection = 0;
 
-  void setPage(int page) {
+  void setPage(int section) {
     setState(() {
-      currentPage = page;
+      currentSection = section;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final pages = [
+    final sections = [
       AuthLogin(onCreateAccount: () => setPage(1)),
       AuthPhoneNumber(
-        onNext: () => setPage(currentPage + 1),
-        onBack: () => setPage(currentPage - 1),
+        onNext: () => setPage(currentSection + 1),
+        onBack: () => setPage(currentSection - 1),
       ),
       AuthValidateCode(
-        onValidate: () => setPage(currentPage + 1),
-        onBack: () => setPage(currentPage - 1),
+        onValidate: () => setPage(currentSection + 1),
+        onBack: () => setPage(currentSection - 1),
       ),
       AuthCreatePassword(
-        onNext: () => setPage(currentPage + 1),
-        onBack: () => setPage(currentPage - 1),
+        onNext: () => setPage(currentSection + 1),
+        onBack: () => setPage(currentSection - 1),
       ),
       AuthUserInfo(
-        onNext: () => setPage(currentPage + 1),
-        onBack: () => setPage(currentPage - 1),
+        onNext: () => setPage(currentSection + 1),
+        onBack: () => setPage(currentSection - 1),
       ),
     ];
 
-    // Circle positions [top, bottom, left, right]
+    //Circle positions [top, bottom, left, right]
     final bottomLeft = [500.0, 10.0, -200.0, 225.0];
     final bottomRight = [500.0, 10.0, 225.0, -200.0];
     final topLeft = [10.0, 500.0, -200.0, 225.0];
     final topRight = [10.0, 500.0, 225.0, -200.0];
     var circlePositions = [];
 
-    if (currentPage == 0) {
+    if (currentSection == 0) {
       circlePositions = [topLeft, bottomRight];
-    } else if (currentPage == 1) {
+    } else if (currentSection == 1) {
       circlePositions = [bottomLeft, topRight];
-    } else if (currentPage == 2) {
+    } else if (currentSection == 2) {
       circlePositions = [bottomRight, topLeft];
-    } else if (currentPage == 3) {
+    } else if (currentSection == 3) {
       circlePositions = [topRight, bottomLeft];
     } else {
-      circlePositions = [topLeft, bottomRight];
-    }
+      circlePositions = [topLeft, bottomRight];}
 
     return Scaffold(
       backgroundColor: Color(0xFF5988FF),
@@ -79,12 +78,12 @@ class _AuthPage extends State<AuthPage> {
             child: Container(
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 40),
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.80),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: pages[currentPage],
+              child: sections[currentSection],
             ),
           ),
         ],

@@ -5,19 +5,18 @@ class AuthInputCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
     return SizedBox(
-      height: 65,
-      width: 50,
-      
+      height: mediaQuery.size.height * 0.075,
+      width: mediaQuery.size.width * 0.115,
       child: TextField(
         expands: true,
         minLines: null,
         maxLines: null,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15)
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
           hintStyle: TextStyle(fontSize: 20),
         ),
         keyboardType: TextInputType.number,
