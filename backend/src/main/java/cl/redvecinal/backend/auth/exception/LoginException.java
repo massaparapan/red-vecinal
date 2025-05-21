@@ -1,7 +1,7 @@
 package cl.redvecinal.backend.auth.exception;
 
-public class LoginExeption extends RuntimeException {
-    public LoginExeption (String message) {
+public class LoginException extends RuntimeException {
+    public LoginException (String message) {
         super(message);
     }
 }

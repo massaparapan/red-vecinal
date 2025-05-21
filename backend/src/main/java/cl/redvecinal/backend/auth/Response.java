@@ -1,17 +1,13 @@
-package cl.redvecinal.backend.auth.dto;
+package cl.redvecinal.backend.auth;
 
 import lombok.*;
 
-@Getter
-@Setter
-public class AuthResponse {
-    @NonNull
-    private String message;
-    @NonNull
-    private String token;
-
-    public AuthResponse(@NonNull String message, @NonNull String token) {
-        this.message = message;
-        this.token = token;
-    }
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Response {
+    private boolean success;
+    private Object data;
+    private Error error;
 }
