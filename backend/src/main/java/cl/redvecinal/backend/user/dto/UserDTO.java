@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.auth.dto;
+package cl.redvecinal.backend.user.dto;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

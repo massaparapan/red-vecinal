@@ -1,38 +1,40 @@
-package cl.redvecinal.backend.controller;
+package cl.redvecinal.backend.auth.controller;
 
-import cl.redvecinal.backend.Dtos.UserDTO;
-import cl.redvecinal.backend.respository.UserRepository;
+import cl.redvecinal.backend.auth.Response;
+import cl.redvecinal.backend.auth.dto.LoginRequest;
+import cl.redvecinal.backend.auth.dto.RegisterRequest;
+import cl.redvecinal.backend.auth.service.AuthService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
-import lombok.Value;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("api/auth")
+@RequestMapping("/api/auth")
 @RestController
 public class AuthController {
-    @Autowired
-    AuthenticationManager authenticationManager;
-    UserRepository userRepository;
-    @PostMapping("signin")
-    public ResponseEntity<?> registerUser (@Valid @RequestBody UserDTO userDTO) {
+    private final AuthService authService;
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        userDTO.getPhone(),
-                        userDTO.getPassword()
-                )
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return ResponseEntity.noContent().build();
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Response> login(@Valid @RequestBody LoginRequest request) {
+        String token = authService.login(request);
+        boolean succes = token.isEmpty();
+        Response response = Response.builder()
+                .success(succes)
+                .data("token: " + token)
+                .error(null)
+                .build();
+
+        return succes ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
+        String response = authService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
 }
