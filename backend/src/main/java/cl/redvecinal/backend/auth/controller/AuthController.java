@@ -9,19 +9,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RequestMapping("/api/auth")
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-
     @PostMapping("/login")
     public ResponseEntity<SuccesResponse> login(@Valid @RequestBody LoginRequest request) {
         String token = authService.login(request);
         return ResponseHelper.succes("token: " + token);
     }
-
     @PostMapping("/register")
     public ResponseEntity<SuccesResponse> register(@Valid @RequestBody RegisterRequest request) {
         String token = authService.register(request);

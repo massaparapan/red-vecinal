@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.config;
+package cl.redvecinal.backend.user.config;
 
 import cl.redvecinal.backend.auth.exception.CredentialsNotFoundException;
 import cl.redvecinal.backend.user.repository.UserRepository;
@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
