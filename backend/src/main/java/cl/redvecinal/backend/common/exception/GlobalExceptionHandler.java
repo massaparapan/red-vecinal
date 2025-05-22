@@ -1,6 +1,7 @@
 package cl.redvecinal.backend.common.exception;
 
 import cl.redvecinal.backend.auth.exception.CredentialsNotFoundException;
+import cl.redvecinal.backend.auth.exception.IncorrectPasswordException;
 import cl.redvecinal.backend.auth.exception.PhoneAlreadyExistsException;
 import cl.redvecinal.backend.common.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PhoneAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleRegisterException(PhoneAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ErrorResponse.builder()
+                        .statusCode(HttpStatus.CONFLICT.value())
+                        .message(ex.getMessage())
+                        .build());
+    }
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<ErrorResponse> handleRegisterException(IncorrectPasswordException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(ErrorResponse.builder()
                         .statusCode(HttpStatus.CONFLICT.value())

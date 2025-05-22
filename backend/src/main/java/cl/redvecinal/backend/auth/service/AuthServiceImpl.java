@@ -2,12 +2,14 @@ package cl.redvecinal.backend.auth.service;
 
 import cl.redvecinal.backend.auth.dto.LoginRequest;
 import cl.redvecinal.backend.auth.dto.RegisterRequest;
+import cl.redvecinal.backend.auth.exception.IncorrectPasswordException;
 import cl.redvecinal.backend.auth.exception.PhoneAlreadyExistsException;
-import cl.redvecinal.backend.config.JwtTokenProvider;
+import cl.redvecinal.backend.user.config.JwtTokenProvider;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,13 +23,17 @@ public class AuthServiceImpl implements AuthService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     @Override
     public String login(LoginRequest request) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
                             request.getPhone(),
                             request.getPassword()
                     )
-                );
-        return jwtTokenProvider.generateToken(request.getPhone());
+            );
+            return jwtTokenProvider.generateToken(request.getPhone());
+        } catch (BadCredentialsException e) {
+            throw new IncorrectPasswordException("The password is incorrect");
+        }
     }
 
     @Override
