@@ -10,43 +10,18 @@ import org.hibernate.annotations.NaturalId;
 @Entity
 @Getter
 @Setter
+@RequiredArgsConstructor
 @NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
     @NonNull
     String username;
-
     @NonNull
     String phone;
     @NonNull
     String password;
 
-    public User(@NonNull String username, @NonNull String phone, @NonNull String password) {
-        this.username = username;
-        this.phone = phone;
-        this.password = password;
-    }
-
-    public User() {
-        // constructor vacío requerido por JPA/Hibernate
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

@@ -1,9 +1,13 @@
-package cl.redvecinal.backend.auth.service;
+package cl.redvecinal.backend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -17,7 +21,8 @@ import java.util.function.Function;
 
 @Component
 public class JwtTokenProvider {
-    private final String secretKey = "u4Bf3Y9tXhM+1dF3kP3ZyT1EXxPjq2F5x93MNxO8C2s=";
+    @Value("${secret.key.jwt}")
+    private String secretKey = "";
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
 

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     @Override
-    public List<UserDTO> getUserById() {
+    public UserDTO getUserById() {
         return null;
     }
 }

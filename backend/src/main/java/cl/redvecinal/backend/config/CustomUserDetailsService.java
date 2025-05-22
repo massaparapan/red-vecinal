@@ -1,7 +1,8 @@
 package cl.redvecinal.backend.config;
 
+import cl.redvecinal.backend.auth.exception.CredentialsNotFoundException;
 import cl.redvecinal.backend.user.repository.UserRepository;
-import org.springframework.security.core.userdetails.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,19 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    private UserRepository userRepository;
-
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
+    private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
         cl.redvecinal.backend.user.model.User user = userRepository.findByPhone(phone)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with phone: " + phone));
+                .orElseThrow(() -> new CredentialsNotFoundException("Phone not found: " + phone));
 
-        System.out.println("Usuario encontrado: " + user.getPhone() + ", Password (hashed): " + user.getPassword());
         return new org.springframework.security.core.userdetails.User(
                 user.getPhone(),
                 user.getPassword(),

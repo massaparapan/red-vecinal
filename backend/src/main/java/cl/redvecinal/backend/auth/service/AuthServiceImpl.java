@@ -2,7 +2,8 @@ package cl.redvecinal.backend.auth.service;
 
 import cl.redvecinal.backend.auth.dto.LoginRequest;
 import cl.redvecinal.backend.auth.dto.RegisterRequest;
-import cl.redvecinal.backend.auth.exception.RegisterException;
+import cl.redvecinal.backend.auth.exception.PhoneAlreadyExistsException;
+import cl.redvecinal.backend.config.JwtTokenProvider;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,45 +13,33 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
-
-    public AuthServiceImpl(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, AuthenticationManager authenticationManager) {
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.authenticationManager = authenticationManager;
-    }
-
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     @Override
     public String login(LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getPhone(),
-                        request.getPassword()
-                )
-        );
-
-        if (!authentication.isAuthenticated()) {
-            return "";
-        }
-
+                            request.getPhone(),
+                            request.getPassword()
+                    )
+                );
         return jwtTokenProvider.generateToken(request.getPhone());
     }
 
     @Override
     public String register(RegisterRequest request) {
-        boolean userExists = userRepository.existsByPhone(request.getPhone());
+        boolean phoneExists = userRepository.existsByPhone(request.getPhone());
 
-        if (userExists) {
-            throw new RegisterException("User already exists");
+        if (phoneExists) {
+            throw new PhoneAlreadyExistsException("Phone " + request.getPhone() + " already exists");
         }
 
         User user = new User(request.getUsername(), request.getPhone(), encoder.encode(request.getPassword()));
         userRepository.save(user);
-
         return jwtTokenProvider.generateToken(user.getPhone());
     }
 }
