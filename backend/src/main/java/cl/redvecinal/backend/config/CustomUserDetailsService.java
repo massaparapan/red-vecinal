@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.user.config;
+package cl.redvecinal.backend.config;
 
 import cl.redvecinal.backend.auth.exception.CredentialsNotFoundException;
 import cl.redvecinal.backend.user.repository.UserRepository;

@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.user.config;
+package cl.redvecinal.backend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

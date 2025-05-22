@@ -4,7 +4,7 @@ import cl.redvecinal.backend.auth.dto.LoginRequest;
 import cl.redvecinal.backend.auth.dto.RegisterRequest;
 import cl.redvecinal.backend.auth.exception.IncorrectPasswordException;
 import cl.redvecinal.backend.auth.exception.PhoneAlreadyExistsException;
-import cl.redvecinal.backend.user.config.JwtTokenProvider;
+import cl.redvecinal.backend.config.JwtTokenProvider;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
