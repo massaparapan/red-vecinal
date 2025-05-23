@@ -7,7 +7,6 @@ public class PhoneAlreadyExistsException extends ApiException {
     public PhoneAlreadyExistsException(String message) {
         super(message);
     }
-
     @Override
     public HttpStatus status() {
         return HttpStatus.CONFLICT;
