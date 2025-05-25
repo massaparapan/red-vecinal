@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequestMapping("/api/otp")
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +22,9 @@ public class OtpController {
     }
     @PostMapping("/verify")
     public ResponseEntity<SuccesResponse> verifyCode (@RequestBody OtpVerifyRequest request) {
-        return ResponseHelper.success(otpService.verifyOTP(request.getPhoneNumber(), request.getCode()));
+        return ResponseHelper.success(Map.of(
+                "valid", otpService.verifyOTP(request.getPhoneNumber(), request.getCode()
+                )
+        ));
     }
 }

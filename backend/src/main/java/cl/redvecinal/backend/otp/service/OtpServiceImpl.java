@@ -35,10 +35,9 @@ public class OtpServiceImpl implements OtpService {
             VerificationCheck verificationCheck = VerificationCheck.creator(service_sid, verificationCode)
                     .setTo(phoneNumber)
                     .create();
-
             return verificationCheck.getValid();
         } catch (RuntimeException e) {
-            throw new VerifyCodeNotFoundException("Validate code not found for phone: " + phoneNumber);
+            throw new VerifyCodeNotFoundException("Codigo no enviado al telefono: " + phoneNumber);
         }
     }
 }
