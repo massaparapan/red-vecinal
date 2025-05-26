@@ -1,42 +1,40 @@
-# Red-Vecinal
+# RED VECINAL
 
-___
+## Problemática
 
-### Requerimientos Funcionales
+En muchas comunidades, la falta de comunicación y organización es un problema grave, lo que lleva a una baja participación ciudadana. Esto limita la capacidad de las comunidades para fomentar un entorno colaborativo y activo. **Red Vecinal** se enfoca en ofrecer una plataforma que facilite la conexión entre los vecinos, mejorando la comunicación y organización.
 
-```
-1. El sistema debe permitir a los usuarios registrarse y autenticarse mediante numero telefónico y contraseña. 
+## Requerimientos Funcionales
 
-2. El sistema debe permitir al usuario modificar sus datos personales y numero telefónico.
+### **1. Gestión de Usuarios**
+* Registro y acceso seguro mediante número telefónico y contraseña.
+* Permitir a los usuarios modificar sus datos personales y número telefónico.
 
-3. Usuarios recién registrados
-  3.1 El sistema debe permitir al usuario visualizar las comunidades cercanas según su ubicación registrada. 
-  3.2 El sistema debe permitir al usuario visualizar información previa de una junta de vecinos, incluyendo su nombre, cantidad de miembros, ubicación en el mapa, y una breve descripción. 
-  3.3 El sistema debe permitir al usuario enviar una solicitud para poder ser parte de una comunidad.
-  3.4 El usuario debe poder crear su junta de vecinos de forma sencilla.
+### **2. Para Usuarios Nuevos**
+* Visualizar comunidades (juntas de vecinos) cercanas según la ubicación registrada.
+* Consultar información previa de una junta: nombre, cantidad de miembros, ubicación en mapa y descripción.
+* Enviar solicitudes para unirse a una comunidad existente.
+* Facilidad para crear una nueva junta de vecinos.
 
-4. Usuario miembro de una comunidad
-  4.1 El sistema debe proporcionar una sección de anuncios, donde el usuario podrá visualizar e interactuar con un "Me gusta". 
-  4.2 El sistema debe proporcionar una sección de calendario de eventos. 
-    4.2.1 El sistema debe mostrar los días en los que hay eventos marcados. 
-    4.2.2 El sistema debe mostrar una lista de los eventos con su respectiva fecha. 
-    4.2.3 El sistema debe permitir al usuario su participación en un evento mediante un botón "Participar". 
-  4.3 El sistema debe permitir poder visualizar los limites geográficos que tiene la junta de vecinos a través de un mapa. 
-  4.4 El sistema debe incluir una sección de recordatorios que informan al usuario sobre su participación en los eventos a los que se haya inscrito. 
-  4.5 El sistema debe incluir una sección de información acerca de la junta de vecinos, que visualice la información correspondiente. 
-  4.6 El sistema debe permitir ver un listado de miembros actuales.
+### **3. Para Miembros de una Comunidad**
+* **Anuncios:**
+    * Visualizar anuncios de la comunidad.
+    * Interactuar con un "Me gusta" en los anuncios.
+* **Eventos:**
+    * Acceder a un calendario con días de eventos marcados.
+    * Ver listado de eventos con sus fechas.
+    * Confirmar participación en eventos ("Participar").
+    * Recibir recordatorios de eventos a los que se ha inscrito.
+* **Información de la Junta:**
+    * Visualizar los límites geográficos de la junta en un mapa.
+    * Acceder a la información general de la junta.
+    * Ver un listado de los miembros actuales.
 
-5. Administrador de una comunidad
-  5.1 El sistema debe permitir al administrador crear un anuncio, con una de las siguientes etiquetas: 
-    Anuncio
-    Encuesta
-    Emergencia 
-    Reunión  
-  5.2 El sistema debe permitir crear un evento, ingresando la siguiente información: 
-    Descripción 
-    Fecha
-    Imagen
-  5.3 El sistema debe permitir al administrador eliminar eventos o anuncios previamente creados. 
-  5.4 El sistema debe permitir al administrador modificar los límites geográficos de la junta de vecinos mediante una interfaz fácil e intuitiva.
-  5.5 El sistema debe permitir al administrador agregar, editar o eliminar información en la sección correspondiente a la junta de vecinos.
-```
+### **4. Para Administradores de Comunidad**
+* **Gestión de Contenido:**
+    * Crear anuncios con etiquetas específicas: `Anuncio`, `Encuesta`, `Emergencia`, `Reunión`.
+    * Crear eventos ingresando: descripción, fecha e imagen.
+    * Eliminar anuncios o eventos creados previamente.
+* **Gestión de la Junta:**
+    * Modificar los límites geográficos de la junta mediante una interfaz intuitiva.
+    * Agregar, editar o eliminar información en la sección descriptiva de la junta de vecinos.
