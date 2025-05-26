@@ -17,7 +17,8 @@ public class OtpController {
     private final OtpService otpService;
     @PostMapping("/send")
     public ResponseEntity<SuccesResponse> sendCode (@RequestParam String phoneNumber) {
-        otpService.sendOTP("+" + phoneNumber);
+        System.out.println("Enviando OTP a: " + phoneNumber);
+        otpService.sendOTP(phoneNumber);
         return ResponseHelper.success("OTP enviado correctamente");
     }
     @PostMapping("/verify")

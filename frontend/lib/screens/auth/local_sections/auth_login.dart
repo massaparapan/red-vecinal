@@ -5,6 +5,7 @@ import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
 import 'package:frontend/services/auth/auth_service.dart';
 import 'package:frontend/widgets/error_text.dart';
+import 'package:frontend/screens/no_community_screen/no_community_screen.dart';
 
 class AuthLogin extends StatefulWidget {
   final VoidCallback onCreateAccount;
@@ -36,6 +37,9 @@ class _AuthLoginState extends State<AuthLogin> {
         _errorMessage = '';
       });
     }
+    Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const NoCommunityScreen(),
+                  ));
   }
 
   @override
@@ -79,6 +83,7 @@ class _AuthLoginState extends State<AuthLogin> {
           border: false,
           backgroundColor: AppColors.primary,
           onPressed: _handleLogin,
+          
         ),
         SizedBox(height: 10),
         AuthButton(

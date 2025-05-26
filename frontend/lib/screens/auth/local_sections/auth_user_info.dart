@@ -7,6 +7,8 @@ import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
 import 'package:frontend/services/auth/auth_service.dart';
 import 'package:frontend/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:frontend/screens/no_community_screen/no_community_screen.dart';
+
 
 class AuthUserInfo extends StatefulWidget {
   final VoidCallback onBack;
@@ -51,7 +53,9 @@ class _AuthUserInfoState extends State<AuthUserInfo> {
     
     await _authService.register(phoneNumberSaved!, nameController.text, address, passwordSaved!);
 
-    widget.onNext();
+    Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const NoCommunityScreen(),
+                  ));
   }
 
   @override
