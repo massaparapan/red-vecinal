@@ -17,27 +17,6 @@ public class CommunityServiceImpl implements CommunityService {
         return communityRepository.save(communityModel);
     }
 
-    /*    // Not needed for now
-    @Override
-    public CommunityModel getCommunityById(Long id) {
-        return communityRepository.findById(id).orElse(null);
-    }
-
-    @Override
-    public CommunityModel updateCommunity(Long id, CommunityModel communityModel) {
-        if (communityRepository.existsById(id)) {
-            communityModel.setId(id);
-            return communityRepository.save(communityModel);
-        }
-        return null;
-    }
-
-    @Override
-    public void deleteCommunity(Long id) {
-        communityRepository.deleteById(id);
-    }
-    */
-
     @Override
     public List<CommunityModel> getCloseCommunities(double lat, double lon) {
         double maxDistance = 10.0;
