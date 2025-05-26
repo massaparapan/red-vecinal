@@ -39,13 +39,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String register(RegisterRequest request) {
-        boolean phoneExists = userRepository.existsByPhone(request.getPhone());
+        boolean phoneExists = userRepository.existsByPhone(request.getPhoneNumber());
 
         if (phoneExists) {
-            throw new PhoneAlreadyExistsException("El telefono " + request.getPhone() + " ya esta en uso");
+            throw new PhoneAlreadyExistsException("El telefono " + request.getPhoneNumber() + " ya esta en uso");
         }
 
-        User user = new User(request.getUsername(), request.getPhone(), encoder.encode(request.getPassword()));
+        User user = new User(request.getUsername(), request.getPhoneNumber(), encoder.encode(request.getPassword()));
         userRepository.save(user);
         return jwtTokenProvider.generateToken(user.getPhone());
     }
