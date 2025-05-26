@@ -27,25 +27,25 @@ public class AuthServiceImpl implements AuthService {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getPhone(),
+                            request.getPhoneNumber(),
                             request.getPassword()
                     )
             );
-            return jwtTokenProvider.generateToken(request.getPhone());
+            return jwtTokenProvider.generateToken(request.getPhoneNumber());
         } catch (BadCredentialsException e) {
-            throw new IncorrectPasswordException("The password is incorrect");
+            throw new IncorrectPasswordException("La contraseña es incorrecta");
         }
     }
 
     @Override
     public String register(RegisterRequest request) {
-        boolean phoneExists = userRepository.existsByPhone(request.getPhone());
+        boolean phoneExists = userRepository.existsByPhone(request.getPhoneNumber());
 
         if (phoneExists) {
-            throw new PhoneAlreadyExistsException("Phone " + request.getPhone() + " already exists");
+            throw new PhoneAlreadyExistsException("El telefono " + request.getPhoneNumber() + " ya esta en uso");
         }
 
-        User user = new User(request.getUsername(), request.getPhone(), encoder.encode(request.getPassword()));
+        User user = new User(request.getUsername(), request.getPhoneNumber(), encoder.encode(request.getPassword()));
         userRepository.save(user);
         return jwtTokenProvider.generateToken(user.getPhone());
     }

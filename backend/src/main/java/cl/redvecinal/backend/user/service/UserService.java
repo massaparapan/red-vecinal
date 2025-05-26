@@ -4,4 +4,5 @@ import cl.redvecinal.backend.user.dto.UserDTO;
 
 public interface UserService {
     UserDTO getUserById();
+    boolean isUserRegistered(String phoneNumber);
 }

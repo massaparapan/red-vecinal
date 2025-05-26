@@ -1,5 +1,6 @@
 package cl.redvecinal.backend.otp.service;
 
+import cl.redvecinal.backend.otp.exception.NoSuccessSendOTP;
 import cl.redvecinal.backend.otp.exception.VerifyCodeNotFoundException;
 import com.twilio.Twilio;
 import com.twilio.rest.verify.v2.service.Verification;
@@ -22,12 +23,16 @@ public class OtpServiceImpl implements OtpService {
     }
 
     public void sendOTP (String phoneNumber) {
-        Verification verification = Verification.creator(
-                service_sid,
-                phoneNumber,
-                "sms"
-        )
-                .create();
+        try {
+            Verification verification = Verification.creator(
+                            service_sid,
+                            phoneNumber,
+                            "sms"
+                    )
+                    .create();
+        } catch (RuntimeException e) {
+            throw new NoSuccessSendOTP("Error al enviar el codigo al telefono: " + phoneNumber);
+        }
     }
 
     public boolean verifyOTP (String phoneNumber, String verificationCode) {
@@ -35,10 +40,9 @@ public class OtpServiceImpl implements OtpService {
             VerificationCheck verificationCheck = VerificationCheck.creator(service_sid, verificationCode)
                     .setTo(phoneNumber)
                     .create();
-
             return verificationCheck.getValid();
         } catch (RuntimeException e) {
-            throw new VerifyCodeNotFoundException("Validate code not found for phone: " + phoneNumber);
+            throw new VerifyCodeNotFoundException("Codigo no enviado al telefono: " + phoneNumber);
         }
     }
 }

@@ -4,8 +4,11 @@ import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
+import 'package:frontend/services/auth/auth_service.dart';
+import 'package:frontend/widgets/error_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthUserInfo extends StatelessWidget {
+class AuthUserInfo extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onNext;
   const AuthUserInfo({
@@ -13,6 +16,44 @@ class AuthUserInfo extends StatelessWidget {
     required this.onBack,
     required this.onNext,
   });
+
+  @override
+  State<AuthUserInfo> createState() => _AuthUserInfoState();
+}
+
+class _AuthUserInfoState extends State<AuthUserInfo> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+  final _authService = AuthService();
+  String _errorMessage = '';
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    addressController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleNext() async {
+    final name = nameController.text.trim();
+    final address = addressController.text.trim();
+    if (name.isEmpty || address.isEmpty) {
+      setState(() {
+        _errorMessage = "Por favor, rellenar todos los campos";
+      });
+      return;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    final passwordSaved = prefs.getString('password');
+    final phoneNumberSaved = prefs.getString('phoneNumber');
+    print(phoneNumberSaved! + " " + nameController.text + " " + address + " " + passwordSaved!);
+    
+    await _authService.register(phoneNumberSaved!, nameController.text, address, passwordSaved!);
+
+    widget.onNext();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,20 +73,28 @@ class AuthUserInfo extends StatelessWidget {
           label: 'Nombre',
           hint: 'Ej: Juan Perez',
           isPassword: false,
+          controller: nameController,
         ),
         SizedBox(height: 10),
         AuthTextField(
           label: 'Dirección',
           hint: 'Ej: Montt 1422',
           isPassword: false,
+          controller: addressController,
+        ),Padding(
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: ErrorText(text: _errorMessage),
+          ),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 25),
         AuthButton(
           title: 'Continuar',
           foregroundColor: Colors.white,
           border: false,
           backgroundColor: AppColors.primary,
-          onPressed: onNext,
+          onPressed: _handleNext,
         ),
         SizedBox(height: 10),
         AuthButton(
@@ -53,7 +102,7 @@ class AuthUserInfo extends StatelessWidget {
           foregroundColor: AppColors.primary,
           border: true,
           backgroundColor: Colors.white,
-          onPressed: onBack,
+          onPressed: widget.onBack,
         ),
       ],
     );

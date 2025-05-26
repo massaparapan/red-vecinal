@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
         cl.redvecinal.backend.user.model.User user = userRepository.findByPhone(phone)
-                .orElseThrow(() -> new CredentialsNotFoundException("Phone not found: " + phone));
+                .orElseThrow(() -> new CredentialsNotFoundException("El telefono no fue encontrado"));
 
         return new org.springframework.security.core.userdetails.User(
                 user.getPhone(),
