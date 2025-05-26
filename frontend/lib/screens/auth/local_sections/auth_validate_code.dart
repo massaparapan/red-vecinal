@@ -4,8 +4,11 @@ import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_input_code.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
+import 'package:frontend/services/otp/otp_service.dart';
+import 'package:frontend/widgets/error_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthValidateCode extends StatelessWidget {
+class AuthValidateCode extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onValidate;
 
@@ -16,51 +19,103 @@ class AuthValidateCode extends StatelessWidget {
   });
 
   @override
+  State<AuthValidateCode> createState() => _AuthValidateCodeState();
+}
+
+class _AuthValidateCodeState extends State<AuthValidateCode> {
+  final _otpService = OtpService();
+  final List<TextEditingController> _controllers = List.generate(
+    6,
+    (_) => TextEditingController(),
+  );
+  String _errorMessage = '';
+  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+
+  String get _code => _controllers.map((c) => c.text).join();
+
+  Future<void> _handleValidate() async {
+    
+    final prefs = await SharedPreferences.getInstance();
+    final phoneNumber = prefs.get('phoneNumber');
+    await prefs.setString('phoneNumber', phoneNumber.toString());
+    final result = await _otpService.verifyOtp(phoneNumber.toString(), _code);
+   
+    if (result.success) {
+      final data = result.data as Map<String, dynamic>;
+      if (data['valid']) {
+        widget.onValidate();
+      } else {
+        setState(() {
+          _errorMessage = "Codigo incorrecto";
+        });
+      }
+    }
+
+    setState(() {
+      _errorMessage = result.message!;
+    });
+  }
+
+  @override
+  void dispose() {
+    for (final controller in _controllers) {
+      controller.dispose();
+    }
+    for (final node in _focusNodes) {
+      node.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AuthText(label: 'Validar numero', isTitle: true),
-          SizedBox(height: 30),
-          AuthStepper(step: 2),
-          SizedBox(height: 30),
-          AuthText(
+          const AuthText(label: 'Validar numero', isTitle: true),
+          const SizedBox(height: 30),
+          const AuthStepper(step: 2),
+          const SizedBox(height: 30),
+          const AuthText(
             label: 'Por favor, introduzca el código recibido vía SMS.',
             isTitle: false,
           ),
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AuthInputCode(),
-              SizedBox(width: 10),
-              AuthInputCode(),
-              SizedBox(width: 10),
-              AuthInputCode(),
-              SizedBox(width: 10),
-              AuthInputCode(),
-              SizedBox(width: 10),
-              AuthInputCode(),
-            ],
+            children: List.generate(6, (index) {
+              return Row(
+                children: [
+                  AuthInputCode(controller: _controllers[index]),
+                  if (index < 5) const SizedBox(width: 10),
+                ],
+              );
+            }),
           ),
-
-          SizedBox(height: 60),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: ErrorText(text: _errorMessage),
+            ),
+          ),
+          const SizedBox(height: 60),
           AuthButton(
             title: 'Validar',
             foregroundColor: Colors.white,
             border: false,
             backgroundColor: AppColors.primary,
-            onPressed: onValidate,
+            onPressed: _handleValidate,
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           AuthButton(
             title: 'Volver',
             foregroundColor: AppColors.primary,
             border: true,
             backgroundColor: Colors.white,
-            onPressed: onBack,
+            onPressed: widget.onBack,
           ),
         ],
       ),

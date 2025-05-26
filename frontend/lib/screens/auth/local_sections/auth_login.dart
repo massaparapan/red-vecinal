@@ -3,11 +3,40 @@ import 'package:frontend/core/app_colors.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
+import 'package:frontend/services/auth/auth_service.dart';
+import 'package:frontend/widgets/error_text.dart';
 
-class AuthLogin extends StatelessWidget {
+class AuthLogin extends StatefulWidget {
   final VoidCallback onCreateAccount;
 
   const AuthLogin({super.key, required this.onCreateAccount});
+
+  @override
+  State<AuthLogin> createState() => _AuthLoginState();
+}
+
+class _AuthLoginState extends State<AuthLogin> {
+  final _phoneController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _authService = AuthService();
+  String _errorMessage = '';
+
+  Future<void> _handleLogin() async {
+    final result = await _authService.login(
+      _phoneController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    if (!result.success) {
+      setState(() {
+        _errorMessage = result.message!;
+      });
+    } else {
+      setState(() {
+        _errorMessage = '';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +53,32 @@ class AuthLogin extends StatelessWidget {
         ),
         SizedBox(height: 45),
         AuthTextField(
-          label: 'Numero Telefonico',
+          label: 'Número Telefónico',
           hint: '+56900000000',
           isPassword: false,
+          controller: _phoneController,
         ),
         SizedBox(height: 10),
-        AuthTextField(label: 'Contraseña', hint: '*********', isPassword: true),
-        SizedBox(height: 45),
+        AuthTextField(
+          label: 'Contraseña',
+          hint: '*********',
+          isPassword: true,
+          controller: _passwordController,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 5.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: ErrorText(text: _errorMessage),
+          ),
+        ),
+        SizedBox(height: 30),
         AuthButton(
-          title: 'Iniciar sesion',
+          title: 'Iniciar sesión',
           foregroundColor: Colors.white,
           border: false,
           backgroundColor: AppColors.primary,
-          onPressed: () {},
+          onPressed: _handleLogin,
         ),
         SizedBox(height: 10),
         AuthButton(
@@ -44,7 +86,7 @@ class AuthLogin extends StatelessWidget {
           foregroundColor: AppColors.primary,
           border: true,
           backgroundColor: Colors.white,
-          onPressed: onCreateAccount,
+          onPressed: widget.onCreateAccount,
         ),
       ],
     );
