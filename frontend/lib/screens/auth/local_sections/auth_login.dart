@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/app_colors.dart';
-import 'package:frontend/screens/recovery_password/local_sections/recovery_password.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
