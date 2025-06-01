@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_decorative_circle.dart';
 import 'package:frontend/screens/recovery_password/local_sections/recovery_password.dart';
+import 'package:frontend/screens/recovery_password/local_sections/recovery_password_code.dart';
 
 class RecoverySections extends StatefulWidget {
 
@@ -29,6 +30,10 @@ class _RecoverySectionsState extends State<RecoverySections> {
         onBack: () => setPage(0),
         onNext: () => setPage(1),
       ),
+      RecoveryPasswordCode(
+        onBack: () => setPage(currentSection - 1),
+        onValidate: () => setPage(currentSection + 1),
+        )
     ];
 
     final bottomLeft = [500.0, 10.0, -200.0, 225.0];
