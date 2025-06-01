@@ -1,0 +1,24 @@
+package cl.redvecinal.backend.community.membership.model;
+
+import cl.redvecinal.backend.community.model.Community;
+import cl.redvecinal.backend.user.model.User;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+public class Membership {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Enumerated(EnumType.STRING)
+    private MembershipStatus status = MembershipStatus.PENDING;
+    @Enumerated(EnumType.STRING)
+    private MembershipRole role = MembershipRole.MEMBER;
+    @OneToOne
+    private User user;
+    @ManyToOne
+    private Community community;
+}
