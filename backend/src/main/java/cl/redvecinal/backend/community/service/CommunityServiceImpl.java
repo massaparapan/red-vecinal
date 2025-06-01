@@ -1,9 +1,10 @@
 package cl.redvecinal.backend.community.service;
 
+import cl.redvecinal.backend.community.model.Community;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import cl.redvecinal.backend.community.repository.CommunityRepository;
-import cl.redvecinal.backend.community.model.CommunityModel;
+
 import java.util.List;
 
 @Service
@@ -13,14 +14,14 @@ public class CommunityServiceImpl implements CommunityService {
     private CommunityRepository communityRepository;
 
     @Override
-    public CommunityModel createCommunity(CommunityModel communityModel) {
+    public Community createCommunity(Community communityModel) {
         return communityRepository.save(communityModel);
     }
 
     @Override
-    public List<CommunityModel> getCloseCommunities(double lat, double lon) {
+    public List<Community> getCloseCommunities(double lat, double lon) {
         double maxDistance = 10.0;
-        List<CommunityModel> allCommunities = communityRepository.findAll();
+        List<Community> allCommunities = communityRepository.findAll();
 
         return allCommunities.stream()
                 .filter(community -> {

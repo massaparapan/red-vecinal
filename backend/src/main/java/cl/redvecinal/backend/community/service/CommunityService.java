@@ -1,11 +1,12 @@
 package cl.redvecinal.backend.community.service;
 
-import cl.redvecinal.backend.community.model.CommunityModel;
+import cl.redvecinal.backend.community.model.Community;
+
 import java.util.List;
 
 public interface CommunityService {
 
-    CommunityModel createCommunity(CommunityModel communityModel);
+    Community createCommunity(Community communityModel);
 
     /* // Not needed for now
     CommunityModel getCommunityById(Long id);
@@ -13,6 +14,6 @@ public interface CommunityService {
     void deleteCommunity(Long id);
     */
 
-    List<CommunityModel> getCloseCommunities ( double lat, double lon);
+    List<Community> getCloseCommunities ( double lat, double lon);
 }
 
