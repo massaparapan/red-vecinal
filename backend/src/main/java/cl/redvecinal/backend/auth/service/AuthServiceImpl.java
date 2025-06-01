@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String register(RegisterRequest request) {
-        boolean phoneExists = userRepository.existsByPhone(request.getPhoneNumber());
+        boolean phoneExists = userRepository.existsByPhoneNumber(request.getPhoneNumber());
 
         if (phoneExists) {
             throw new PhoneAlreadyExistsException("El telefono " + request.getPhoneNumber() + " ya esta en uso");
@@ -47,6 +47,6 @@ public class AuthServiceImpl implements AuthService {
 
         User user = new User(request.getUsername(), request.getPhoneNumber(), encoder.encode(request.getPassword()));
         userRepository.save(user);
-        return jwtTokenProvider.generateToken(user.getPhone());
+        return jwtTokenProvider.generateToken(user.getPhoneNumber());
     }
 }
