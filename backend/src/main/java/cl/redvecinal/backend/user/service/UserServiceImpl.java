@@ -17,6 +17,6 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public boolean isUserRegistered(String phoneNumber) {
-        return userRepository.existsByPhone(phoneNumber);
+        return userRepository.existsByPhoneNumber(phoneNumber);
     }
 }

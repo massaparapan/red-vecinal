@@ -1,9 +1,7 @@
 package cl.redvecinal.backend.user.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import cl.redvecinal.backend.community.membership.model.Membership;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -12,14 +10,16 @@ import lombok.*;
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
     @NonNull
-    String username;
+    private String username;
     @NonNull
-    String phone;
+    private String phoneNumber;
     @NonNull
-    String password;
+    private String password;
+    private String imageProfileUrl;
+    @ManyToOne
+    private Membership membership;
 }
