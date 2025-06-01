@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/app_colors.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_input_code.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/services/otp/otp_service.dart';
 import 'package:frontend/widgets/error_text.dart';

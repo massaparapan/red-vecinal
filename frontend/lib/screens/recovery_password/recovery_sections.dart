@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_decorative_circle.dart';
 import 'package:frontend/screens/recovery_password/local_sections/recovery_password.dart';
 import 'package:frontend/screens/recovery_password/local_sections/recovery_password_code.dart';
+import 'package:frontend/screens/recovery_password/local_sections/recovery_password_newPassword.dart';
 
 class RecoverySections extends StatefulWidget {
 
@@ -33,7 +34,11 @@ class _RecoverySectionsState extends State<RecoverySections> {
       RecoveryPasswordCode(
         onBack: () => setPage(currentSection - 1),
         onValidate: () => setPage(currentSection + 1),
-        )
+      ),
+      CreateNewPassword(
+        onBack: () => setPage(currentSection - 1),
+        onNext: () => setPage(currentSection + 1),
+      )
     ];
 
     final bottomLeft = [500.0, 10.0, -200.0, 225.0];
