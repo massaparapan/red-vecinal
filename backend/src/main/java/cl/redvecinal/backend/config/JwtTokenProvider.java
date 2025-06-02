@@ -1,15 +1,11 @@
 package cl.redvecinal.backend.config;
 
+import cl.redvecinal.backend.user.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -22,15 +18,17 @@ import java.util.function.Function;
 public class JwtTokenProvider {
     @Value("${secret.key.jwt}")
     private String secretKey = "";
-    public String generateToken(String username) {
+    public String generateToken(User user) {    
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getMembership().getRole().name());
+        claims.put("communityId", user.getMembership().getId());
 
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(username)
+                .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -39,8 +37,14 @@ public class JwtTokenProvider {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
-    public String extractPhone (String token) {
+    public String extractPhoneNumber (String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+    public Long extractCommunityId(String token) {
+        return extractClaim(token, claims -> claims.get("communityId", Long.class));
     }
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
@@ -54,7 +58,7 @@ public class JwtTokenProvider {
                 .getPayload();
     }
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String phone = extractPhone(token);
+        final String phone = extractPhoneNumber(token);
         return (phone.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
     private boolean isTokenExpired(String token) {

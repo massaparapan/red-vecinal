@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.event.model;
+package cl.redvecinal.backend.model;
 
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;

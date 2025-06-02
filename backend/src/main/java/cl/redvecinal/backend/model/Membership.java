@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.community.membership.model;
+package cl.redvecinal.backend.model;
 
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;

@@ -1,9 +1,9 @@
 package cl.redvecinal.backend.community.model;
 
-import cl.redvecinal.backend.announcement.model.Announcement;
-import cl.redvecinal.backend.event.model.Event;
-import cl.redvecinal.backend.community.membership.model.Membership;
-import cl.redvecinal.backend.community.membership.model.MembershipRole;
+import cl.redvecinal.backend.model.Announcement;
+import cl.redvecinal.backend.model.Event;
+import cl.redvecinal.backend.model.Membership;
+import cl.redvecinal.backend.model.MembershipRole;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,7 +37,7 @@ public class Community {
     @OneToMany(mappedBy = "community")
     private Set<Event> events;
     @OneToOne
-    private User createdBy;
+    private User user;
     public int getMemberCount() {
         return (int) memberships.stream()
                 .filter(m -> m.getRole() == MembershipRole.MEMBER || m.getRole() == MembershipRole.ADMIN)

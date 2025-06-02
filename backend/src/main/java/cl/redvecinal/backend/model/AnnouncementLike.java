@@ -1,5 +1,6 @@
-package cl.redvecinal.backend.announcement.model;
+package cl.redvecinal.backend.model;
 
+import cl.redvecinal.backend.model.Announcement;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

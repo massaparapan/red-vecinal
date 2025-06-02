@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.event.model;
+package cl.redvecinal.backend.model;
 
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;
@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -16,17 +15,16 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event {
+public class Announcement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String description;
-    private LocalDate date;
+    private String content;
     @ManyToOne
     private User createdBy;
     @ManyToOne
     private Community community;
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private Set<EventParticipation> participations;
+    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
+    private Set<AnnouncementLike> likes;
 }

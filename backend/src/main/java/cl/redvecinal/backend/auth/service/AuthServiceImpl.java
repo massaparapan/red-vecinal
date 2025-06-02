@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
                             request.getPassword()
                     )
             );
-            return jwtTokenProvider.generateToken(request.getPhoneNumber());
+            return jwtTokenProvider.generateToken((User) authentication.getPrincipal());
         } catch (BadCredentialsException e) {
             throw new IncorrectPasswordException("La contraseña es incorrecta");
         }
@@ -47,6 +48,6 @@ public class AuthServiceImpl implements AuthService {
 
         User user = new User(request.getUsername(), request.getPhoneNumber(), encoder.encode(request.getPassword()));
         userRepository.save(user);
-        return jwtTokenProvider.generateToken(user.getPhoneNumber());
+        return jwtTokenProvider.generateToken(user);
     }
 }

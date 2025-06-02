@@ -1,8 +1,8 @@
 package cl.redvecinal.backend.user.service;
 
-import cl.redvecinal.backend.user.dto.UserDTO;
+import cl.redvecinal.backend.user.dto.UserDto;
 
 public interface UserService {
-    UserDTO getUserById();
+    UserDto getUserById();
     boolean isUserRegistered(String phoneNumber);
 }

@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.user.model;
 
-import cl.redvecinal.backend.community.membership.model.Membership;
+import cl.redvecinal.backend.model.Membership;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.community.membership.model;
+package cl.redvecinal.backend.model;
 
 public enum MembershipStatus {
     PENDING,
