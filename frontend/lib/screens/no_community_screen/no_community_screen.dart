@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/screens/nearby_communities/nearby_communities_map.dart';
 import 'package:frontend/widgets/primary_button.dart';
 import 'package:frontend/widgets/alt_button.dart';
 import 'package:frontend/screens/create_community_screen/create_community_screen.dart';
@@ -50,6 +51,9 @@ class NoCommunityScreen extends StatelessWidget {
               AltButton(
                 label: 'Ver comunidades en el mapa',
                 onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) => const NearbyCommunitiesMap(),
+                  ));
                   
                 },
               ),
