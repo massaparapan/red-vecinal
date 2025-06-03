@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CommunityService {
-  static const String baseUrl = 'http://localhost:8080/api/community';
+  static const String baseUrl = 'http://10.0.2.2:8080/api/community';
 
   static Future<bool> createCommunity({
     required String name,
@@ -41,11 +41,19 @@ class CommunityService {
   required double lon,
   }) async {
     final url = Uri.parse(
-      'http://localhost:8080/api/community/close?lat=$lat&lon=$lon',
+      'http://10.0.2.2:8080/api/community/close?lat=$lat&lon=$lon',
     );
 
+    print('📡 GET: $url');
+
     final response = await http.get(url);
+
+    print('📥 STATUS: ${response.statusCode}');
+    print('📥 BODY: ${response.body}');
+
     if (response.statusCode == 200) {
+      final decoded = jsonDecode(response.body);
+      print('📦 JSON decodificado: $decoded');
       return List<Map<String, dynamic>>.from(json.decode(response.body));
     } else {
       return [];
