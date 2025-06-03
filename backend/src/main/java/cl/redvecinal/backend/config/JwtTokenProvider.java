@@ -2,6 +2,7 @@ package cl.redvecinal.backend.config;
 
 import cl.redvecinal.backend.user.model.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,22 +14,22 @@ import java.util.Date;
 import java.util.HashMap;
 import io.jsonwebtoken.io.Decoders;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 @Component
 public class JwtTokenProvider {
     @Value("${secret.key.jwt}")
     private String secretKey = "";
-    public String generateToken(User user) {    
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getMembership().getRole().name());
-        claims.put("communityId", user.getMembership().getId());
-
+    @Value("${jwt.expiration}")
+    private long jwtExpiration;
+    public String generateToken(User user) {
+        Date now = new Date();
         return Jwts.builder()
                 .claims()
-                .add(claims)
-                .subject(user.getUsername())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .add("phonNumber", user.getPhoneNumber())
+                .subject(String.valueOf(user.getId()))
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + jwtExpiration))
                 .and()
                 .signWith(getKey())
                 .compact();
@@ -38,13 +39,10 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     public String extractPhoneNumber (String token) {
-        return extractClaim(token, Claims::getSubject);
+        return extractClaim(token, claims -> claims.get("phonNumber", String.class));
     }
-    public String extractRole(String token) {
-        return extractClaim(token, claims -> claims.get("role", String.class));
-    }
-    public Long extractCommunityId(String token) {
-        return extractClaim(token, claims -> claims.get("communityId", Long.class));
+    public Long extractUserId(String token) {
+        return Long.parseLong(extractClaim(token, Claims::getSubject));
     }
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
@@ -57,9 +55,13 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload();
     }
-    public boolean validateToken(String token, UserDetails userDetails) {
-        final String phone = extractPhoneNumber(token);
-        return (phone.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public boolean validateToken(String token) {
+        try {
+            extractAllClaims(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new NoSuchElementException("Token no valido");
+        }
     }
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());

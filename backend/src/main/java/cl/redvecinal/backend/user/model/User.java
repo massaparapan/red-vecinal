@@ -7,6 +7,7 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -20,6 +21,6 @@ public class User {
     @NonNull
     private String password;
     private String imageProfileUrl;
-    @ManyToOne
+    @OneToOne
     private Membership membership;
 }

@@ -6,37 +6,44 @@ import cl.redvecinal.backend.model.Membership;
 import cl.redvecinal.backend.model.MembershipRole;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Null;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Community {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NonNull
     private String name;
+    @NonNull
     private String description;
     @CreationTimestamp
     private LocalDate creationDate;
+    @NonNull
     private String lat;
+    @NonNull
     private String lon;
     @OneToMany(mappedBy = "community")
-    private Set<Membership> memberships;
+    @Builder.Default
+    private Set<Membership> memberships = new HashSet<>();
     @OneToMany(mappedBy = "community")
+    @Null
     private Set<Announcement> announcements;
     @OneToMany(mappedBy = "community")
+    @Null
     private Set<Event> events;
     @OneToOne
+    @NonNull
     private User user;
     public int getMemberCount() {
         return (int) memberships.stream()
