@@ -30,6 +30,7 @@ public class OtpServiceImpl implements OtpService {
                             "sms"
                     )
                     .create();
+            System.out.println(verification.getStatus());
         } catch (RuntimeException e) {
             throw new NoSuccessSendOTP("Error al enviar el codigo al telefono: " + phoneNumber);
         }
