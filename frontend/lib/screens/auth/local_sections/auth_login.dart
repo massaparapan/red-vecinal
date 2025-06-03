@@ -3,6 +3,7 @@ import 'package:frontend/core/app_colors.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
+import 'package:frontend/screens/recovery_password/recovery_sections.dart';
 import 'package:frontend/services/auth/auth_service.dart';
 import 'package:frontend/widgets/error_text.dart';
 import 'package:frontend/screens/no_community_screen/no_community_screen.dart';
@@ -69,6 +70,25 @@ class _AuthLoginState extends State<AuthLogin> {
           isPassword: true,
           controller: _passwordController,
         ),
+
+        SizedBox(height: 10),
+        TextButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) => RecoverySections(
+                
+                ),
+              ),
+            );
+          },
+          child: Text(
+            '¿Olvidaste tu contraseña?',
+            style: TextStyle(
+              color: AppColors.primary,
+              fontSize: 16,
+            ),
+          ),
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 5.0),
           child: Align(
@@ -76,7 +96,7 @@ class _AuthLoginState extends State<AuthLogin> {
             child: ErrorText(text: _errorMessage),
           ),
         ),
-        SizedBox(height: 30),
+        SizedBox(height: 5),
         AuthButton(
           title: 'Iniciar sesión',
           foregroundColor: Colors.white,
