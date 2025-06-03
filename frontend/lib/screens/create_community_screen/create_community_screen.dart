@@ -73,7 +73,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                 Center(
                   child: Column(
                     children: [
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 10),
                       Text(
                         'Crea tu comunidad',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(

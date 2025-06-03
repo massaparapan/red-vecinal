@@ -22,6 +22,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
 
   void fetchNearbyCommunities() async {
     final location = await LocationService.getCurrentLocation();
+    print('📍 Ubicación actual: ${location?.latitude}, ${location?.longitude}');
     if (location == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No se pudo obtener tu ubicación')),
@@ -48,7 +49,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Text(
                 'Comunidades cercanas',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -75,7 +76,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
                             child: CommunityCard(
                               name: community['name'],
                               description: community['description'],
-                              membersCount: community['membersCount'],
+                              membersCount: community['membersCount']?? 0,
                               onJoinPressed: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

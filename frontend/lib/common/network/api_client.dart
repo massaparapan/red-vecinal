@@ -3,8 +3,7 @@ import 'package:frontend/common/dto/response.dart';
 import 'package:http/http.dart' as http;
 
 class ApiClient {
-  final String baseUrl = 'http://localhost:8080/api';
-
+  final String baseUrl = 'http://10.0.2.2:8080/api';
   Future<ResponseDTO> post(
     String endpoint, {
     Map<String, String>? headers,

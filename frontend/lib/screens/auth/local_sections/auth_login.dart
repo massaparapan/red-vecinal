@@ -37,9 +37,12 @@ class _AuthLoginState extends State<AuthLogin> {
         _errorMessage = '';
       });
     }
-    Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const NoCommunityScreen(),
-                  ));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NoCommunityScreen(),
+        )
+    );
   }
 
   @override
