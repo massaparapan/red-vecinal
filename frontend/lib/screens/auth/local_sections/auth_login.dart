@@ -34,16 +34,21 @@ class _AuthLoginState extends State<AuthLogin> {
       });
     } else {
       setState(() {
+        
         _errorMessage = '';
       });
     }
-    Navigator.push(
+    if (result.success) {
+      Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const NoCommunityScreen(),
-        )
-    );
+        ),
+      );
+    }
+
   }
+  
 
   @override
   Widget build(BuildContext context) {
