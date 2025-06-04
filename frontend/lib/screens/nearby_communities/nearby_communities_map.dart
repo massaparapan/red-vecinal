@@ -7,6 +7,7 @@ import 'package:frontend/screens/get_close_communities_screen/local_services/loc
 import 'package:flutter/foundation.dart';
 import 'package:frontend/widgets/primary_button.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/screens/nearby_communities/local_widgets/community_window_details.dart';
 
 
 
@@ -20,6 +21,7 @@ class NearbyCommunitiesMap extends StatefulWidget {
 }
 
 class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
+       final Map<String, Map<String, dynamic>> _annotationCommunityMap = {};
   late final PointAnnotationManager _annotationManager;
   bool _mapReady = false;
   geo.Position? _currentPosition;
@@ -106,6 +108,7 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
     });
 
     mapboxMapController?.location.updateSettings(LocationComponentSettings(enabled: true, pulsingEnabled: true ));
+    
 
 
     final annotationPlugion = mapboxMapController!.annotations;
@@ -197,15 +200,56 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
         continue;
       }
 
+
       final options = PointAnnotationOptions(
         geometry: Point(coordinates: Position(lon, lat)),
         image: imageData, 
-        iconSize: 1.5,
+        iconSize: 0.2,
       );
 
-      await _annotationManager.create(options);
+      final annotation = await _annotationManager.create(options);
+
+      _annotationCommunityMap[annotation.id] = community;
+
+      _annotationManager.addOnPointAnnotationClickListener(CommunityAnnotationClickListener(context: context, annotationCommunityMap: _annotationCommunityMap));
+
     }
 
     print("📌 Marcadores añadidos: ${communities.length}");
+  }
+}
+
+class CommunityAnnotationClickListener extends OnPointAnnotationClickListener {
+  final BuildContext context;
+  final Map<String, Map<String, dynamic>> annotationCommunityMap;
+
+  CommunityAnnotationClickListener({
+    required this.context,
+    required this.annotationCommunityMap,
+  });
+
+  @override
+  bool onPointAnnotationClick(PointAnnotation annotation) {
+    final community = annotationCommunityMap[annotation.id];
+    if (community != null) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => Dialog(
+          insetPadding: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: CommunityWindowDetails(
+            name: community['name'],
+            description: community['description'],
+            latitude: double.parse(community['lat'].toString()),
+            longitude: double.parse(community['lon'].toString()),
+            memberCount: community['membersCount'] ?? 0,
+          ),
+        ),
+      );
+    }
+    return true;
   }
 }
