@@ -19,6 +19,7 @@ public class JwtTokenProvider {
     private String secretKey = "";
     @Value("${jwt.expiration}")
     private long jwtExpiration;
+    private static final long passwordResetExpiration = 600000;
     public String generateToken(User user) {
         Date now = new Date();
         return Jwts.builder()
@@ -37,7 +38,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .claim("phoneNumber", phoneNumber)
                 .issuedAt(now)
-                .expiration(new Date(now.getTime() + 600000))
+                .expiration(new Date(now.getTime() + passwordResetExpiration))
                 .signWith(getKey())
                 .compact();
     }
@@ -48,9 +49,6 @@ public class JwtTokenProvider {
     }
     public String extractPhoneNumber (String token) {
         return extractClaim(token, claims -> claims.get("phoneNumber", String.class));
-    }
-    public Long extractUserId(String token) {
-        return Long.parseLong(extractClaim(token, Claims::getSubject));
     }
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
@@ -66,7 +64,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         try {
             extractAllClaims(token);
-            return true;
+            return !isTokenExpired(token);
         } catch (JwtException | IllegalArgumentException e) {
             throw new TokenInvalidException("Token no valido");
         }
