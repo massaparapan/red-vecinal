@@ -35,7 +35,6 @@ public class OtpServiceImpl implements OtpService {
             throw new NoSuccessSendOTP("Error al enviar el codigo al telefono: " + phoneNumber);
         }
     }
-
     public boolean verifyOTP (String phoneNumber, String verificationCode) {
         try {
             VerificationCheck verificationCheck = VerificationCheck.creator(service_sid, verificationCode)
