@@ -16,7 +16,7 @@ class AltButton extends StatelessWidget {
     this.color = const Color(0xFF5988FF), 
     this.icon,
     this.width = 300,
-    this.height = 40,
+    this.height = 55,
   });
 
   @override
@@ -27,7 +27,7 @@ class AltButton extends StatelessWidget {
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(300, 40),
-          padding: const EdgeInsets.symmetric(vertical: 14),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
           ),

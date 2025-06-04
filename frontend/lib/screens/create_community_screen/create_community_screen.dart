@@ -4,8 +4,7 @@ import 'package:frontend/widgets/primary_button.dart';
 import 'package:frontend/screens/create_community_screen/local_widgets/create_community_box.dart';
 import 'package:frontend/widgets/alt_button.dart';
 import 'package:frontend/services/community_service.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 
 class CreateCommunityScreen extends StatefulWidget {
   const CreateCommunityScreen({super.key});
@@ -74,7 +73,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                 Center(
                   child: Column(
                     children: [
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 10),
                       Text(
                         'Crea tu comunidad',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(

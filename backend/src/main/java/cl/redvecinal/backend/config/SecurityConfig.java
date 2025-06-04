@@ -33,7 +33,8 @@ public class SecurityConfig {
                                 "api/users/reset-password",
                                 "/api/otp/**",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/api/community/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

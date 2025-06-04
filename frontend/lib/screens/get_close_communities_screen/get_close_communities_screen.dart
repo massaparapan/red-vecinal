@@ -3,6 +3,7 @@ import 'package:frontend/screens/get_close_communities_screen/local_widgets/clos
 import 'package:frontend/screens/get_close_communities_screen/local_services/location_service.dart';
 import 'package:frontend/services/community_service.dart';
 import 'package:frontend/widgets/primary_button.dart';
+import 'package:frontend/screens/nearby_communities/local_widgets/community_window_details.dart';
 
 class CloseCommunityScreen extends StatefulWidget {
   const CloseCommunityScreen({super.key});
@@ -22,6 +23,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
 
   void fetchNearbyCommunities() async {
     final location = await LocationService.getCurrentLocation();
+    print('📍 Ubicación actual: ${location?.latitude}, ${location?.longitude}');
     if (location == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No se pudo obtener tu ubicación')),
@@ -39,7 +41,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
     });
   }
 
-  @override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +50,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
           padding: const EdgeInsets.all(24.0),
           child: Column(
             children: [
-              const SizedBox(height: 30),
+              const SizedBox(height: 10),
               Text(
                 'Comunidades cercanas',
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -75,7 +77,26 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
                             child: CommunityCard(
                               name: community['name'],
                               description: community['description'],
-                              membersCount: community['membersCount'],
+                              membersCount: community['membersCount']?? 0,
+                              onTap: (){
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (context) => Dialog(
+                                    insetPadding: const EdgeInsets.all(16),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  child: CommunityWindowDetails(
+                                    name: community['name'],
+                                    description: community['description'],
+                                    latitude: double.parse(community['lat']),
+                                    longitude: double.parse(community['lon']),
+                                    memberCount: community['membersCount'] ?? 0,
+                                   ),
+                                  ),
+                                );
+                              },
                               onJoinPressed: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
