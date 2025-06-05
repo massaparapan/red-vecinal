@@ -6,4 +6,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CommunityMapper {
     Community toEntity(CommunityCreateDto dto);
+    CommunityDto toDto(Community community);
 }

@@ -1,6 +1,7 @@
 package cl.redvecinal.backend.community.service.impl;
 
 import cl.redvecinal.backend.community.dto.CommunityCreateDto;
+import cl.redvecinal.backend.community.dto.CommunityDto;
 import cl.redvecinal.backend.community.dto.CommunityMapper;
 import cl.redvecinal.backend.community.exception.AlreadyMemberException;
 import cl.redvecinal.backend.community.model.Community;
@@ -62,9 +63,9 @@ public class CommunityServiceImpl implements ICommunityService {
         return communityRepository.save(community);
     }
     @Override
-    public List<Community> getCloseCommunities(double lat, double lon) {
+    public List<CommunityDto> getCloseCommunities(double lat, double lon) {
         double maxDistance = 10.0;
-        List<Community> allCommunities = communityRepository.findAll();
+        List<CommunityDto> allCommunities = communityRepository.findAll().stream().map(communityMapper::toDto).toList();
         return allCommunities.stream()
                 .filter(community -> {
                     double communityLat = Double.parseDouble(community.getLat());

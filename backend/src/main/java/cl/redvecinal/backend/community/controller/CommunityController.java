@@ -3,7 +3,7 @@ package cl.redvecinal.backend.community.controller;
 import java.util.List;
 import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
-import cl.redvecinal.backend.community.model.Community;
+import cl.redvecinal.backend.community.dto.CommunityDto;
 import cl.redvecinal.backend.community.service.ICommunityService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class CommunityController {
         return ResponseHelper.success(communityService.create(request));
     }
     @GetMapping("/close")
-    public ResponseEntity<List<Community>> getCloseCommunities(@RequestParam @Valid double lat, @RequestParam @Valid double lon) {
-        List<Community> closeCommunities = communityService.getCloseCommunities(lat, lon);
+    public ResponseEntity<List<CommunityDto>> getCloseCommunities(@RequestParam @Valid double lat, @RequestParam @Valid double lon) {
+        List<CommunityDto> closeCommunities = communityService.getCloseCommunities(lat, lon);
         return ResponseEntity.ok(closeCommunities);
     }
     @PostMapping("/request-join")

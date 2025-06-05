@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RequestMapping("/api/auth")
 @RestController
 @RequiredArgsConstructor
@@ -18,11 +20,11 @@ public class AuthController {
         @PostMapping("/login")
         public ResponseEntity<SuccessResponse> login(@Valid @RequestBody LoginRequest request) {
             String token = authService.login(request);
-            return ResponseHelper.success("token: " + token);
+            return ResponseHelper.success(Map.of("token", token));
         }
         @PostMapping("/register")
         public ResponseEntity<SuccessResponse> register(@Valid @RequestBody RegisterRequest request) {
             String token = authService.register(request);
-            return ResponseHelper.success("token: " + token);
+            return ResponseHelper.success(Map.of("token", token));
         }
     }
