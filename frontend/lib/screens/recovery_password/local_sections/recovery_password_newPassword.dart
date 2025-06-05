@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/app_colors.dart';
+import 'package:frontend/screens/auth/auth_page.dart';
+import 'package:frontend/screens/auth/local_sections/auth_login.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
+import 'package:frontend/services/auth/auth_service.dart';
+import 'package:frontend/services/user/user_service.dart';
 import 'package:frontend/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CreateNewPassword extends StatefulWidget {
   final VoidCallback onBack;
@@ -37,10 +42,6 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
   Future<void> _loadPassword() async {
     final prefs = await SharedPreferences.getInstance();
     final saved = prefs.getString('password');
-    if (saved != null) {
-      passwordController.text = saved;
-      confirmPasswordController.text = saved;
-    }
     setState(() {
       storedPassword = saved;
     });
@@ -72,9 +73,32 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
     }
 
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('password', password);
+    final phoneNumber = prefs.getString('phoneNumber');
+    if (phoneNumber == null) {
+      setState(() {
+        _errorMessage = "Número de teléfono no encontrado";
+      });
+      return;
+    }
+    
+    final userService = UserService();
 
-    widget.onNext();
+    final response = await userService.resetPassword(phoneNumber, password);
+    if (response.success) {
+      final storage = FlutterSecureStorage();
+      await storage.delete(key: 'token');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AuthPage(
+          ),
+        ),
+      );
+      }else {
+      setState(() {
+        _errorMessage = response.message ?? "Error al crear la contraseña";
+      });
+    }
   }
 
   @override
