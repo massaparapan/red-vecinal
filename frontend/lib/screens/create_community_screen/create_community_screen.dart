@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/screens/create_community_screen/local_services/nominatim_service.dart';
+import 'package:frontend/screens/main_menu/main-menu.dart';
 import 'package:frontend/widgets/primary_button.dart';
 import 'package:frontend/screens/create_community_screen/local_widgets/create_community_box.dart';
 import 'package:frontend/widgets/alt_button.dart';
@@ -31,18 +32,19 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
     final name = nameController.text.trim();
     final description = descriptionController.text.trim();
     final address = addressController.text.trim();
-    
 
     if (name.isEmpty || description.isEmpty || address.isEmpty) {
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, completa todos los campos obligatorios.'),
-        ),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, completa todos los campos obligatorios.'),
+          ),
+        );
+      }
+      return;
     }
-    return;
-    }
+
+   
 
     final coordinates = await NominatimService.geocodeAddress(address);
     if (coordinates == null) {
@@ -67,6 +69,15 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
           content: Text(
             success ? "Comunidad creada exitosamente" : "Error al crear comunidad",
           ),
+        ),
+      );
+    }
+
+    if (success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MainMenu(),
         ),
       );
     }
