@@ -20,4 +20,29 @@ public class MembershipController {
     public ResponseEntity<SuccessResponse> getMyCommunityMemberships() {
         return ResponseHelper.success(membershipService.getMyCommunityMemberships());
     }
+    @DeleteMapping("/leave")
+    public ResponseEntity<SuccessResponse> leaveCommunity() {
+        membershipService.leaveCommunity();
+        return ResponseHelper.success("Has salido de la comunidad con éxito.");
+    }
+    @DeleteMapping("/{membershipId}")
+    public ResponseEntity<SuccessResponse> rejectMembership(@PathVariable Long membershipId) {
+        membershipService.rejectMembership(membershipId);
+        return ResponseHelper.success("Solicitud de membresía rechazada con éxito.");
+    }
+    @PatchMapping("/accept/{membershipId}")
+    public ResponseEntity<SuccessResponse> acceptMembership(@PathVariable Long membershipId) {
+        membershipService.acceptMembership(membershipId);
+        return ResponseHelper.success("Solicitud de membresía aceptada con éxito.");
+    }
+    @PatchMapping("/assign-admin/{membershipId}")
+    public ResponseEntity<SuccessResponse> assignAdmin(@PathVariable Long membershipId) {
+        membershipService.assignAdmin(membershipId);
+        return ResponseHelper.success("Membresía asignada como administrador con éxito.");
+    }
+    @PatchMapping("/unassign-roles/{membershipId}")
+    public ResponseEntity<SuccessResponse> assignRole(@PathVariable Long membershipId) {
+        membershipService.unassignRoles(membershipId);
+        return ResponseHelper.success("Roles desasignado con éxito.");
+    }
 }

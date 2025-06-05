@@ -10,4 +10,9 @@ public interface IMembershipService {
     Membership create (Membership membership);
     MembershipDto getMyMembership();
     List<MembershipRequestDto> getMyCommunityMemberships();
+    void leaveCommunity();
+    void rejectMembership(Long membershipId);
+    void assignAdmin(Long membershipId);
+    void unassignRoles(Long membershipId);
+    void acceptMembership(Long membershipId);
 }
