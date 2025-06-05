@@ -5,7 +5,7 @@ import cl.redvecinal.backend.common.util.ResponseHelper;
 import cl.redvecinal.backend.config.JwtTokenProvider;
 import cl.redvecinal.backend.user.dto.ResetPasswordDto;
 import cl.redvecinal.backend.user.exception.PhoneNumberMismatchException;
-import cl.redvecinal.backend.user.service.UserService;
+import cl.redvecinal.backend.user.service.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-    private final UserService userService;
+    private final IUserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/consult-phoneNumber")

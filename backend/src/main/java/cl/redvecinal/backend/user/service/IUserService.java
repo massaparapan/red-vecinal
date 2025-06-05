@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.user.service;
 
-public interface UserService {
+public interface IUserService {
     boolean isUserRegistered(String phoneNumber);
     void resetPassword(String phoneNumber, String password);
 }

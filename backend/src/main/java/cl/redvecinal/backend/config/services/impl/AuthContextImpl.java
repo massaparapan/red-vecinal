@@ -1,6 +1,7 @@
-package cl.redvecinal.backend.config.services;
+package cl.redvecinal.backend.config.services.impl;
 
 import cl.redvecinal.backend.config.CustomUserDetails;
+import cl.redvecinal.backend.config.services.IAuthContext;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

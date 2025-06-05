@@ -1,15 +1,16 @@
-package cl.redvecinal.backend.user.service;
+package cl.redvecinal.backend.user.service.impl;
 
 import cl.redvecinal.backend.user.exception.UserNotFoundException;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
+import cl.redvecinal.backend.user.service.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
