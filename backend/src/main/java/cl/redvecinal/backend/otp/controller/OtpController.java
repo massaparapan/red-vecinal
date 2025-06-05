@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.otp.controller;
 
-import cl.redvecinal.backend.common.dto.SuccesResponse;
+import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
 import cl.redvecinal.backend.config.JwtTokenProvider;
 import cl.redvecinal.backend.otp.service.OtpService;
@@ -20,12 +20,12 @@ public class OtpController {
     private final OtpService otpService;
     private final JwtTokenProvider jwtTokenProvider;
     @PostMapping("/send")
-    public ResponseEntity<SuccesResponse> sendCode (@RequestParam String phoneNumber) {
+    public ResponseEntity<SuccessResponse> sendCode (@RequestParam String phoneNumber) {
         otpService.sendOTP(phoneNumber);
         return ResponseHelper.success("OTP enviado correctamente");
     }
     @PostMapping("/verify")
-    public ResponseEntity<SuccesResponse> verifyCode (@RequestBody @Valid OtpVerifyRequest request) {
+    public ResponseEntity<SuccessResponse> verifyCode (@RequestBody @Valid OtpVerifyRequest request) {
         Map<String, Object> response = new HashMap<>();
         response.put("valid", otpService.verifyOTP(request.getPhoneNumber(), request.getCode()));
         if (response.get("valid").equals(Boolean.TRUE)) {

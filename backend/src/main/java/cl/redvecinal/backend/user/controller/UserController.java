@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.user.controller;
 
-import cl.redvecinal.backend.common.dto.SuccesResponse;
+import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
 import cl.redvecinal.backend.config.JwtTokenProvider;
 import cl.redvecinal.backend.user.dto.ResetPasswordDto;
@@ -21,11 +21,11 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/consult-phoneNumber")
-    public ResponseEntity<SuccesResponse> consultPhoneNumber(@RequestParam @Valid String phoneNumber) {
+    public ResponseEntity<SuccessResponse> consultPhoneNumber(@RequestParam @Valid String phoneNumber) {
         return ResponseHelper.success(Map.of("exists", userService.isUserRegistered(phoneNumber)));
     }
     @PatchMapping("/reset-password")
-    public ResponseEntity<SuccesResponse> resetPassword (@RequestHeader("Reset-Token") String resetToken, @RequestBody @Valid ResetPasswordDto resetPasswordDto) {
+    public ResponseEntity<SuccessResponse> resetPassword (@RequestHeader("Reset-Token") String resetToken, @RequestBody @Valid ResetPasswordDto resetPasswordDto) {
         jwtTokenProvider.validateToken(resetToken);
 
         String phoneNumberFromToken = jwtTokenProvider.extractPhoneNumber(resetToken);
