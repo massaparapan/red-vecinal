@@ -33,7 +33,7 @@ public class UserController {
         if (!phoneNumberFromToken.equals(resetPasswordDto.getPhoneNumber())) throw new PhoneNumberMismatchException("El número de teléfono no coincide con la solicitud");
 
         userService.resetPassword(resetPasswordDto.getPhoneNumber(), resetPasswordDto.getNewPassword());
-        return ResponseHelper.success("");
+        return ResponseHelper.success("Contraseña restablecida correctamente");
     }
 
     @GetMapping("/profile/me")

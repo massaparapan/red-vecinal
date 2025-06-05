@@ -15,5 +15,5 @@ public class CommunityPreviewDto {
     private LocalDate creationDate;
     private String lat;
     private String lon;
-    private int membersCount = 1;
+    private int membersCount;
 }
