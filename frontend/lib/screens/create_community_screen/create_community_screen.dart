@@ -45,8 +45,6 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
       description: descriptionController.text,
       lat: coordinates['lat']!,
       lon: coordinates['lon']!,
-      membersCount: 0,
-      creationDate: DateTime.now().toIso8601String(),
     );
 
     if (context.mounted) {
@@ -73,7 +71,6 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                 Center(
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
                       Text(
                         'Crea tu comunidad',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -91,7 +88,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
                 Text(
                   'Detalles de la comunidad',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -107,7 +104,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                         fontSize: 16,
                       ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
                 Text(
                   'Nombre de la comunidad',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -153,11 +150,6 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                   hintText: 'Dirección',
                   controller: addressController,
                   onPressed: () {},
-                  icon: const Icon(
-                    Icons.map_outlined,
-                    color: Color(0xFF5988FF),
-                    size: 30,
-                  ),
                 ),
                 Center(
                   child: Column(
