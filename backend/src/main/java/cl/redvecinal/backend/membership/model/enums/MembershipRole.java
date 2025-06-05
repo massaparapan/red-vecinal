@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.model;
+package cl.redvecinal.backend.membership.model.enums;
 
 public enum MembershipRole {
     ADMIN,
