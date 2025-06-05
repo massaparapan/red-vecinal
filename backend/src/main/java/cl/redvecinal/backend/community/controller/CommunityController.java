@@ -1,35 +1,33 @@
 package cl.redvecinal.backend.community.controller;
 
 import java.util.List;
-import cl.redvecinal.backend.common.dto.SuccesResponse;
+import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
 import cl.redvecinal.backend.community.model.Community;
-import cl.redvecinal.backend.community.service.CommunityService;
+import cl.redvecinal.backend.community.service.ICommunityService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import cl.redvecinal.backend.community.dto.CommunityCreateDto;
 import lombok.RequiredArgsConstructor;
 
-@RequestMapping("/api/community")
+@RequestMapping("/api/communities")
 @RestController
 @RequiredArgsConstructor
 public class CommunityController {
 
-    private final CommunityService communityService;
-
+    private final ICommunityService communityService;
     @PostMapping("/create")
-    public ResponseEntity<SuccesResponse> createCommunity(@RequestBody CommunityCreateDto request) {
+    public ResponseEntity<SuccessResponse> createCommunity(@RequestBody @Valid CommunityCreateDto request) {
         return ResponseHelper.success(communityService.create(request));
     }
-
     @GetMapping("/close")
-    public ResponseEntity<List<Community>> getCloseCommunities(double lat, double lon) {
+    public ResponseEntity<List<Community>> getCloseCommunities(@RequestParam @Valid double lat, @RequestParam @Valid double lon) {
         List<Community> closeCommunities = communityService.getCloseCommunities(lat, lon);
         return ResponseEntity.ok(closeCommunities);
-
+    }
+    @PostMapping("/request-join")
+    public ResponseEntity<SuccessResponse> requestJoinCommunity(@RequestParam Long communityId) {
+        return ResponseHelper.success(communityService.requestJoinCommunity(communityId));
     }
 }
