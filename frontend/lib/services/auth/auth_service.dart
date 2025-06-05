@@ -1,5 +1,4 @@
 import 'package:frontend/common/dto/response.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/common/network/api_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -58,6 +57,23 @@ class AuthService {
       print('Token extraído: $token');
       await storage.write(key: 'token', value: token);
     }
+
+    return result;
+  }
+
+  Future<ResponseDTO> resetPassword(String phoneNumber, String newPassword)async {
+
+    final storage = FlutterSecureStorage();
+    final token = await storage.read(key: 'token');
+    if (token == null) {
+      return ResponseDTO(success: false, message: 'No se encontró el token de autenticación');
+    }
+
+    final result = await _client.post(
+      '$baseUrl/users/reset-password',
+      body: {'phoneNumber': phoneNumber, 'newPassword': newPassword },
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
+    );
 
     return result;
   }

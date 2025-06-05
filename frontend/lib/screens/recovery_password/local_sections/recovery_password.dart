@@ -83,6 +83,7 @@ class _AuthRecoveryPasswordState extends State<AuthRecoveryPassword> {
 
         SizedBox(height: 20),
         Text(
+          textAlign: TextAlign.center,
           'Recuperar contraseña',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.blueAccent),
         ),

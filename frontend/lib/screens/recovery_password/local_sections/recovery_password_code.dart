@@ -6,6 +6,7 @@ import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/services/otp/otp_service.dart';
 import 'package:frontend/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class RecoveryPasswordCode extends StatefulWidget {
   final VoidCallback onBack;
@@ -33,7 +34,10 @@ class _RecoveryPasswordCodeState extends State<RecoveryPasswordCode> {
   String get _code => _controllers.map((c) => c.text).join();
 
   Future<void> _handleValidate() async {
-    
+
+
+    final storage = FlutterSecureStorage();
+
     final prefs = await SharedPreferences.getInstance();
     final phoneNumber = prefs.get('phoneNumber');
     await prefs.setString('phoneNumber', phoneNumber.toString());
@@ -41,11 +45,15 @@ class _RecoveryPasswordCodeState extends State<RecoveryPasswordCode> {
    
     if (result.success) {
       final data = result.data as Map<String, dynamic>;
+      final token = data['token'] as String?;
+      if (token != null) {
+        await storage.write(key: 'token', value: token);}
+        print ('Token guardado: $token');
       if (data['valid']) {
         widget.onValidate();
       } else {
         setState(() {
-          _errorMessage = "Codigo incorrecto";
+          _errorMessage = result.message ?? "Ha ocurrido un error inesperado.";
         });
       }
     }
