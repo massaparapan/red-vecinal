@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/core/app_colors.dart';
 import 'package:frontend/screens/auth/auth_page.dart';
-import 'package:frontend/screens/auth/local_sections/auth_login.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
-import 'package:frontend/services/auth/auth_service.dart';
 import 'package:frontend/services/user/user_service.dart';
 import 'package:frontend/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';

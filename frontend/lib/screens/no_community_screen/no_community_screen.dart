@@ -4,9 +4,23 @@ import 'package:frontend/widgets/primary_button.dart';
 import 'package:frontend/widgets/alt_button.dart';
 import 'package:frontend/screens/create_community_screen/create_community_screen.dart';
 import 'package:frontend/screens/get_close_communities_screen/get_close_communities_screen.dart';
+import 'package:frontend/screens/auth/auth_page.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class NoCommunityScreen extends StatelessWidget {
   const NoCommunityScreen({super.key});
+
+  void _handleLogout(BuildContext context) async {
+  final storage = FlutterSecureStorage();
+  await storage.delete(key: 'token');
+
+  // Limpia la pila de navegación y va a AuthPage
+  Navigator.pushAndRemoveUntil(
+    context,
+    MaterialPageRoute(builder: (context) => const AuthPage()),
+    (route) => false,
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +87,8 @@ class NoCommunityScreen extends StatelessWidget {
                 label: 'Cerrar sesión',
                 color: Colors.red,
                 icon: Icons.logout,
-                onPressed: () {
+                onPressed: () => {
+                  _handleLogout(context),
                 }
               )
 
