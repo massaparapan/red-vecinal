@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/common/service/navegation_service.dart';
 import 'package:frontend/core/app_colors.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
 import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
 import 'package:frontend/screens/recovery_password/recovery_sections.dart';
 import 'package:frontend/services/auth/auth_service.dart';
+import 'package:frontend/services/membership/membership_service.dart';
 import 'package:frontend/widgets/error_text.dart';
-import 'package:frontend/screens/no_community_screen/no_community_screen.dart';
 
 class AuthLogin extends StatefulWidget {
   final VoidCallback onCreateAccount;
@@ -21,6 +23,7 @@ class _AuthLoginState extends State<AuthLogin> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authService = AuthService();
+  final _membershipService = MembershipService();
   String _errorMessage = '';
 
   Future<void> _handleLogin() async {
@@ -35,21 +38,26 @@ class _AuthLoginState extends State<AuthLogin> {
       });
     } else {
       setState(() {
-        
         _errorMessage = '';
       });
     }
     if (result.success) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const NoCommunityScreen(),
-        ),
-      );
+      final result = await _membershipService.getRoleAndStatus();
+      if (result.success) {
+        final storage = FlutterSecureStorage();
+        final role = await storage.read(key: 'role');
+        final status = await storage.read(key: 'status');
+        if (status == 'ACTIVE') {
+          if (role == 'ADMIN') {
+            NavegationService().navigateToAndReplace('/home/admin');
+          } else if (role == 'MEMBER') {
+            NavegationService().navigateToAndReplace('/home/member');
+          }
+        }
+      }
+      NavegationService().navigateToAndReplace('/home/no-community');
     }
-
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -78,30 +86,20 @@ class _AuthLoginState extends State<AuthLogin> {
           isPassword: true,
           controller: _passwordController,
         ),
-
-        SizedBox(height: 10),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: ErrorText(text: _errorMessage),
+        ),
         TextButton(
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(
-              builder: (context) => RecoverySections(
-                
-                ),
-              ),
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RecoverySections()),
             );
           },
           child: Text(
             '¿Olvidaste tu contraseña?',
-            style: TextStyle(
-              color: AppColors.primary,
-              fontSize: 16,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: ErrorText(text: _errorMessage),
+            style: TextStyle(color: AppColors.primary, fontSize: 16),
           ),
         ),
         SizedBox(height: 5),
@@ -111,7 +109,6 @@ class _AuthLoginState extends State<AuthLogin> {
           border: false,
           backgroundColor: AppColors.primary,
           onPressed: _handleLogin,
-          
         ),
         SizedBox(height: 10),
         AuthButton(
