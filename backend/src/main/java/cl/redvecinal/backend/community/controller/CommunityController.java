@@ -28,6 +28,6 @@ public class CommunityController {
     @PostMapping("/request-join")
     public ResponseEntity<SuccessResponse> requestJoinCommunity(@RequestParam Long communityId) {
         communityService.requestJoinCommunity(communityId);
-        return ResponseHelper.success("");
+        return ResponseHelper.success("Solicitud enviada a la comunidad con éxito.");
     }
 }
