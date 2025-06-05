@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.community.dto;
+package cl.redvecinal.backend.community.dto.request;
 
 import lombok.Data;
 @Data

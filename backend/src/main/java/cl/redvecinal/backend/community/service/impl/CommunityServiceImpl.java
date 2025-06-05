@@ -1,8 +1,8 @@
 package cl.redvecinal.backend.community.service.impl;
 
-import cl.redvecinal.backend.community.dto.CommunityCreateDto;
-import cl.redvecinal.backend.community.dto.CommunityDto;
+import cl.redvecinal.backend.community.dto.request.CommunityCreateDto;
 import cl.redvecinal.backend.community.dto.CommunityMapper;
+import cl.redvecinal.backend.community.dto.response.CommunityPreviewDto;
 import cl.redvecinal.backend.community.exception.AlreadyMemberException;
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.community.service.ICommunityService;
@@ -42,7 +42,7 @@ public class CommunityServiceImpl implements ICommunityService {
         return communityRepository.save(community);
     }
     @Override
-    public Community requestJoinCommunity(Long communityId) {
+    public void requestJoinCommunity(Long communityId) {
         User user = authContext.getCurrentUser();
 
         if (user.getMembership() != null) throw new AlreadyMemberException("Ya eres miembro de una comunidad");
@@ -59,13 +59,11 @@ public class CommunityServiceImpl implements ICommunityService {
 
         community.getMemberships().add(m);
         user.setMembership(m);
-
-        return communityRepository.save(community);
     }
     @Override
-    public List<CommunityDto> getCloseCommunities(double lat, double lon) {
+    public List<CommunityPreviewDto> getCloseCommunities(double lat, double lon) {
         double maxDistance = 10.0;
-        List<CommunityDto> allCommunities = communityRepository.findAll().stream().map(communityMapper::toDto).toList();
+        List<CommunityPreviewDto> allCommunities = communityRepository.findAll().stream().map(communityMapper::toPreviewDto).toList();
         return allCommunities.stream()
                 .filter(community -> {
                     double communityLat = Double.parseDouble(community.getLat());
