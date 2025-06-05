@@ -28,7 +28,21 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
 
   
   void createCommunity() async {
-    final address = addressController.text;
+    final name = nameController.text.trim();
+    final description = descriptionController.text.trim();
+    final address = addressController.text.trim();
+    
+
+    if (name.isEmpty || description.isEmpty || address.isEmpty) {
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, completa todos los campos obligatorios.'),
+        ),
+      );
+    }
+    return;
+    }
 
     final coordinates = await NominatimService.geocodeAddress(address);
     if (coordinates == null) {
