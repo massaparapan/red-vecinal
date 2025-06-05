@@ -1,17 +1,17 @@
-package cl.redvecinal.backend.community.service;
+package cl.redvecinal.backend.community.service.impl;
 
 import cl.redvecinal.backend.community.dto.CommunityCreateDto;
 import cl.redvecinal.backend.community.dto.CommunityMapper;
+import cl.redvecinal.backend.community.exception.AlreadyMemberException;
 import cl.redvecinal.backend.community.model.Community;
-import cl.redvecinal.backend.config.CustomUserDetails;
-import cl.redvecinal.backend.model.Membership;
-import cl.redvecinal.backend.model.MembershipRole;
-import cl.redvecinal.backend.model.MembershipStatus;
+import cl.redvecinal.backend.community.service.ICommunityService;
+import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.membership.model.Membership;
+import cl.redvecinal.backend.membership.model.enums.MembershipRole;
+import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
 import cl.redvecinal.backend.user.model.User;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import cl.redvecinal.backend.community.repository.CommunityRepository;
 
@@ -19,19 +19,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CommunityServiceImpl implements CommunityService {
+public class CommunityServiceImpl implements ICommunityService {
     private final CommunityRepository communityRepository;
+
     private final CommunityMapper communityMapper;
+    private final IAuthContext authContext;
     @Override
     public Community create(CommunityCreateDto request) {
-        CustomUserDetails authentication = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = authentication.user();
+        User user = authContext.getCurrentUser();
 
-        if (authentication.user().getMembership() != null) {
-            throw new IllegalStateException("You are already a member of a community.");
-        }
+        Community community = communityMapper.toEntity(request);
 
-        Community community = communityMapper.toEntity(request, user);
         Membership membership = Membership.builder()
                 .user(user)
                 .community(community)
@@ -40,15 +38,33 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
 
         user.setMembership(membership);
-        community.getMemberships().add(membership);
         return communityRepository.save(community);
     }
+    @Override
+    public Community requestJoinCommunity(Long communityId) {
+        User user = authContext.getCurrentUser();
 
+        if (user.getMembership() != null) throw new AlreadyMemberException("Ya eres miembro de una comunidad");
+
+        Community community = communityRepository.findById(communityId)
+                .orElseThrow(() -> new EntityNotFoundException("Comunidad no encontrada"));
+
+        Membership m = Membership.builder()
+                .user(authContext.getCurrentUser())
+                .community(community)
+                .status(MembershipStatus.PENDING)
+                .role(MembershipRole.MEMBER)
+                .build();
+
+        community.getMemberships().add(m);
+        user.setMembership(m);
+
+        return communityRepository.save(community);
+    }
     @Override
     public List<Community> getCloseCommunities(double lat, double lon) {
         double maxDistance = 10.0;
         List<Community> allCommunities = communityRepository.findAll();
-
         return allCommunities.stream()
                 .filter(community -> {
                     double communityLat = Double.parseDouble(community.getLat());

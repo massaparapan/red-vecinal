@@ -1,6 +1,8 @@
-package cl.redvecinal.backend.model;
+package cl.redvecinal.backend.membership.model;
 
 import cl.redvecinal.backend.community.model.Community;
+import cl.redvecinal.backend.membership.model.enums.MembershipRole;
+import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,8 +21,8 @@ public class Membership {
     private MembershipStatus status = MembershipStatus.PENDING;
     @Enumerated(EnumType.STRING)
     private MembershipRole role = MembershipRole.MEMBER;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Community community;
 }

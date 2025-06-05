@@ -5,8 +5,9 @@ import cl.redvecinal.backend.community.model.Community;
 
 import java.util.List;
 
-public interface CommunityService {
+public interface ICommunityService {
     Community create(CommunityCreateDto request);
     List<Community> getCloseCommunities (double lat, double lon);
+    Community requestJoinCommunity(Long communityId);
 }
 

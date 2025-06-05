@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.user.model;
 
-import cl.redvecinal.backend.model.Membership;
+import cl.redvecinal.backend.membership.model.Membership;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +21,6 @@ public class User {
     @NonNull
     private String password;
     private String imageProfileUrl;
-    @OneToOne
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Membership membership;
 }

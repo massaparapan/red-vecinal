@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @Builder
 @AllArgsConstructor
-public class SuccesResponse {
+public class SuccessResponse {
 
     @Schema(description = "Indicates whether the operation was successful or not. Defaults to true.")
     @Builder.Default
