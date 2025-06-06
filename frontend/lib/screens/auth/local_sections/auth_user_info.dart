@@ -51,7 +51,8 @@ class _AuthUserInfoState extends State<AuthUserInfo> {
     final phoneNumberSaved = prefs.getString('phoneNumber');
     
     await _authService.register(phoneNumberSaved!, nameController.text, address, passwordSaved!);
-
+    prefs.remove('password');
+    prefs.remove('phoneNumber');
     Navigator.push(context, MaterialPageRoute(
                     builder: (context) => const NoCommunityScreen(),
                   ));

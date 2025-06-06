@@ -48,9 +48,13 @@ class _AuthLoginState extends State<AuthLogin> {
         final role = await storage.read(key: 'role');
         final status = await storage.read(key: 'status');
 
+        print('Role: $role, Status: $status');
         if (status == 'ACTIVE') {
           if (role == 'ADMIN') {
             NavegationService().navigateToAndReplace('/home/admin');
+          }
+          if (role == 'MEMBER') {
+            NavegationService().navigateToAndReplace('/home/member');
           }
         }
       } else {

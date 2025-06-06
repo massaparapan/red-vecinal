@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const AuthPage(),
         '/home/admin': (context) => const AdminHomeScreen(), 
+        '/home/member': (context) => const AdminHomeScreen(), 
         '/home/no-community': (context) => const NoCommunityScreen(), 
         '/members': (context) => MembersScreen(),
       }
