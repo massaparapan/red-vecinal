@@ -32,10 +32,7 @@ class AuthService {
     return result;
   }
 
-  Future<ResponseDTO> login(String phoneNumber, String password) async {
-
-    final storage = FlutterSecureStorage();
-    
+  Future<ResponseDTO> login(String phoneNumber, String password) async {  
     if (phoneNumber == "" || password == "") {
       return ResponseDTO(success: false, message: 'Por favor completar los campos');
     }
@@ -45,9 +42,6 @@ class AuthService {
       body: {'phoneNumber': phoneNumber, 'password': password},
     );
 
-    print('Result success: ${result.success}');
-    print('Result data: ${result.data}');
-    print('Result message: ${result.message}');
     if (result.success && result.data is Map<String, dynamic>) {
       final data = result.data as Map<String, dynamic>;
       final token = data['token'] as String?;
@@ -56,9 +50,7 @@ class AuthService {
         await storage.write(key: 'token', value: token);
       }
     }
-
+    
     return result;
   }
-
-  
 }

@@ -19,7 +19,6 @@ class UserService {
       '$baseUrl/consult-phoneNumber',
       queryParams: {'phoneNumber': phoneNumber},
     );
-
     return result;
   }
 
