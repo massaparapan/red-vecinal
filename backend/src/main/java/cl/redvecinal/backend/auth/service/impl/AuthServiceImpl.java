@@ -1,9 +1,10 @@
-package cl.redvecinal.backend.auth.service;
+package cl.redvecinal.backend.auth.service.impl;
 
 import cl.redvecinal.backend.auth.dto.LoginRequest;
 import cl.redvecinal.backend.auth.dto.RegisterRequest;
 import cl.redvecinal.backend.auth.exception.IncorrectPasswordException;
 import cl.redvecinal.backend.auth.exception.PhoneAlreadyExistsException;
+import cl.redvecinal.backend.auth.service.IAuthService;
 import cl.redvecinal.backend.config.CustomUserDetails;
 import cl.redvecinal.backend.config.JwtTokenProvider;
 import cl.redvecinal.backend.user.model.User;
