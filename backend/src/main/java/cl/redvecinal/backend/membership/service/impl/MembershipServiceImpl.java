@@ -1,12 +1,14 @@
 package cl.redvecinal.backend.membership.service.impl;
 
 import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.membership.dto.response.CommunityMemberDto;
 import cl.redvecinal.backend.membership.dto.response.MembershipDto;
 import cl.redvecinal.backend.membership.dto.MembershipMapper;
 import cl.redvecinal.backend.membership.dto.response.MembershipRequestDto;
 import cl.redvecinal.backend.membership.exception.MembershipNotFound;
 import cl.redvecinal.backend.membership.model.Membership;
 import cl.redvecinal.backend.membership.model.enums.MembershipRole;
+import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
 import cl.redvecinal.backend.membership.repository.MembershipRepository;
 import cl.redvecinal.backend.membership.service.IMembershipService;
 import cl.redvecinal.backend.user.model.User;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +38,6 @@ public class MembershipServiceImpl implements IMembershipService {
         }
         return membershipMapper.toDto(currentUser.getMembership());
     }
-
     @Override
     public List<MembershipRequestDto> getMyCommunityMemberships() {
         User currentUser = authService.getCurrentUser();
@@ -58,7 +60,6 @@ public class MembershipServiceImpl implements IMembershipService {
         currentUser.setMembership(null);
         membershipRepository.delete(membership);
     }
-
     @Override
     public void rejectMembership(Long membershipId) {
         Membership membership = membershipRepository.findById(membershipId)
@@ -88,5 +89,18 @@ public class MembershipServiceImpl implements IMembershipService {
                 .orElseThrow(() -> new MembershipNotFound("Membresia no encontrada."));
         membership.setRole(MembershipRole.MEMBER);
         membershipRepository.save(membership);
+    }
+
+    @Override
+    public List<CommunityMemberDto> getMyCommunityMembers() {
+        User currentUser = authService.getCurrentUser();
+        if (currentUser.getMembership() == null) {
+            throw new MembershipNotFound("No tienes una membresía vinculada.");
+        }
+        Long communityId = currentUser.getMembership().getCommunity().getId();
+        List<Membership> memberships = membershipRepository.findByCommunityId(communityId);
+        return memberships.stream().filter(m -> MembershipStatus.ACTIVE.equals(m.getStatus()))
+                .map(membershipMapper::toCommunityMemberDto)
+                .collect(Collectors.toList());
     }
 }

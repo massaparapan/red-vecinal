@@ -19,7 +19,6 @@ import java.util.Map;
 public class UserController {
     private final IUserService userService;
     private final JwtTokenProvider jwtTokenProvider;
-
     @GetMapping("/consult-phoneNumber")
     public ResponseEntity<SuccessResponse> consultPhoneNumber(@RequestParam @Valid String phoneNumber) {
         return ResponseHelper.success(Map.of("exists", userService.isUserRegistered(phoneNumber)));
@@ -35,7 +34,6 @@ public class UserController {
         userService.resetPassword(resetPasswordDto.getPhoneNumber(), resetPasswordDto.getNewPassword());
         return ResponseHelper.success("Contraseña restablecida correctamente");
     }
-
     @GetMapping("/profile/me")
     public ResponseEntity<SuccessResponse> getUserProfile() {
         return ResponseHelper.success(userService.showMyProfile());

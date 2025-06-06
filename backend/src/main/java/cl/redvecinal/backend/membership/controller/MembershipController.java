@@ -20,6 +20,10 @@ public class MembershipController {
     public ResponseEntity<SuccessResponse> getMyCommunityMemberships() {
         return ResponseHelper.success(membershipService.getMyCommunityMemberships());
     }
+    @GetMapping("/my-community/members")
+    public ResponseEntity<SuccessResponse> getMyCommunityMembers() {
+        return ResponseHelper.success(membershipService.getMyCommunityMembers());
+    }
     @DeleteMapping("/leave")
     public ResponseEntity<SuccessResponse> leaveCommunity() {
         membershipService.leaveCommunity();

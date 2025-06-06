@@ -1,5 +1,6 @@
 package cl.redvecinal.backend.membership.service;
 
+import cl.redvecinal.backend.membership.dto.response.CommunityMemberDto;
 import cl.redvecinal.backend.membership.dto.response.MembershipDto;
 import cl.redvecinal.backend.membership.dto.response.MembershipRequestDto;
 import cl.redvecinal.backend.membership.model.Membership;
@@ -15,4 +16,5 @@ public interface IMembershipService {
     void assignAdmin(Long membershipId);
     void unassignRoles(Long membershipId);
     void acceptMembership(Long membershipId);
+    List<CommunityMemberDto> getMyCommunityMembers();
 }
