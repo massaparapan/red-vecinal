@@ -25,6 +25,15 @@ public class CommunityServiceImpl implements ICommunityService {
 
     private final CommunityMapper communityMapper;
     private final IAuthContext authContext;
+
+    /**
+     * Creates a new community and assigns the current user as its administrator.
+     * The community is created based on the provided request data, and a membership
+     * is established with the user as an active administrator.
+     *
+     * @param request the data transfer object containing the details for creating the community
+     * @return the created Community entity
+     */
     @Override
     public Community create(CommunityCreateDto request) {
         User user = authContext.getCurrentUser();
@@ -41,6 +50,15 @@ public class CommunityServiceImpl implements ICommunityService {
         user.setMembership(membership);
         return communityRepository.save(community);
     }
+    /**
+     * Handles a user's request to join a community.
+     * If the user is already a member of a community, an exception is thrown.
+     * Otherwise, a membership request is created with a status of PENDING.
+     *
+     * @param communityId the ID of the community the user wants to join
+     * @throws AlreadyMemberException if the user is already a member of a community
+     * @throws EntityNotFoundException if the community with the given ID is not found
+     */
     @Override
     public void requestJoinCommunity(Long communityId) {
         User user = authContext.getCurrentUser();
@@ -60,10 +78,21 @@ public class CommunityServiceImpl implements ICommunityService {
         community.getMemberships().add(m);
         user.setMembership(m);
     }
+    /**
+     * Retrieves a list of nearby communities based on the user's current location.
+     * Filters communities within a specified maximum distance (10 kilometers)
+     * from the given latitude and longitude.
+     *
+     * @param lat the latitude of the user's current location in decimal degrees
+     * @param lon the longitude of the user's current location in decimal degrees
+     * @return a list of CommunityPreviewDto objects representing nearby communities
+     */
     @Override
     public List<CommunityPreviewDto> getCloseCommunities(double lat, double lon) {
         double maxDistance = 10.0;
-        List<CommunityPreviewDto> allCommunities = communityRepository.findAll().stream().map(communityMapper::toPreviewDto).toList();
+        List<CommunityPreviewDto> allCommunities = communityRepository.findAll().stream()
+                .map(communityMapper::toPreviewDto)
+                .toList();
         return allCommunities.stream()
                 .filter(community -> {
                     double communityLat = Double.parseDouble(community.getLat());
@@ -73,6 +102,16 @@ public class CommunityServiceImpl implements ICommunityService {
                 })
                 .toList();
     }
+    /**
+         * Calculates the great-circle distance between two points on the Earth's surface
+         * using the Haversine formula.
+         *
+         * @param lat1 the latitude of the first point in decimal degrees
+         * @param lon1 the longitude of the first point in decimal degrees
+         * @param lat2 the latitude of the second point in decimal degrees
+         * @param lon2 the longitude of the second point in decimal degrees
+         * @return the distance between the two points in kilometers
+         */
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371;
         double dLat = Math.toRadians(lat2 - lat1);
