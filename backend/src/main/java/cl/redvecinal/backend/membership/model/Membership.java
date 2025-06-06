@@ -18,9 +18,9 @@ public class Membership {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
-    private MembershipStatus status = MembershipStatus.PENDING;
+    private MembershipStatus status;
     @Enumerated(EnumType.STRING)
-    private MembershipRole role = MembershipRole.MEMBER;
+    private MembershipRole role;
     @OneToOne(cascade = CascadeType.MERGE)
     private User user;
     @ManyToOne(cascade = CascadeType.MERGE)

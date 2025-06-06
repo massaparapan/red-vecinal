@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/create_community_screen/local_services/nominatim_service.dart';
+import 'package:frontend/common/service/navegation_service.dart';
+import 'package:frontend/screens/community/create_community_screen/local_services/nominatim_service.dart';
+import 'package:frontend/screens/menu_screen/admin_home.dart';
+import 'package:frontend/screens/menu_screen/member_home.dart';
 import 'package:frontend/widgets/primary_button.dart';
-import 'package:frontend/screens/create_community_screen/local_widgets/create_community_box.dart';
+import 'package:frontend/screens/community/create_community_screen/local_widgets/create_community_box.dart';
 import 'package:frontend/widgets/alt_button.dart';
-import 'package:frontend/services/community_service.dart';
+import 'package:frontend/services/community/community_service.dart';
 
 
 class CreateCommunityScreen extends StatefulWidget {
@@ -17,6 +20,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final addressController = TextEditingController();
+  final _navigationService = NavegationService();
 
   @override
   void dispose() {
@@ -28,7 +32,22 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
 
   
   void createCommunity() async {
-    final address = addressController.text;
+    final name = nameController.text.trim();
+    final description = descriptionController.text.trim();
+    final address = addressController.text.trim();
+
+    if (name.isEmpty || description.isEmpty || address.isEmpty) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, completa todos los campos obligatorios.'),
+          ),
+        );
+      }
+      return;
+    }
+
+   
 
     final coordinates = await NominatimService.geocodeAddress(address);
     if (coordinates == null) {
@@ -45,8 +64,6 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
       description: descriptionController.text,
       lat: coordinates['lat']!,
       lon: coordinates['lon']!,
-      membersCount: 0,
-      creationDate: DateTime.now().toIso8601String(),
     );
 
     if (context.mounted) {
@@ -55,6 +72,15 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
           content: Text(
             success ? "Comunidad creada exitosamente" : "Error al crear comunidad",
           ),
+        ),
+      );
+    }
+
+    if (success) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const AdminHomeScreen(),
         ),
       );
     }
@@ -73,7 +99,6 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                 Center(
                   child: Column(
                     children: [
-                      const SizedBox(height: 10),
                       Text(
                         'Crea tu comunidad',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -91,7 +116,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
                 Text(
                   'Detalles de la comunidad',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -107,7 +132,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                         fontSize: 16,
                       ),
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
                 Text(
                   'Nombre de la comunidad',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -153,11 +178,6 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                   hintText: 'Dirección',
                   controller: addressController,
                   onPressed: () {},
-                  icon: const Icon(
-                    Icons.map_outlined,
-                    color: Color(0xFF5988FF),
-                    size: 30,
-                  ),
                 ),
                 Center(
                   child: Column(

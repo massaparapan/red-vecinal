@@ -16,6 +16,28 @@ class ApiClient {
         headers: headers ?? {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
+      final jsonResponse = jsonDecode(response.body);
+      return ResponseDTO.fromJson(jsonResponse);
+    } catch (e) {
+      return ResponseDTO(
+        success: false,
+        message: 'Error de red: ${e.toString()}',
+        data: null,
+      );
+    }
+}
+
+  Future<ResponseDTO> get(
+  String endpoint, {
+  Map<String, String>? headers,
+  Map<String, String>? queryParams, 
+  }) async {
+    try {
+      final uri = Uri.parse(baseUrl + endpoint).replace(queryParameters: queryParams);
+      final response = await http.get(
+        uri,
+        headers: headers ?? {'Content-Type': 'application/json'},
+      );
 
       final jsonResponse = jsonDecode(response.body);
 
@@ -29,27 +51,29 @@ class ApiClient {
     }
   }
 
-  Future<ResponseDTO> get(
-  String endpoint, {
-  Map<String, String>? headers,
-  Map<String, String>? queryParams, 
-}) async {
-  try {
-    final uri = Uri.parse(baseUrl + endpoint).replace(queryParameters: queryParams);
-    final response = await http.get(
-      uri,
-      headers: headers ?? {'Content-Type': 'application/json'},
-    );
+  Future<ResponseDTO> patch(
+    String endpoint, {
+    Map<String, String>? headers,
+    Map<String, String>? queryParams,
+    Object? body,
+  }) async {
+    try {
+      final response = await http.patch(
+        Uri.parse(baseUrl + endpoint).replace(queryParameters: queryParams),
+        headers: headers ?? {'Content-Type': 'application/json'},
+        body: jsonEncode(body),
+      );
+      print('PATCH ${baseUrl + endpoint} → Status: ${response.statusCode}');
+      print('Body: ${response.body}');
 
-    final jsonResponse = jsonDecode(response.body);
-
-    return ResponseDTO.fromJson(jsonResponse);
-  } catch (e) {
-    return ResponseDTO(
-      success: false,
-      message: 'Error de red: ${e.toString()}',
-      data: null,
-    );
+      final jsonResponse = jsonDecode(response.body);
+      return ResponseDTO.fromJson(jsonResponse);
+    } catch (e) {
+      return ResponseDTO(
+        success: false,
+        message: 'Error de red: ${e.toString()}',
+        data: null,
+      );
+    }
   }
-}
 }

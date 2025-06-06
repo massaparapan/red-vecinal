@@ -7,7 +7,7 @@ import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
 import 'package:frontend/services/auth/auth_service.dart';
 import 'package:frontend/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:frontend/screens/no_community_screen/no_community_screen.dart';
+import 'package:frontend/screens/menu_screen/no_community_home.dart';
 
 
 class AuthUserInfo extends StatefulWidget {
@@ -49,7 +49,6 @@ class _AuthUserInfoState extends State<AuthUserInfo> {
     final prefs = await SharedPreferences.getInstance();
     final passwordSaved = prefs.getString('password');
     final phoneNumberSaved = prefs.getString('phoneNumber');
-    print(phoneNumberSaved! + " " + nameController.text + " " + address + " " + passwordSaved!);
     
     await _authService.register(phoneNumberSaved!, nameController.text, address, passwordSaved!);
 

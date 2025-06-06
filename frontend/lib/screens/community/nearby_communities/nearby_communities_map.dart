@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:frontend/services/community_service.dart';
+import 'package:frontend/services/community/community_service.dart';
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
-import 'package:frontend/screens/get_close_communities_screen/local_services/location_service.dart';
+import 'package:frontend/screens/community/get_close_communities_screen/local_services/location_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:frontend/widgets/primary_button.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/screens/nearby_communities/local_widgets/community_window_details.dart';
+import 'package:frontend/screens/community/nearby_communities/local_widgets/community_window_details.dart';
 
 
 
