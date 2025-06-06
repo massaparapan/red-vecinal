@@ -16,9 +16,6 @@ class ApiClient {
         headers: headers ?? {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
-      print('POST ${baseUrl + endpoint} → Status: ${response.statusCode}');
-      print('Body: ${response.body}');
-
       final jsonResponse = jsonDecode(response.body);
       return ResponseDTO.fromJson(jsonResponse);
     } catch (e) {
