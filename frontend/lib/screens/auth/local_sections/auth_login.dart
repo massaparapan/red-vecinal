@@ -47,15 +47,15 @@ class _AuthLoginState extends State<AuthLogin> {
         final storage = FlutterSecureStorage();
         final role = await storage.read(key: 'role');
         final status = await storage.read(key: 'status');
+
         if (status == 'ACTIVE') {
           if (role == 'ADMIN') {
             NavegationService().navigateToAndReplace('/home/admin');
-          } else if (role == 'MEMBER') {
-            NavegationService().navigateToAndReplace('/home/member');
           }
         }
+      } else {
+        NavegationService().navigateToAndReplace('/home/no-community');
       }
-      NavegationService().navigateToAndReplace('/home/no-community');
     }
   }
 
