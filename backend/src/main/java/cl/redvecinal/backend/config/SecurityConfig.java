@@ -29,8 +29,12 @@ public class SecurityConfig {
                 authorizeHttpRequests(request -> request
                         .requestMatchers(
                                 "/api/auth/**",
+                                "/api/users/consult-phoneNumber",
+                                "/api/users/reset-password",
+                                "/api/otp/**",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/api/community/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())

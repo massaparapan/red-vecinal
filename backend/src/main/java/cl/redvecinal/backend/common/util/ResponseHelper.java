@@ -1,13 +1,13 @@
 package cl.redvecinal.backend.common.util;
 
-import cl.redvecinal.backend.common.dto.SuccesResponse;
+import cl.redvecinal.backend.common.dto.SuccessResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 @Component
 public class ResponseHelper {
-    public static ResponseEntity<SuccesResponse> success (Object data) {
+    public static ResponseEntity<SuccessResponse> success (Object data) {
         return ResponseEntity.ok(
-                SuccesResponse.builder()
+                SuccessResponse.builder()
                         .data(data)
                         .build()
         );

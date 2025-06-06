@@ -55,14 +55,28 @@ class _AuthPhoneNumberState extends State<AuthPhoneNumber> {
       setState(() {
         _errorMessage = result.message!;
       });
-    } else {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('phoneNumber', _phoneNumberController.text);
-      await _otpService.sendOtp(_phoneNumberController.text);
+    }
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('phoneNumber', _phoneNumberController.text);
+
+    if (result.data != null &&
+        (result.data as Map<String, dynamic>)['exists'] == true) {
       setState(() {
-        _errorMessage = "";
-        widget.onNext();
+        _errorMessage = 'El número telefónico ya está registrado.';
       });
+    } else {
+      setState(() {
+        _errorMessage = '';
+      });
+      
+      final otpResult = await _otpService.sendOtp(_phoneNumberController.text);
+      if (otpResult.success) {
+        widget.onNext();
+      } else {
+        setState(() {
+          _errorMessage = otpResult.message!;
+        });
+      }
     }
   }
 
