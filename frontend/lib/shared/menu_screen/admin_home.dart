@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/common/service/navegation_service.dart';
-import 'package:frontend/screens/menu_screen/local_widgets/menu-tile.dart';
+import 'package:frontend/core/navigation/navegation_service.dart';
+import 'package:frontend/shared/menu_screen/local_widgets/menu-tile.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});
