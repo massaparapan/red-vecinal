@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/common/service/navegation_service.dart';
-import 'package:frontend/screens/auth/auth_page.dart';
-import 'package:frontend/screens/membership/members_screen/members_screen.dart';
-import 'package:frontend/screens/menu_screen/admin_home.dart';
-import 'package:frontend/screens/menu_screen/no_community_home.dart';
+import 'package:frontend/core/navigation/navegation_service.dart';
+import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
+import 'package:frontend/shared/menu_screen/admin_home.dart';
+import 'package:frontend/shared/menu_screen/no_community_home.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
         '/home/admin': (context) => const AdminHomeScreen(), 
         '/home/member': (context) => const AdminHomeScreen(), 
         '/home/no-community': (context) => const NoCommunityScreen(), 
-        '/members': (context) => MembersScreen(),
       }
     );
   }
