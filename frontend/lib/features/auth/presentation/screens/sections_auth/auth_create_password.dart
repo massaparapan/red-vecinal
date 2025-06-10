@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/app_colors.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
-import 'package:frontend/widgets/error_text.dart';
+import 'package:frontend/core/theme/colors.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_button.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_stepper.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:frontend/shared/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthCreatePassword extends StatefulWidget {
@@ -34,6 +34,7 @@ class _AuthCreatePasswordState extends State<AuthCreatePassword> {
     super.initState();
     _loadPassword();
   }
+  
 
   Future<void> _loadPassword() async {
     final prefs = await SharedPreferences.getInstance();

@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
-import "package:frontend/screens/auth/local_widgets/auth_step_indicator.dart";
-import "package:frontend/screens/auth/local_widgets/auth_separator_step.dart";
+import "package:frontend/features/auth/presentation/widgets/auth_step_indicator.dart";
+import "package:frontend/features/auth/presentation/widgets/auth_separator_step.dart";
 
 class AuthStepper extends StatelessWidget{
   final int step;

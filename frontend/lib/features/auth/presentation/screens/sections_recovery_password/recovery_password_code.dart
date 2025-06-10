@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/app_colors.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_input_code.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
-import 'package:frontend/services/otp/otp_service.dart';
-import 'package:frontend/widgets/error_text.dart';
+import 'package:frontend/core/theme/colors.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_button.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_input_code.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text.dart';
+import 'package:frontend/features/otp/repositories/otp_repository.dart';
+import 'package:frontend/shared/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthValidateCode extends StatefulWidget {
+class RecoveryPasswordCode extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onValidate;
 
-  const AuthValidateCode({
+  const RecoveryPasswordCode({
     super.key,
     required this.onBack,
     required this.onValidate,
   });
 
   @override
-  State<AuthValidateCode> createState() => _AuthValidateCodeState();
+  State<RecoveryPasswordCode> createState() => _RecoveryPasswordCodeState();
 }
 
-class _AuthValidateCodeState extends State<AuthValidateCode> {
-  final _otpService = OtpService();
+class _RecoveryPasswordCodeState extends State<RecoveryPasswordCode> {
+  final _otpService = OtpRepository();
   final List<TextEditingController> _controllers = List.generate(
     6,
     (_) => TextEditingController(),
@@ -33,27 +32,28 @@ class _AuthValidateCodeState extends State<AuthValidateCode> {
 
   String get _code => _controllers.map((c) => c.text).join();
 
+  Future<void> _changeErrorMessage(String? message) async {
+    setState(() {
+      _errorMessage = message!;
+    });
+  }
+
   Future<void> _handleValidate() async {
-    
     final prefs = await SharedPreferences.getInstance();
     final phoneNumber = prefs.get('phoneNumber');
     await prefs.setString('phoneNumber', phoneNumber.toString());
-    final result = await _otpService.verifyOtp(phoneNumber.toString(), _code);
-   
-    if (result.success) {
-      final data = result.data as Map<String, dynamic>;
-      if (data['valid']) {
-        widget.onValidate();
-      } else {
-        setState(() {
-          _errorMessage = "Codigo incorrecto";
-        });
-      }
-    }
 
-    setState(() {
-      _errorMessage = result.message!;
-    });
+    try {
+      final response = await _otpService.verifyOtp(
+        phoneNumber: phoneNumber.toString(),
+        code: _code,
+      );
+      if (response) {
+        widget.onValidate();
+      }
+    } catch (e) {
+      _changeErrorMessage(e.toString());
+    }  
   }
 
   @override
@@ -75,8 +75,6 @@ class _AuthValidateCodeState extends State<AuthValidateCode> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const AuthText(label: 'Validar numero', isTitle: true),
-          const SizedBox(height: 30),
-          const AuthStepper(step: 2),
           const SizedBox(height: 30),
           const AuthText(
             label: 'Por favor, introduzca el código recibido vía SMS.',

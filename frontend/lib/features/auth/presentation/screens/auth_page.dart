@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/auth/local_sections/auth_create_password.dart';
-import 'package:frontend/screens/auth/local_sections/auth_login.dart';
-import 'package:frontend/screens/auth/local_sections/auth_phone_number.dart';
-import 'package:frontend/screens/auth/local_sections/auth_user_info.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_decorative_circle.dart';
-import 'package:frontend/screens/auth/local_sections/auth_validate_code.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_auth/auth_create_password.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_auth/auth_login.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_auth/auth_phone_number.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_auth/auth_user_info.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_decorative_circle.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_auth/auth_validate_code.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

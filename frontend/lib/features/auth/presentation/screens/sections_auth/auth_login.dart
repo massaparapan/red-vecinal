@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:frontend/common/service/navegation_service.dart';
-import 'package:frontend/core/app_colors.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
-import 'package:frontend/screens/recovery_password/recovery_sections.dart';
-import 'package:frontend/services/auth/auth_service.dart';
-import 'package:frontend/services/membership/membership_service.dart';
-import 'package:frontend/widgets/error_text.dart';
+import 'package:frontend/core/theme/colors.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_button.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:frontend/features/auth/presentation/screens/recovery_sections.dart';
+import 'package:frontend/features/auth/repository/auth_repository.dart';
+import 'package:frontend/shared/widgets/error_text.dart';
 
 class AuthLogin extends StatefulWidget {
   final VoidCallback onCreateAccount;
@@ -22,44 +19,23 @@ class AuthLogin extends StatefulWidget {
 class _AuthLoginState extends State<AuthLogin> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authService = AuthService();
-  final _membershipService = MembershipService();
+  final _authRepository = AuthRepository();
   String _errorMessage = '';
 
+  Future<void> _changeErrorMessage(String? message) async {
+    setState(() {
+      _errorMessage = message!;
+    });
+  }
+
   Future<void> _handleLogin() async {
-    final result = await _authService.login(
-      _phoneController.text.trim(),
-      _passwordController.text.trim(),
-    );
-
-    if (!result.success) {
-      setState(() {
-        _errorMessage = result.message!;
-      });
-    } else {
-      setState(() {
-        _errorMessage = '';
-      });
-    }
-    if (result.success) {
-      final result = await _membershipService.getRoleAndStatus();
-      if (result.success) {
-        final storage = FlutterSecureStorage();
-        final role = await storage.read(key: 'role');
-        final status = await storage.read(key: 'status');
-
-        print('Role: $role, Status: $status');
-        if (status == 'ACTIVE') {
-          if (role == 'ADMIN') {
-            NavegationService().navigateToAndReplace('/home/admin');
-          }
-          if (role == 'MEMBER') {
-            NavegationService().navigateToAndReplace('/home/member');
-          }
-        }
-      } else {
-        NavegationService().navigateToAndReplace('/home/no-community');
-      }
+    try {
+      await _authRepository.login(
+        phoneNumber: _phoneController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    } catch (e) {
+      _changeErrorMessage(e.toString());
     }
   }
 

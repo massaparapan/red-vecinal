@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_decorative_circle.dart';
-import 'package:frontend/screens/recovery_password/local_sections/recovery_password.dart';
-import 'package:frontend/screens/recovery_password/local_sections/recovery_password_code.dart';
-import 'package:frontend/screens/recovery_password/local_sections/recovery_password_newPassword.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_decorative_circle.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_recovery_password/recovery_password.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_recovery_password/recovery_password_code.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_recovery_password/recovery_password_newPassword.dart';
 
 class RecoverySections extends StatefulWidget {
 

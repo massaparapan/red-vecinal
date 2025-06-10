@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/app_colors.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
-import 'package:frontend/services/otp/otp_service.dart';
-import 'package:frontend/services/user/user_service.dart';
-import 'package:frontend/widgets/error_text.dart';
+import 'package:frontend/core/theme/colors.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_button.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_stepper.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:frontend/features/user/repository/user_repository.dart';
+import 'package:frontend/features/otp/repositories/otp_repository.dart';
+import 'package:frontend/shared/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthPhoneNumber extends StatefulWidget {
@@ -24,15 +24,21 @@ class AuthPhoneNumber extends StatefulWidget {
 }
 
 class _AuthPhoneNumberState extends State<AuthPhoneNumber> {
-  final _userService = UserService();
+  final _userService = UserRepository();
   final _phoneNumberController = TextEditingController();
-  final _otpService = OtpService();
+  final _otpService = OtpRepository();
   String _errorMessage = '';
 
   @override
   void initState() {
     super.initState();
     _loadPhoneNumber();
+  }
+
+  Future<void> _changeErrorMessage(String? message) async {
+    setState(() {
+      _errorMessage = message!;
+    });
   }
 
   Future<void> _loadPhoneNumber() async {
@@ -44,44 +50,18 @@ class _AuthPhoneNumberState extends State<AuthPhoneNumber> {
     }
   }
 
-  Future<void> _consultPhoneNumber() async {
-    final result = await _userService.consultPhoneNumber(
-      _phoneNumberController.text,
-    );
-
-    final success = result.success;
-
-    if (!success) {
-      setState(() {
-        _errorMessage = result.message!;
-      });
-    }
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('phoneNumber', _phoneNumberController.text);
-
-    if (result.data != null &&
-        (result.data as Map<String, dynamic>)['exists'] == true) {
-      setState(() {
-        _errorMessage = 'El número telefónico ya está registrado.';
-      });
-    } else {
-      setState(() {
-        _errorMessage = '';
-      });
-      
-      final otpResult = await _otpService.sendOtp(_phoneNumberController.text);
-      if (otpResult.success) {
-        widget.onNext();
-      } else {
-        setState(() {
-          _errorMessage = otpResult.message!;
-        });
-      }
-    }
-  }
-
   Future<void> _handleNext() async {
-    await _consultPhoneNumber();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await _userService.consultPhoneNumber(
+        phoneNumber: _phoneNumberController.text,
+      );
+      await prefs.setString('phoneNumber', _phoneNumberController.text);
+      await _otpService.sendOtp(phoneNumber: _phoneNumberController.text);
+      widget.onNext();
+    } catch (e) {
+      _changeErrorMessage(e.toString());
+    }
   }
 
   @override

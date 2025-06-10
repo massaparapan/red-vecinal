@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/app_colors.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_button.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_stepper.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text.dart';
-import 'package:frontend/screens/auth/local_widgets/auth_text_field.dart';
-import 'package:frontend/services/auth/auth_service.dart';
-import 'package:frontend/widgets/error_text.dart';
+import 'package:frontend/core/theme/colors.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_button.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_stepper.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text.dart';
+import 'package:frontend/features/auth/presentation/widgets/auth_text_field.dart';
+import 'package:frontend/features/auth/repository/auth_repository.dart';
+import 'package:frontend/shared/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:frontend/screens/menu_screen/no_community_home.dart';
-
+import 'package:frontend/shared/menu_screen/no_community_home.dart';
 
 class AuthUserInfo extends StatefulWidget {
   final VoidCallback onBack;
   final VoidCallback onNext;
-  const AuthUserInfo({
-    super.key,
-    required this.onBack,
-    required this.onNext,
-  });
+  const AuthUserInfo({super.key, required this.onBack, required this.onNext});
 
   @override
   State<AuthUserInfo> createState() => _AuthUserInfoState();
@@ -26,7 +21,7 @@ class AuthUserInfo extends StatefulWidget {
 class _AuthUserInfoState extends State<AuthUserInfo> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  final _authService = AuthService();
+  final _authRepository = AuthRepository();
   String _errorMessage = '';
 
   @override
@@ -36,26 +31,43 @@ class _AuthUserInfoState extends State<AuthUserInfo> {
     super.dispose();
   }
 
+  Future<void> _changeErrorMessage(String? message) async {
+    setState(() {
+      _errorMessage = message!;
+    });
+  }
+
   Future<void> _handleNext() async {
     final name = nameController.text.trim();
     final address = addressController.text.trim();
+
     if (name.isEmpty || address.isEmpty) {
-      setState(() {
-        _errorMessage = "Por favor, rellenar todos los campos";
-      });
+      _changeErrorMessage("Por favor, rellenar todos los campos");
       return;
     }
 
     final prefs = await SharedPreferences.getInstance();
     final passwordSaved = prefs.getString('password');
     final phoneNumberSaved = prefs.getString('phoneNumber');
-    
-    await _authService.register(phoneNumberSaved!, nameController.text, address, passwordSaved!);
+
+    try {
+      await _authRepository.register(
+      phoneNumber: phoneNumberSaved.toString(),
+      username: nameController.text.toString(),
+      address: address,
+      password: passwordSaved.toString(),
+    );
+    } catch (e) {
+      _changeErrorMessage(e.toString());
+    }
+
     prefs.remove('password');
     prefs.remove('phoneNumber');
-    Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => const NoCommunityScreen(),
-                  ));
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NoCommunityScreen()),
+    );
   }
 
   @override
@@ -85,7 +97,8 @@ class _AuthUserInfoState extends State<AuthUserInfo> {
           hint: 'Ej: Montt 1422',
           isPassword: false,
           controller: addressController,
-        ),Padding(
+        ),
+        Padding(
           padding: const EdgeInsets.only(top: 5.0),
           child: Align(
             alignment: Alignment.centerLeft,
