@@ -1,49 +1,39 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:frontend/features/auth/models/auth_response.dart';
-import 'package:frontend/features/auth/models/login_request.dart';
-import 'package:frontend/features/auth/models/register_request.dart';
-import 'package:frontend/features/auth/services/i_auth_service.dart';
-import 'package:frontend/shared/models/api_response.dart';
+import 'package:frontend/features/auth/models/request/login_request.dart';
+import 'package:frontend/features/auth/models/request/register_request.dart';
+import 'package:frontend/features/auth/services/auth_service.dart';
 
 class AuthRepository {
-  static const _storage = FlutterSecureStorage();
-  late final IAuthService _authService;
-
-  AuthRepository(IAuthService authService) : _authService = authService;
-
-  Future<ApiResponse<AuthResponse>> login({
+  final _storage = FlutterSecureStorage();
+  final AuthService _authService; 
+  AuthRepository() : _authService = AuthService.withDefaults();
+  Future<void> login({
     required String phoneNumber,
     required String password,
   }) async {
     if (phoneNumber.isEmpty || password.isEmpty) {
-      return ApiResponse.error("Por favor, completas los campos");
+      throw ("Por favor, completar los campos");
     }
 
     final request = LoginRequest(phoneNumber: phoneNumber, password: password);
 
     try {
       final response = await _authService.login(request);
-
-      if (!response.success) {
-        return ApiResponse.error(response.message ?? "Error desconocido");
-      }
-
-      _storage.write(key: 'token', value: response.data?.token);
-
-      return response;
-    } catch (e) {
-      return ApiResponse.error("Error: $e");
+      await _storage.write(key: 'token', value: response.token);
+    } on DioException catch (e) {
+      throw e.message ?? "Error inesperado";
     }
   }
 
-  Future<ApiResponse<AuthResponse>> register({
+  Future<void> register({
     required String phoneNumber,
     required String username,
     required String address,
     required String password,
   }) async {
     if (phoneNumber.isEmpty || password.isEmpty) {
-      return ApiResponse.error("Por favor, completas los campos");
+      throw ("Por favor, completar los campos");
     }
 
     final request = RegisterRequest(
@@ -55,16 +45,9 @@ class AuthRepository {
 
     try {
       final response = await _authService.register(request);
-
-      if (!response.success) {
-        return ApiResponse.error(response.message ?? "Error desconocido");
-      }
-
-      _storage.write(key: 'token', value: response.data?.token);
-
-      return response;
-    } catch (e) {
-      return ApiResponse.error("Error: $e");
+      await _storage.write(key: 'token', value: response.token);
+    } on DioException catch (e) {
+      throw (e.message ?? "Error inesperado");
     }
   }
 }
