@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/navigation/app_routes.dart';
+import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/core/theme/colors.dart';
 import 'package:frontend/features/auth/presentation/widgets/auth_button.dart';
 import 'package:frontend/features/auth/presentation/widgets/auth_stepper.dart';
@@ -7,7 +9,6 @@ import 'package:frontend/features/auth/presentation/widgets/auth_text_field.dart
 import 'package:frontend/features/auth/repository/auth_repository.dart';
 import 'package:frontend/shared/widgets/error_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:frontend/shared/menu_screen/no_community_home.dart';
 
 class AuthUserInfo extends StatefulWidget {
   final VoidCallback onBack;
@@ -64,10 +65,7 @@ class _AuthUserInfoState extends State<AuthUserInfo> {
     prefs.remove('password');
     prefs.remove('phoneNumber');
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const NoCommunityScreen()),
-    );
+    NavegationService().navigateToAndClearStack(AppRoutes.noCommunityHome);
   }
 
   @override

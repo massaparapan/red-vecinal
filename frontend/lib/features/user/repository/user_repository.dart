@@ -4,8 +4,11 @@ import 'package:frontend/features/user/models/request/reset_password_request.dar
 import 'package:frontend/features/user/services/user_service.dart';
 
 class UserRepository {
-  final UserService _userService;
-  UserRepository() : _userService = UserService.withDefaults();
+  final UserService _userService = UserService.withDefaults();
+  static final UserRepository _instance = UserRepository._internal();
+  factory UserRepository() => _instance;
+  UserRepository._internal();
+
   final _storage = FlutterSecureStorage();
 
   Future<void> resetPassword({

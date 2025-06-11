@@ -14,6 +14,7 @@ class CommunityMemberResponse {
     required this.role,
   });
 
-  factory CommunityMemberResponse.fromJson(Map<String, dynamic> json) => _$CommunityMemberResponseFromJson(json);
+  factory CommunityMemberResponse.fromJson(Map<String, dynamic> json) =>
+      _$CommunityMemberResponseFromJson(json);
   Map<String, dynamic> toJson() => _$CommunityMemberResponseToJson(this);
 }

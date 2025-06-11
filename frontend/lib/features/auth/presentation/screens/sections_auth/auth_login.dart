@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/navigation/app_routes.dart';
+import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/core/theme/colors.dart';
 import 'package:frontend/features/auth/presentation/widgets/auth_button.dart';
 import 'package:frontend/features/auth/presentation/widgets/auth_text.dart';
 import 'package:frontend/features/auth/presentation/widgets/auth_text_field.dart';
 import 'package:frontend/features/auth/presentation/screens/recovery_sections.dart';
 import 'package:frontend/features/auth/repository/auth_repository.dart';
+import 'package:frontend/features/membership/repositories/membership_respository.dart';
 import 'package:frontend/shared/widgets/error_text.dart';
 
 class AuthLogin extends StatefulWidget {
@@ -20,6 +23,7 @@ class _AuthLoginState extends State<AuthLogin> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authRepository = AuthRepository();
+  final _membershipRepository = MembershipRepository();
   String _errorMessage = '';
 
   Future<void> _changeErrorMessage(String? message) async {
@@ -34,6 +38,10 @@ class _AuthLoginState extends State<AuthLogin> {
         phoneNumber: _phoneController.text.trim(),
         password: _passwordController.text.trim(),
       );
+
+      final response = await _membershipRepository.fetchMyMembership();
+      print(AppRoutes.getRouteByRole(response.status, response.role));
+      NavegationService().navigateToAndClearStack(AppRoutes.getRouteByRole(response.status, response.role));
     } catch (e) {
       _changeErrorMessage(e.toString());
     }

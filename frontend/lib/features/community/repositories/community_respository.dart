@@ -11,7 +11,7 @@ class CommunityRespository {
     required double lat,
     required double lon,
   }) async {
-    return _communityService.getCloseCommunities(lat, lon);
+    return await _communityService.getCloseCommunities(lat, lon);
   }
 
   Future<bool> createCommunity({

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/navigation/app_routes.dart';
+import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/community/repositories/community_respository.dart';
 import 'package:frontend/features/community/services/nominatim_service.dart';
-import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:frontend/features/community/presentation/widgets/create_community_box.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
-
 
 class CreateCommunityScreen extends StatefulWidget {
   const CreateCommunityScreen({super.key});
@@ -28,7 +28,6 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
     super.dispose();
   }
 
-  
   void createCommunity() async {
     final name = nameController.text.trim();
     final description = descriptionController.text.trim();
@@ -49,7 +48,9 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
     if (coordinates == null) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No se pudo obtener lat/lon para esta dirección')),
+          const SnackBar(
+            content: Text('No se pudo obtener lat/lon para esta dirección'),
+          ),
         );
       }
       return;
@@ -66,19 +67,16 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            success ? "Comunidad creada exitosamente" : "Error al crear comunidad",
+            success
+                ? "Comunidad creada exitosamente"
+                : "Error al crear comunidad",
           ),
         ),
       );
     }
 
     if (success) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const AdminHomeScreen(),
-        ),
-      );
+      NavegationService().navigateToAndClearStack(AppRoutes.adminHome);
     }
   }
 
@@ -98,9 +96,9 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                       Text(
                         'Crea tu comunidad',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 22,
-                            ),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 22,
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Divider(
@@ -116,25 +114,25 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                 Text(
                   'Detalles de la comunidad',
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 24,
-                      ),
+                    fontWeight: FontWeight.w900,
+                    fontSize: 24,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Completa la información para crear una nueva comunidad vecinal.',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: const Color(0xFF9C9C9C),
-                        fontSize: 16,
-                      ),
+                    color: const Color(0xFF9C9C9C),
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Text(
                   'Nombre de la comunidad',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 20,
-                      ),
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 20,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 CreateCommunityBox(
@@ -147,9 +145,9 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                 Text(
                   'Descripción',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 20,
-                      ),
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 20,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 CreateCommunityBox(
@@ -164,9 +162,9 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                 Text(
                   'Ingresa la dirección',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: const Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 20,
-                      ),
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    fontSize: 20,
+                  ),
                 ),
                 const SizedBox(height: 15),
                 CreateCommunityBox(
@@ -197,7 +195,7 @@ class _CreateCommunityScreenState extends State<CreateCommunityScreen> {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
