@@ -7,6 +7,7 @@ class AppRoutes {
   static const String memberHome = '/home/member';
   static const String noCommunityHome = '/home/no-community';
 
+  static const String communityMembers = '/members';
 
   static String getRouteByRole(String? status, String? role) {
     if (status == null || status.isEmpty) return AppRoutes.noCommunityHome;
