@@ -20,9 +20,6 @@ class _AuthInputCodeState extends State<AuthInputCode> {
       width: mediaQuery.size.width * 0.09,
       child: TextField(
         controller: widget.controller,
-        expands: true,
-        minLines: null,
-        maxLines: null,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),

@@ -20,11 +20,12 @@ class OtpRepository {
     }
   }
 
-  Future<bool> verifyOtp({required phoneNumber, required String code}) async {
+  Future<bool> verifyOtp({required String phoneNumber, required String code}) async {
     try {
       final result = await _otpService.verifyOtp(
         OtpVerifyRequest(phoneNumber: phoneNumber, code: code),
       );
+      
       if (!result.valid) {
         throw ("Codigo incorrecto");
       } 
