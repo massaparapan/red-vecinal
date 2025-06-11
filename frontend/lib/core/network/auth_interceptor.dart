@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:frontend/shared/models/api_response.dart';
@@ -23,7 +21,7 @@ class AuthInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    log("URL solicitud: ${options.uri}");
+    print("URL solicitud: ${options.uri}");
 
     final isPublic = publicEndpoints.any((endpoint) {
       return options.path.contains(endpoint);
@@ -34,12 +32,12 @@ class AuthInterceptor extends Interceptor {
 
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
-        log("🔐 Token agregado a headers");
+        print("🔐 Token agregado a headers");
       } else {
-        log("⚠️ No se encontró token en el almacenamiento");
+        print("⚠️ No se encontró token en el almacenamiento");
       }
     } else {
-      log("🔓 Endpoint público, no se agrega token");
+      print("🔓 Endpoint público, no se agrega token");
     }
 
     handler.next(options);
@@ -47,11 +45,11 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    log('🟢 onResponse llamado');
-    log('🔹 Datos originales de la respuesta: ${response.data}');
+    print('🟢 onResponse llamado');
+    print('🔹 Datos originales de la respuesta: ${response.data}');
 
     final apiResponse = ApiResponse.fromJson(response.data);
-    log('🔹 ApiResponse.data: ${apiResponse.data}');
+    print('🔹 ApiResponse.data: ${apiResponse.data}');
 
     response.data = apiResponse.data;
     handler.next(response);
@@ -59,11 +57,11 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    log('🔴 onError llamado');
-    log('🔹 Datos de error recibidos: ${err.response?.data}');
+    print('🔴 onError llamado');
+    print('🔹 Datos de error recibidos: ${err.response?.data}');
 
     final response = ApiResponse.fromJson(err.response?.data);
-    log('🔹 ApiResponse.message: ${response.message}');
+    print('🔹 ApiResponse.message: ${response.message}');
 
     final error = DioException(
       requestOptions: err.requestOptions,
