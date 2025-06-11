@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
@@ -17,16 +18,21 @@ class MyApp extends StatelessWidget {
       title: 'Red Vecinal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 255, 255, 255),
+        ),
       ),
       navigatorKey: NavegationService().navigatorKey,
-      initialRoute: "/",
+
+      initialRoute: AppRoutes.auth,
+
       routes: {
-        '/': (context) => const AuthPage(),
-        '/home/admin': (context) => const AdminHomeScreen(), 
-        '/home/member': (context) => const AdminHomeScreen(), 
-        '/home/no-community': (context) => const NoCommunityScreen(), 
-      }
+        AppRoutes.auth: (context) => const AuthPage(),
+
+        AppRoutes.adminHome: (context) => const AdminHomeScreen(),
+        AppRoutes.memberHome: (context) => const AdminHomeScreen(),
+        AppRoutes.noCommunityHome: (context) => const NoCommunityScreen(),
+      },
     );
   }
 }

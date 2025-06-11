@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:frontend/core/navigation/app_routes.dart';
 
 class NavegationService {
   static final NavegationService _instance = NavegationService._internal();
@@ -7,19 +8,27 @@ class NavegationService {
   final _storage = FlutterSecureStorage();
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   NavegationService._internal();
-  
 
   Future<dynamic>? navigateTo(String routeName, {Object? arguments}) {
-    return navigatorKey.currentState?.pushNamed(routeName, arguments: arguments);
+    return navigatorKey.currentState?.pushNamed(
+      routeName,
+      arguments: arguments,
+    );
   }
 
   Future<dynamic>? navigateToAndReplace(String routeName, {Object? arguments}) {
-    return navigatorKey.currentState?.pushReplacementNamed(routeName, arguments: arguments);
+    return navigatorKey.currentState?.pushReplacementNamed(
+      routeName,
+      arguments: arguments,
+    );
   }
 
-  Future<dynamic>? navigateToAndClearStack(String routeName, {Object? arguments}) {
+  Future<dynamic>? navigateToAndClearStack(
+    String routeName, {
+    Object? arguments,
+  }) {
     return navigatorKey.currentState?.pushNamedAndRemoveUntil(
-      routeName, 
+      routeName,
       (route) => false,
       arguments: arguments,
     );
@@ -30,7 +39,7 @@ class NavegationService {
   }
 
   Future<void> logout() async {
-     await _storage.deleteAll();
-      navigateToAndClearStack('/');
+    await _storage.deleteAll();
+    navigateToAndClearStack(AppRoutes.auth);
   }
 }

@@ -1,9 +1,16 @@
 class AppRoutes {
   static const String home = '/';
-  static const String login = '/login';
-  static const String register = '/register';
+  static const String auth = '/auth';
   static const String profile = '/profile';
 
-  static const String notFound = '/not-found';
-  static const String unauthorized = '/unathorized';
+  static const String adminHome = '/home/admin';
+  static const String memberHome = '/home/member';
+  static const String noCommunityHome = '/home/no-community';
+
+
+  static String getRouteByRole(String? status, String? role) {
+    if (status == null || status.isEmpty) return AppRoutes.noCommunityHome;
+    if (role == "admin") return adminHome;
+    return memberHome;
+  }
 }
