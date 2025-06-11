@@ -12,15 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AuthContextImpl implements IAuthContext {
     private final UserRepository userRepository;
-    /**
-     * Retrieves the currently authenticated user from the security context.
-     * The method extracts the user details from the SecurityContextHolder,
-     * fetches the user from the database using their ID, and returns the User object.
-     * If the user is not found, a RuntimeException is thrown.
-     *
-     * @return the User object representing the currently authenticated user
-     * @throws RuntimeException if the user is not found in the authentication context
-     */
+
     public User getCurrentUser() {
         CustomUserDetails authentication = (CustomUserDetails) SecurityContextHolder
                 .getContext()
