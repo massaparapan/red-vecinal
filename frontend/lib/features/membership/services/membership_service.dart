@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/core/network/api_client.dart';
+import 'package:frontend/features/join-request/models/request/membership_request.dart';
 import 'package:frontend/features/membership/models/response/community_member_response.dart';
 import 'package:frontend/features/membership/models/response/my_membership_response.dart';
 import 'package:retrofit/retrofit.dart';
@@ -16,4 +17,13 @@ abstract class MembershipService {
 
   @GET('/me')
   Future<MyMembershipResponse> getMyMembership();
+
+  @PATCH("/accept/{id}")
+  Future<void> acceptMembership(@Path("id") int membershipId);
+
+  @DELETE("/{id}")
+  Future<void> rejectMembership(@Path("id") int membershipId);
+
+  @GET("/my-community")
+  Future<List<MembershipRequest>> getMyCommunityMemberships();
 }
