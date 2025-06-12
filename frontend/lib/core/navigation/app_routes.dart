@@ -6,11 +6,12 @@ class AppRoutes {
   static const String adminHome = '/home/admin';
   static const String memberHome = '/home/member';
   static const String noCommunityHome = '/home/no-community';
+  static const String communityRequests = '/home/admin/community-requests';
 
 
   static String getRouteByRole(String? status, String? role) {
     if (status == null || status.isEmpty) return AppRoutes.noCommunityHome;
-    if (role == "admin") return adminHome;
+    if (role == "ADMIN") return adminHome;
     return memberHome;
   }
 }
