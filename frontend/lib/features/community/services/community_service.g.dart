@@ -83,7 +83,7 @@ class _CommunityService implements CommunityService {
   @override
   Future<void> requestJoinCommunity(int communityId) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'communityId': communityId};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     await _dio.fetch<void>(_setStreamType<void>(Options(
@@ -93,7 +93,7 @@ class _CommunityService implements CommunityService {
     )
         .compose(
           _dio.options,
-          '/${communityId}/request',
+          '/request-join',
           queryParameters: queryParameters,
           data: _data,
         )
