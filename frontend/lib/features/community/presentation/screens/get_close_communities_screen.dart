@@ -91,6 +91,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   child: CommunityWindowDetails(
+                                    id: community.id,
                                     name: community.name,
                                     description: community.description,
                                     latitude: double.parse(community.lat),
