@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
+import 'package:frontend/features/join-request/presentation/screens/requests.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
+import 'package:frontend/shared/menu_screen/member_home.dart';
 import 'package:frontend/shared/menu_screen/no_community_home.dart';
 import 'package:frontend/features/profile/presentation/screens/profile.dart';
 void main() {
@@ -30,9 +32,10 @@ class MyApp extends StatelessWidget {
         AppRoutes.auth: (context) => const AuthPage(),
 
         AppRoutes.adminHome: (context) => const AdminHomeScreen(),
-        AppRoutes.memberHome: (context) => const AdminHomeScreen(),
+        AppRoutes.memberHome: (context) => const MemberHomeScreen(),
         AppRoutes.noCommunityHome: (context) => const NoCommunityScreen(),
         AppRoutes.profile: (context) => const ProfileScreen(),
+        AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
       },
     );
   }

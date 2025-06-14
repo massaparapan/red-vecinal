@@ -62,9 +62,10 @@ class AdminHomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   MenuTile(
-                    icon: Icons.notifications,
-                    label: 'Recordatorios',
+                    icon: Icons.request_page,
+                    label: 'Solicitudes',
                     color: const Color(0xFFE6881D),
+                    onTap: () => NavegationService().navigateTo('/home/admin/community-requests'),
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
