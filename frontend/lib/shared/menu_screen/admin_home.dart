@@ -54,6 +54,7 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.info_outline_rounded,
                     label: 'Informacion',
                     color: const Color(0xFFCCC042),
+                    onTap: () => NavegationService().navigateTo('/home/admin/information'),
                   ),
                 ],
               ),
@@ -62,7 +63,7 @@ class AdminHomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   MenuTile(
-                    icon: Icons.request_page,
+                    icon: Icons.add,
                     label: 'Solicitudes',
                     color: const Color(0xFFE6881D),
                     onTap: () => NavegationService().navigateTo('/home/admin/community-requests'),
