@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/features/profile/models/MyProfileDto.dart';
+import 'package:frontend/features/profile/presentation/screens/white_recovery_section/white_recovery.dart';
 import 'package:frontend/features/user/services/user_service.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
@@ -62,6 +62,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 1,
                         indent: 3,
                       ),
+                      const SizedBox(height: 20),
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.blue[100],
+                        child: Text(
+                          user.username.isNotEmpty ? user.username[0].toUpperCase() : '?',
+                          style: TextStyle(
+                            fontSize: 40,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                       const SizedBox(height: 10),
                       ProfileField(
                         label: "Nombre",
@@ -94,14 +106,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         editable: false,
                       ),
                       const SizedBox(height: 15),
-                      Text(
-                        'Cambiar número telefonico',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const WhiteRecoveryScreen(),
                             ),
-                        textAlign: TextAlign.left,
+                          );
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Cambiar número telefónico',
+                            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: const Color.fromARGB(255, 0, 0, 0),
+                                ),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       PrimaryButton(label: "Guardar Cambios",
