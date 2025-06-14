@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/features/community/models/response/community_preview_response.dart';
 import 'package:frontend/features/community/presentation/widgets/close_community_box.dart';
 import 'package:frontend/features/community/repositories/community_respository.dart';
+import 'package:frontend/features/community/services/community_service.dart';
 import 'package:frontend/features/community/services/location_service.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:frontend/features/community/presentation/widgets/community_window_details.dart';
@@ -16,6 +17,7 @@ class CloseCommunityScreen extends StatefulWidget {
 class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
   List<CommunityPreviewResponse> nearbyCommunities = [];
   final _communityRepository = CommunityRespository();
+  final _communityService = CommunityService.withDefaults();
 
   @override
   void initState() {
@@ -89,6 +91,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   child: CommunityWindowDetails(
+                                    id: community.id,
                                     name: community.name,
                                     description: community.description,
                                     latitude: double.parse(community.lat),
@@ -98,13 +101,28 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
                                   ),
                                 );
                               },
-                              onJoinPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        'Solicitud enviada a ${community.id}'),
-                                  ),
-                                );
+                              onJoinPressed: () async {
+                                try {
+                                  await _communityService.requestJoinCommunity(community.id);
+
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Solicitud enviada exitosamente'),
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Error al enviar solicitud: $e'),
+                                      ),
+                                    );
+                                  }
+                                  debugPrint('Error al enviar solicitud: $e');
+                                }
+                                
                               },
                             ),
                           );

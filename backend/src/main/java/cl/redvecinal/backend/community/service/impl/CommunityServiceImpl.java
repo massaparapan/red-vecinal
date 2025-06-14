@@ -61,6 +61,7 @@ public class CommunityServiceImpl implements ICommunityService {
 
         community.getMemberships().add(m);
         user.setMembership(m);
+        communityRepository.save(community);
     }
 
     @Override
