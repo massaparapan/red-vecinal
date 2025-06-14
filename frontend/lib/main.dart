@@ -6,7 +6,7 @@ import 'package:frontend/features/join-request/presentation/screens/requests.dar
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
 import 'package:frontend/shared/menu_screen/no_community_home.dart';
-
+import 'package:frontend/features/profile/presentation/screens/profile.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.adminHome: (context) => const AdminHomeScreen(),
         AppRoutes.memberHome: (context) => const MemberHomeScreen(),
         AppRoutes.noCommunityHome: (context) => const NoCommunityScreen(),
+        AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
       },
     );

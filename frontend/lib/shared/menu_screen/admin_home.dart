@@ -90,7 +90,7 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.account_circle,
                     label: 'Perfil',
                     color: const Color(0xFF736AED),
-                    onTap: () => NavegationService().navigateTo('/my-profile')
+                    onTap: () => NavegationService().navigateTo('/profile')
                   ),
                 ],
               ),
