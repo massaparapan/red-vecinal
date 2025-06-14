@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/core/network/api_client.dart';
 import 'package:frontend/features/auth/models/response/phone_verification_response.dart';
+import 'package:frontend/features/profile/models/otherprofileDto.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:frontend/features/profile/models/MyProfileDto.dart';
 
@@ -19,4 +20,7 @@ abstract class UserService {
 
   @GET("/profile/me")
   Future<MyProfileDto> getMyProfile();
+
+  @GET("/profile/{id}")
+  Future<OtherProfileDto> getUserProfile(@Path("id") int id);
 }
