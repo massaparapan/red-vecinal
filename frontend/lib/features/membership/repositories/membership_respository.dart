@@ -25,4 +25,6 @@ class MembershipRepository {
       return MyMembershipResponse(status: null, role: null);
     }
   }
+
+  deleteMember(int membershipId) {}
 }
