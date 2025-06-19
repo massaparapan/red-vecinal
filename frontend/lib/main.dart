@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
+import 'package:frontend/features/community/presentation/screens/events/eventsAdmin.dart';
 import 'package:frontend/features/join-request/presentation/screens/requests.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
 import 'package:frontend/shared/menu_screen/no_community_home.dart';
 import 'package:frontend/features/profile/presentation/screens/profile.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
@@ -24,6 +26,15 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 255, 255, 255),
         ),
       ),
+      locale: const Locale('es', 'ES'),
+      supportedLocales: const [
+        Locale('es', 'ES'), 
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       navigatorKey: NavegationService().navigatorKey,
 
       initialRoute: AppRoutes.auth,
@@ -36,6 +47,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.noCommunityHome: (context) => const NoCommunityScreen(),
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
+        AppRoutes.adminEventsScreen: (context) => const EventsAdminScreen()
       },
     );
   }

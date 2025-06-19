@@ -7,6 +7,7 @@ class AppRoutes {
   static const String memberHome = '/home/member';
   static const String noCommunityHome = '/home/no-community';
   static const String communityRequests = '/home/admin/community-requests';
+  static const String adminEventsScreen = '/home/admin/events';
 
 
   static String getRouteByRole(String? status, String? role) {
