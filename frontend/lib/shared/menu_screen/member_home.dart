@@ -67,6 +67,7 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.notifications,
                     label: 'Recordatorios',
                     color: const Color(0xFFE6881D),
+                    onTap: () => NavegationService().navigateTo('/home/member/reminder')
                   ),
                   const SizedBox(width: 20),
                   MenuTile(

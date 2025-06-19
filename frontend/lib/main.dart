@@ -4,6 +4,7 @@ import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
 import 'package:frontend/features/community/presentation/screens/information.dart';
 import 'package:frontend/features/community/presentation/screens/informationMember.dart';
+import 'package:frontend/features/community/presentation/screens/reminder_screen.dart';
 import 'package:frontend/features/join-request/presentation/screens/requests.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
         AppRoutes.informationScreen: (context) => const InformationScreen(),
         AppRoutes.informationMemberScreen: (context) => const InformationMemberScreen(),
+        AppRoutes.reminderScreen: (context) => const ReminderScreen(),
       },
     );
   }
