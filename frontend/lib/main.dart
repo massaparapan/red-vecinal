@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
+import 'package:frontend/features/community/presentation/screens/events/createEvent.dart';
 import 'package:frontend/features/community/presentation/screens/events/eventsAdmin.dart';
 import 'package:frontend/features/join-request/presentation/screens/requests.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
@@ -22,9 +23,19 @@ class MyApp extends StatelessWidget {
       title: 'Red Vecinal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primaryColor: const Color(0xFF5988FF),
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 255, 255, 255),
+          primary: const Color(0xFF5988FF),
         ),
+        inputDecorationTheme: const InputDecorationTheme(
+          floatingLabelStyle: TextStyle(
+            color: Color.fromARGB(255, 161, 161, 161),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Color.fromARGB(255, 156, 156, 156)),
+          ),
+        )
       ),
       locale: const Locale('es', 'ES'),
       supportedLocales: const [
@@ -47,7 +58,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.noCommunityHome: (context) => const NoCommunityScreen(),
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
-        AppRoutes.adminEventsScreen: (context) => const EventsAdminScreen()
+        AppRoutes.adminEventsScreen: (context) => const EventsAdminScreen(),
+        AppRoutes.createEventScreen: (context) => const CreateEventScreen(),
       },
     );
   }

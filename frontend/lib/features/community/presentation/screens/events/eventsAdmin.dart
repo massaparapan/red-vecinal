@@ -92,6 +92,7 @@ class _EventsAdminScreenState extends State<EventsAdminScreen> {
               PrimaryButton(
                 label: "Agregar",
                 onPressed: () {
+                  Navigator.pushNamed(context, '/home/admin/events/create');
                   
                 },
                 width: double.infinity,
