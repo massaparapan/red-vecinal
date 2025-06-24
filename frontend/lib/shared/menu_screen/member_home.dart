@@ -49,6 +49,7 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.campaign,
                     label: 'Anuncios',
                     color: const Color(0xFFE27B56),
+                    onTap: () => NavegationService().navigateTo('/home/announcements'),
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
