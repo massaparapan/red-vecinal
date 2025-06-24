@@ -80,7 +80,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                         children: [
                           ..._fakeAnnouncements.map((a) {
                             return AnnouncementBox(
-                              userName: a['userName'],
+                              username: a['userName'],
                               time: a['time'],
                               message: a['message'],
                               tag: a['tag'],
@@ -88,21 +88,23 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                               likes: a['likes'],
                             );
                           }),
-                          const SizedBox(height: 16), 
+                          const SizedBox(height: 24),
                         ],
                       ),
                     ),
                   ),
-                  Padding(padding: const EdgeInsets.only(bottom: 30.0),
-                    child: PrimaryButton(
-                      label: 'Volver',
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ),
                 ],
               ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: PrimaryButton(
+          label: 'Volver',
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          width: double.infinity,
+        ),
       ),
     );
   }

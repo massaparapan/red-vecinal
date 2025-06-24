@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AnnouncementBox extends StatelessWidget {
-  final String userName;
+  final String username;
   final String time;
   final String message;
   final String tag;
@@ -10,7 +10,7 @@ class AnnouncementBox extends StatelessWidget {
 
   const AnnouncementBox({
     super.key,
-    required this.userName,
+    required this.username,
     required this.time,
     required this.message,
     required this.tag,
@@ -19,8 +19,8 @@ class AnnouncementBox extends StatelessWidget {
   });
 
   String getUserInitials() {
-    if (userName.isEmpty) return 'J';
-    return userName[0].toUpperCase();
+    if (username.isEmpty) return 'J';
+    return username[0].toUpperCase();
   }
 
   Color getTagColor() {
@@ -78,7 +78,7 @@ class AnnouncementBox extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  userName,
+                  username,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,

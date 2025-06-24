@@ -3,6 +3,8 @@ import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
 import 'package:frontend/features/community/presentation/screens/announcements/announcements.dart';
+import 'package:frontend/features/community/presentation/screens/announcements/announcements_admin.dart';
+import 'package:frontend/features/community/presentation/screens/announcements/create_announcement.dart';
 import 'package:frontend/features/join-request/presentation/screens/requests.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
@@ -38,6 +40,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
         AppRoutes.announcements: (context) => const AnnouncementsScreen(),
+        AppRoutes.announcementsAdmin: (context) => const AnnouncementAdminScreen(),
+        AppRoutes.createAnnouncementScreen: (context) => const CreateAnnouncementScreen(),
       },
     );
   }
