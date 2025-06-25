@@ -28,8 +28,13 @@ public class InformationServiceImpl implements InformationService {
         User user = authContext.getCurrentUser();
         Community c = user.getMembership().getCommunity();
         Information i = informationMapper.toEntity(request);
+
         c.getInformations().add(i);
-        return informationMapper.toDto(informationRepository.save(i));
+        i.setCommunity(c);
+
+        Information savedInformation = informationRepository.save(i);
+
+        return informationMapper.toDto(savedInformation);
     }
 
     @Override
