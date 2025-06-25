@@ -25,6 +25,4 @@ public class Announcement {
     private User createdBy;
     @ManyToOne
     private Community community;
-    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
-    private Set<AnnouncementLike> likes;
 }
