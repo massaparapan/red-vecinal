@@ -47,4 +47,11 @@ public class InformationServiceImpl implements InformationService {
                 informationMapper::toDto
         ).toList();
     }
+
+    @Override
+    public void deleteInformation(Long id) {
+        Information i = informationRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Información no encontrada"));
+        informationRepository.delete(i);
+    }
 }

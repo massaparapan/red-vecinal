@@ -22,4 +22,10 @@ public class InformationController {
     public ResponseEntity<SuccessResponse> createInformation(@RequestBody @Valid InformationCreateDto request) {
         return ResponseHelper.success(informationService.createInformation(request));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SuccessResponse> deleteInformation(@PathVariable Long id) {
+        informationService.deleteInformation(id);
+        return ResponseHelper.success("Eliminado con exito");
+    }
 }
