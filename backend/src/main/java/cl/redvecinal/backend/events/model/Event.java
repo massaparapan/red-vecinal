@@ -1,12 +1,10 @@
-package cl.redvecinal.backend.model;
+package cl.redvecinal.backend.events.model;
 
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -22,6 +20,7 @@ public class Event {
     private Long id;
     private String title;
     private String description;
+    @CreationTimestamp
     private LocalDate date;
     @ManyToOne
     private User createdBy;
