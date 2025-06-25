@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.model;
+package cl.redvecinal.backend.annoucement.model;
 
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;
@@ -7,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Entity
 @Getter
@@ -21,10 +19,9 @@ public class Announcement {
     private Long id;
     private String title;
     private String content;
+    private AnnouncementType type;
     @ManyToOne
     private User createdBy;
     @ManyToOne
     private Community community;
-    @OneToMany(mappedBy = "announcement", cascade = CascadeType.ALL)
-    private Set<AnnouncementLike> likes;
 }
