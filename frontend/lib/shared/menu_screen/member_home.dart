@@ -32,6 +32,7 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.map_outlined,
                     label: 'Mapa',
                     color: const Color(0xFF42A45C),
+                    onTap: () => NavegationService().navigateTo(AppRoutes.map),
                   ),
                   const SizedBox(width: 20),
                   MenuTile(

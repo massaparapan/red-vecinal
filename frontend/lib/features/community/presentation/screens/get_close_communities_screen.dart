@@ -97,6 +97,7 @@ class _CloseCommunityScreenState extends State<CloseCommunityScreen> {
                                     latitude: double.parse(community.lat),
                                     longitude: double.parse(community.lon),
                                     memberCount: community.membersCount,
+                                    showJoinButton: true,
                                    ),
                                   ),
                                 );

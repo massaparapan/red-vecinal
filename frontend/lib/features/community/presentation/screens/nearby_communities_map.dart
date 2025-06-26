@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/features/community/presentation/widgets/community_window_details.dart';
+import 'package:frontend/features/membership/services/membership_service.dart';
 
 class NearbyCommunitiesMap extends StatefulWidget {
   const NearbyCommunitiesMap({super.key});
@@ -20,7 +21,9 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
   final Map<String, Map<String, dynamic>> _annotationCommunityMap = {};
   late final PointAnnotationManager _annotationManager;
   final _communityRepository = CommunityRespository();
+  final _membershipService = MembershipService.withDefaults();
   bool _mapReady = false;
+  bool _isMember = false;
   geo.Position? _currentPosition;
 
   @override
@@ -32,8 +35,14 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
   Future<void> _initMap() async {
     await dotenv.load(fileName: "assets/.env");
 
+    try {
+      final membership = await _membershipService.getMyMembership();
+      _isMember = membership.role != null;
+    } catch (e) {
+      _isMember = false;
+    }
+
     final position = await LocationService.getCurrentLocation();
-    print("posicion ${position?.latitude}, ${position?.longitude}");
     if (position == null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -95,16 +104,14 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
   }
 
   void _onMapCreated(MapboxMap controller) async {
-    setState(() {
-      mapboxMapController = controller;
-    });
+    mapboxMapController = controller;
 
     mapboxMapController?.location.updateSettings(
       LocationComponentSettings(enabled: true, pulsingEnabled: true),
     );
 
-    final annotationPlugion = mapboxMapController!.annotations;
-    _annotationManager = await annotationPlugion.createPointAnnotationManager();
+    final annotationPlugin = mapboxMapController!.annotations;
+    _annotationManager = await annotationPlugin.createPointAnnotationManager();
 
     await _loadNearbyCommunities();
 
@@ -119,30 +126,7 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
       final cameraOptions = CameraOptions(center: center, zoom: 14.0);
 
       mapboxMapController?.setCamera(cameraOptions);
-      mapboxMapController?.flyTo(
-        cameraOptions,
-        MapAnimationOptions(duration: 1000),
-      );
-
-      mapboxMapController?.setBounds(
-        CameraBoundsOptions(
-          bounds: CoordinateBounds(
-            southwest: Point(
-              coordinates: Position(
-                _currentPosition!.longitude - 0.01,
-                _currentPosition!.latitude - 0.01,
-              ),
-            ),
-            northeast: Point(
-              coordinates: Position(
-                _currentPosition!.longitude + 0.01,
-                _currentPosition!.latitude + 0.01,
-              ),
-            ),
-            infiniteBounds: false,
-          ),
-        ),
-      );
+      mapboxMapController?.flyTo(cameraOptions, MapAnimationOptions(duration: 1000));
     }
   }
 
@@ -157,10 +141,7 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
 
       final cameraOptions = CameraOptions(center: center, zoom: 14.0);
 
-      mapboxMapController!.flyTo(
-        cameraOptions,
-        MapAnimationOptions(duration: 1000),
-      );
+      mapboxMapController!.flyTo(cameraOptions, MapAnimationOptions(duration: 1000));
     }
   }
 
@@ -179,9 +160,7 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
       final double lat = double.tryParse(community.lat) ?? 0;
       final double lon = double.tryParse(community.lon) ?? 0;
 
-      if (lat == 0 || lon == 0) {
-        continue;
-      }
+      if (lat == 0 || lon == 0) continue;
 
       final options = PointAnnotationOptions(
         geometry: Point(coordinates: Position(lon, lat)),
@@ -197,6 +176,7 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
         CommunityAnnotationClickListener(
           context: context,
           annotationCommunityMap: _annotationCommunityMap,
+          showJoinButton: !_isMember,
         ),
       );
     }
@@ -206,10 +186,12 @@ class _NearbyCommunitiesMapState extends State<NearbyCommunitiesMap> {
 class CommunityAnnotationClickListener extends OnPointAnnotationClickListener {
   final BuildContext context;
   final Map<String, Map<String, dynamic>> annotationCommunityMap;
+  final bool showJoinButton;
 
   CommunityAnnotationClickListener({
     required this.context,
     required this.annotationCommunityMap,
+    required this.showJoinButton,
   });
 
   @override
@@ -219,21 +201,19 @@ class CommunityAnnotationClickListener extends OnPointAnnotationClickListener {
       showDialog(
         context: context,
         barrierDismissible: true,
-        builder:
-            (context) => Dialog(
-              insetPadding: const EdgeInsets.all(16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: CommunityWindowDetails(
-                id: community['id'],
-                name: community['name'],
-                description: community['description'],
-                latitude: double.parse(community['lat'].toString()),
-                longitude: double.parse(community['lon'].toString()),
-                memberCount: community['membersCount'] ?? 0,
-              ),
-            ),
+        builder: (context) => Dialog(
+          insetPadding: const EdgeInsets.all(16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: CommunityWindowDetails(
+            id: community['id'],
+            name: community['name'],
+            description: community['description'],
+            latitude: double.parse(community['lat'].toString()),
+            longitude: double.parse(community['lon'].toString()),
+            memberCount: community['membersCount'] ?? 0,
+            showJoinButton: showJoinButton,
+          ),
+        ),
       );
     }
     return true;

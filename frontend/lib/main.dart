@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
+import 'package:frontend/features/community/presentation/screens/nearby_communities_map.dart';
 import 'package:frontend/features/events/presentation/screens/createEvent.dart';
 import 'package:frontend/features/events/presentation/screens/eventsAdmin.dart';
 import 'package:frontend/features/announcements/presentation/screens/announcements.dart';
@@ -74,6 +75,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.informationScreen: (context) => const InformationScreen(),
         AppRoutes.informationMemberScreen: (context) => const InformationMemberScreen(),
         AppRoutes.reminderScreen: (context) => const ReminderScreen(),
+        AppRoutes.map: (context) => const NearbyCommunitiesMap(),
       },
     );
   }

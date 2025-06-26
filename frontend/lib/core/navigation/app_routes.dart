@@ -16,6 +16,7 @@ class AppRoutes {
   static const String informationScreen = '/home/admin/information';
   static const String informationMemberScreen = '/home/member/information';
   static const String reminderScreen = '/home/member/reminder';
+  static const String map = '/home/map';
 
   static String getRouteByRole(String? status, String? role) {
     if (status == null || status.isEmpty) return AppRoutes.noCommunityHome;

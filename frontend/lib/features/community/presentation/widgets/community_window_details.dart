@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:frontend/features/community/services/community_service.dart';
 
-
 class CommunityWindowDetails extends StatefulWidget {
   final String name;
   final String description;
@@ -13,6 +12,7 @@ class CommunityWindowDetails extends StatefulWidget {
   final double longitude;
   final int memberCount;
   final int id;
+  final bool showJoinButton;
 
   const CommunityWindowDetails({
     super.key,
@@ -22,6 +22,7 @@ class CommunityWindowDetails extends StatefulWidget {
     required this.latitude,
     required this.longitude,
     required this.memberCount,
+    required this.showJoinButton,
   });
 
   @override
@@ -80,9 +81,9 @@ class _CommunityWindowDetailsState extends State<CommunityWindowDetails> {
 
   String buildStaticMapUrl(double lat, double lon) {
     final accessToken = dotenv.env["MAPBOX_ACCESS_TOKEN"];
-    final zoom = 14;
-    final width = 600; // en píxeles
-    final height = 300;
+    const zoom = 14;
+    const width = 600;
+    const height = 300;
 
     return 'https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/$lon,$lat,$zoom/${width}x$height@2x?access_token=$accessToken';
   }
@@ -103,7 +104,6 @@ class _CommunityWindowDetailsState extends State<CommunityWindowDetails> {
                   color: const Color(0xFF5988FF),
                 ),
           ),
-
           const SizedBox(height: 8.0),
           SizedBox(
             height: 200,
@@ -133,7 +133,7 @@ class _CommunityWindowDetailsState extends State<CommunityWindowDetails> {
                     : Text(
                         address!,
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                              color: const Color.fromARGB(255, 0, 0, 0),
+                              color: Colors.black,
                               fontSize: 14,
                             ),
                       ),
@@ -157,32 +157,33 @@ class _CommunityWindowDetailsState extends State<CommunityWindowDetails> {
                 ),
           ),
           const SizedBox(height: 24.0),
-          PrimaryButton(
-            label: 'Solicitar Unirse',
-            width: double.infinity,
-            onPressed: () async  {
-                try {
-                await _communityService.requestJoinCommunity(widget.id);
 
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Solicitud enviada exitosamente'),
-                  ),
-                  );
-                }
+          // Botón de solicitar unirse (solo si aplica)
+          if (widget.showJoinButton)
+            PrimaryButton(
+              label: 'Solicitar Unirse',
+              width: double.infinity,
+              onPressed: () async {
+                try {
+                  await _communityService.requestJoinCommunity(widget.id);
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Solicitud enviada exitosamente'),
+                      ),
+                    );
+                  }
                 } catch (e) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Error al enviar solicitud: $e'),
-                  ),
-                  );
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Error al enviar solicitud: $e'),
+                      ),
+                    );
+                  }
                 }
-                debugPrint('Error al enviar solicitud: $e');
-                }
-            },
-          ),
+              },
+            ),
         ],
       ),
     );
