@@ -3,7 +3,7 @@ package cl.redvecinal.backend.annoucement.service.impl;
 import cl.redvecinal.backend.annoucement.dto.AnnouncementMapper;
 import cl.redvecinal.backend.annoucement.dto.request.AnnouncementCreateDto;
 import cl.redvecinal.backend.annoucement.dto.response.AnnouncementResponseDto;
-import cl.redvecinal.backend.model.Announcement;
+import cl.redvecinal.backend.annoucement.model.Announcement;
 import cl.redvecinal.backend.annoucement.repository.AnnouncementRepository;
 import cl.redvecinal.backend.annoucement.service.AnnouncementService;
 import cl.redvecinal.backend.community.model.Community;

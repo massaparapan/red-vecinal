@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.event.service.impl;
 
-import cl.redvecinal.backend.model.Community;
+import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.config.services.IAuthContext;
 import cl.redvecinal.backend.event.dto.request.EventCreateDto;
 import cl.redvecinal.backend.event.dto.EventMapper;

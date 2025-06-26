@@ -1,6 +1,5 @@
-package cl.redvecinal.backend.model;
+package cl.redvecinal.backend.annoucement.model;
 
-import cl.redvecinal.backend.annoucement.model.AnnouncementType;
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
