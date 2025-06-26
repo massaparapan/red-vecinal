@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.events.dto.response;
+package cl.redvecinal.backend.event.dto.response;
 
 import cl.redvecinal.backend.user.dto.request.UserDto;
 import lombok.Data;

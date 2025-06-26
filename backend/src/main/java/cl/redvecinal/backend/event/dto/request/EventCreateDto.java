@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.events.dto.request;
+package cl.redvecinal.backend.event.dto.request;
 
 import lombok.Data;
 

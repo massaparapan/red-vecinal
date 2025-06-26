@@ -1,6 +1,6 @@
-package cl.redvecinal.backend.events.repository;
+package cl.redvecinal.backend.event.repository;
 
-import cl.redvecinal.backend.events.model.EventParticipation;
+import cl.redvecinal.backend.event.model.EventParticipation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

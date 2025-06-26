@@ -1,15 +1,15 @@
-package cl.redvecinal.backend.events.service.impl;
+package cl.redvecinal.backend.event.service.impl;
 
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.config.services.IAuthContext;
-import cl.redvecinal.backend.events.dto.request.EventCreateDto;
-import cl.redvecinal.backend.events.dto.EventMapper;
-import cl.redvecinal.backend.events.dto.response.EventResponseDto;
-import cl.redvecinal.backend.events.model.Event;
-import cl.redvecinal.backend.events.model.EventParticipation;
-import cl.redvecinal.backend.events.repository.EventParticipationRepository;
-import cl.redvecinal.backend.events.repository.EventRepository;
-import cl.redvecinal.backend.events.service.EventService;
+import cl.redvecinal.backend.event.dto.request.EventCreateDto;
+import cl.redvecinal.backend.event.dto.EventMapper;
+import cl.redvecinal.backend.event.dto.response.EventResponseDto;
+import cl.redvecinal.backend.event.model.Event;
+import cl.redvecinal.backend.event.model.EventParticipation;
+import cl.redvecinal.backend.event.repository.EventParticipationRepository;
+import cl.redvecinal.backend.event.repository.EventRepository;
+import cl.redvecinal.backend.event.service.EventService;
 import cl.redvecinal.backend.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

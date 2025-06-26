@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.events.model;
+package cl.redvecinal.backend.event.model;
 
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;

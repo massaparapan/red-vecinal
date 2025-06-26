@@ -1,9 +1,9 @@
-package cl.redvecinal.backend.events.dto;
+package cl.redvecinal.backend.event.dto;
 
-import cl.redvecinal.backend.events.dto.request.EventCreateDto;
-import cl.redvecinal.backend.events.dto.response.EventResponseDto;
-import cl.redvecinal.backend.events.model.Event;
-import cl.redvecinal.backend.events.model.EventParticipation;
+import cl.redvecinal.backend.event.dto.request.EventCreateDto;
+import cl.redvecinal.backend.event.dto.response.EventResponseDto;
+import cl.redvecinal.backend.event.model.Event;
+import cl.redvecinal.backend.event.model.EventParticipation;
 import cl.redvecinal.backend.user.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

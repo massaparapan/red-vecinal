@@ -1,9 +1,9 @@
-package cl.redvecinal.backend.events.controller;
+package cl.redvecinal.backend.event.controller;
 
 import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
-import cl.redvecinal.backend.events.dto.request.EventCreateDto;
-import cl.redvecinal.backend.events.service.EventService;
+import cl.redvecinal.backend.event.dto.request.EventCreateDto;
+import cl.redvecinal.backend.event.service.EventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

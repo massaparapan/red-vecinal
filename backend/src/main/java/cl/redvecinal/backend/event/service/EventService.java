@@ -1,7 +1,7 @@
-package cl.redvecinal.backend.events.service;
+package cl.redvecinal.backend.event.service;
 
-import cl.redvecinal.backend.events.dto.request.EventCreateDto;
-import cl.redvecinal.backend.events.dto.response.EventResponseDto;
+import cl.redvecinal.backend.event.dto.request.EventCreateDto;
+import cl.redvecinal.backend.event.dto.response.EventResponseDto;
 
 import java.util.List;
 
