@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/community/presentation/widgets/reminder_box.dart';
+import 'package:frontend/features/events/presentation/widgets/reminder_box.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
 
 class ReminderScreen extends StatefulWidget {
