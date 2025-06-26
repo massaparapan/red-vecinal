@@ -211,8 +211,8 @@ class _MembershipScreenState extends State<MembershipScreen> {
                 ...members.map((member) {
                   return Card(
                     margin: const EdgeInsets.only(bottom: 12),
-                    elevation: 0, // Quita la sombra
-                    color: Colors.transparent, // Quita el fondo
+                    elevation: 0, 
+                    color: Colors.transparent,
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundColor: const Color(0xFF5988FF),

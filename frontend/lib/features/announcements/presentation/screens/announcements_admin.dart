@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/community/presentation/widgets/announcements/announcements_box.dart';
+import 'package:frontend/features/announcements/presentation/widgets/announcements_box.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 
