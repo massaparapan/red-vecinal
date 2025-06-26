@@ -4,7 +4,6 @@ import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.Set;
