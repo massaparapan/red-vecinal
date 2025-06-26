@@ -12,6 +12,9 @@ class AppRoutes {
   static const String announcements = '/home/announcements';
   static const String announcementsAdmin = '/home/admin/announcements';
   static const String createAnnouncementScreen = '/home/admin/announcements/create';
+  static const String informationScreen = '/home/admin/information';
+  static const String informationMemberScreen = '/home/member/information';
+  static const String reminderScreen = '/home/member/reminder';
 
   static String getRouteByRole(String? status, String? role) {
     if (status == null || status.isEmpty) return AppRoutes.noCommunityHome;

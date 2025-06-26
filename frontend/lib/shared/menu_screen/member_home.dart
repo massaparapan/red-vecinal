@@ -56,6 +56,7 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.info_outline_rounded,
                     label: 'Informacion',
                     color: const Color(0xFFCCC042),
+                    onTap: () => NavegationService().navigateTo('/home/member/information'),
                   ),
                 ],
               ),
@@ -67,6 +68,7 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.notifications,
                     label: 'Recordatorios',
                     color: const Color(0xFFE6881D),
+                    onTap: () => NavegationService().navigateTo('/home/member/reminder')
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
@@ -91,7 +93,7 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.account_circle,
                     label: 'Perfil',
                     color: const Color(0xFF736AED),
-                    onTap: () => NavegationService().navigateTo('/my-profile'),
+                    onTap: () => NavegationService().navigateTo('/profile'),
                   ),
                 ],
               ),

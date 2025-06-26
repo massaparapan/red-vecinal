@@ -38,6 +38,7 @@ class _OtherPersonProfileScreenState extends State<OtherPersonProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())

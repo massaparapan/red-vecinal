@@ -1,5 +1,6 @@
 package cl.redvecinal.backend.model;
 
+import cl.redvecinal.backend.information.model.Information;
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
 import cl.redvecinal.backend.event.model.Event;
 import cl.redvecinal.backend.membership.model.Membership;
@@ -37,6 +38,8 @@ public class Community {
     private Set<Announcement> announcements;
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Event> events;
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Information> informations;
 
     public int getMembersCount() {
         return (int) memberships.stream()
