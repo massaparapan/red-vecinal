@@ -4,7 +4,7 @@ import cl.redvecinal.backend.community.dto.request.CommunityCreateDto;
 import cl.redvecinal.backend.community.dto.CommunityMapper;
 import cl.redvecinal.backend.community.dto.response.CommunityPreviewDto;
 import cl.redvecinal.backend.community.exception.AlreadyMemberException;
-import cl.redvecinal.backend.community.model.Community;
+import cl.redvecinal.backend.model.Community;
 import cl.redvecinal.backend.community.service.ICommunityService;
 import cl.redvecinal.backend.config.services.IAuthContext;
 import cl.redvecinal.backend.membership.model.Membership;
@@ -61,6 +61,7 @@ public class CommunityServiceImpl implements ICommunityService {
 
         community.getMemberships().add(m);
         user.setMembership(m);
+        communityRepository.save(community);
     }
 
     @Override

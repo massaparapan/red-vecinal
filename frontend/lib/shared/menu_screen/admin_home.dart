@@ -49,12 +49,14 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.campaign,
                     label: 'Anuncios',
                     color: const Color(0xFFE27B56),
+                    onTap: () => NavegationService().navigateTo('/home/admin/announcements')
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
                     icon: Icons.info_outline_rounded,
                     label: 'Informacion',
                     color: const Color(0xFFCCC042),
+                    onTap: () => NavegationService().navigateTo('/home/admin/information'),
                   ),
                 ],
               ),
@@ -63,15 +65,17 @@ class AdminHomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   MenuTile(
-                    icon: Icons.notifications,
-                    label: 'Recordatorios',
+                    icon: Icons.add,
+                    label: 'Solicitudes',
                     color: const Color(0xFFE6881D),
+                    onTap: () => NavegationService().navigateTo('/home/admin/community-requests'),
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
                     icon: Icons.calendar_month,
                     label: 'Calendario',
                     color: const Color(0xFF2F9CB4),
+                    onTap: () => NavegationService().navigateTo('/home/admin/events'),
                   ),
                 ],
               ),
@@ -90,7 +94,7 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.account_circle,
                     label: 'Perfil',
                     color: const Color(0xFF736AED),
-                    onTap: () => NavegationService().navigateTo('/my-profile')
+                    onTap: () => NavegationService().navigateTo('/profile')
                   ),
                 ],
               ),

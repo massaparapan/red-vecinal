@@ -3,6 +3,7 @@ import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:frontend/features/community/services/community_service.dart';
 
 
 class CommunityWindowDetails extends StatefulWidget {
@@ -11,9 +12,11 @@ class CommunityWindowDetails extends StatefulWidget {
   final double latitude;
   final double longitude;
   final int memberCount;
+  final int id;
 
   const CommunityWindowDetails({
     super.key,
+    required this.id,
     required this.name,
     required this.description,
     required this.latitude,
@@ -27,6 +30,7 @@ class CommunityWindowDetails extends StatefulWidget {
 
 class _CommunityWindowDetailsState extends State<CommunityWindowDetails> {
   String? address;
+  final _communityService = CommunityService.withDefaults();
 
   @override
   void initState() {
@@ -156,10 +160,27 @@ class _CommunityWindowDetailsState extends State<CommunityWindowDetails> {
           PrimaryButton(
             label: 'Solicitar Unirse',
             width: double.infinity,
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Solicitud enviada a ${widget.name}')),
-              );
+            onPressed: () async  {
+                try {
+                await _communityService.requestJoinCommunity(widget.id);
+
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Solicitud enviada exitosamente'),
+                  ),
+                  );
+                }
+                } catch (e) {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error al enviar solicitud: $e'),
+                  ),
+                  );
+                }
+                debugPrint('Error al enviar solicitud: $e');
+                }
             },
           ),
         ],

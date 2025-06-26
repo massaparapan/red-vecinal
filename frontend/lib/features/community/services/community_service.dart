@@ -18,4 +18,8 @@ abstract class CommunityService {
 
   @POST("/create")
   Future<void> createCommunity(@Body() createCommunity);
+
+  @POST("/request-join")
+  Future<void> requestJoinCommunity(@Query("communityId") int communityId);
+
 }

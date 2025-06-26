@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/core/network/api_client.dart';
 import 'package:frontend/features/auth/models/response/phone_verification_response.dart';
+import 'package:frontend/features/profile/models/otherprofileDto.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:frontend/features/profile/models/MyProfileDto.dart';
 
 part 'user_service.g.dart';
 
@@ -15,4 +17,10 @@ abstract class UserService {
 
   @PATCH("/reset-password")
   Future<void >resetPassword(@Body() resetPasswordRequest, @Header("Reset-Token") String resetToken);
+
+  @GET("/profile/me")
+  Future<MyProfileDto> getMyProfile();
+
+  @GET("/profile/{id}")
+  Future<OtherProfileDto> getUserProfile(@Path("id") int id);
 }

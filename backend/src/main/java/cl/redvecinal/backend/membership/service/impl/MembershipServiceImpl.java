@@ -68,6 +68,8 @@ public class MembershipServiceImpl implements IMembershipService {
     public void rejectMembership(Long membershipId) {
         Membership membership = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new MembershipNotFound("Membresia no encontrada."));
+        User user = membership.getUser();
+        user.setMembership(null);
         membershipRepository.delete(membership);
     }
 
@@ -92,6 +94,7 @@ public class MembershipServiceImpl implements IMembershipService {
         Membership membership = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new MembershipNotFound("Membresia no encontrada."));
         membership.setRole(MembershipRole.MEMBER);
+        membership.setStatus(MembershipStatus.ACTIVE);
         membershipRepository.save(membership);
     }
 
