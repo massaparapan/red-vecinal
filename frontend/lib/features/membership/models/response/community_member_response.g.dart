@@ -9,7 +9,7 @@ part of 'community_member_response.dart';
 CommunityMemberResponse _$CommunityMemberResponseFromJson(
         Map<String, dynamic> json) =>
     CommunityMemberResponse(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       username: json['username'] as String,
       role: json['role'] as String,
     );

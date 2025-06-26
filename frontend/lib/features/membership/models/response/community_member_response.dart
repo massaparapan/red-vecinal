@@ -4,7 +4,7 @@ part 'community_member_response.g.dart';
 
 @JsonSerializable()
 class CommunityMemberResponse {
-  final String id;
+  final int id;
   final String username;
   final String role;
 
