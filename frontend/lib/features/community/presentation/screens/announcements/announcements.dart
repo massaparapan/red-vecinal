@@ -18,24 +18,18 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
       'time': '· 00h',
       'message': 'Lorem ipsum dolor sit amet. Quo tempora aliquid ea quos aliquam...',
       'tag': 'Reunion',
-      'imageUrl': null,
-      'likes': 11,
     },
     {
       'userName': 'Ana Gomez',
       'time': '· 00h',
       'message': 'Lorem ipsum dolor sit amet. Quo tempora aliquid ea quos aliquam...',
       'tag': 'Emergencia',
-      'imageUrl': 'https://via.placeholder.com/300x150',
-      'likes': 11,
     },
     {
       'userName': 'Martin Zuñiga',
       'time': '· 00h',
       'message': 'Lorem ipsum dolor sit amet. Quo tempora aliquid ea quos aliquam...',
       'tag': 'Anuncio',
-      'imageUrl': null,
-      'likes': 5,
     },
   ];
 
@@ -84,8 +78,6 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
                               time: a['time'],
                               message: a['message'],
                               tag: a['tag'],
-                              imageUrl: a['imageUrl'],
-                              likes: a['likes'],
                             );
                           }),
                           const SizedBox(height: 24),

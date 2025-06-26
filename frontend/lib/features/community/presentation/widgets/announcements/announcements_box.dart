@@ -6,7 +6,6 @@ class AnnouncementBox extends StatelessWidget {
   final String message;
   final String tag;
   final String? imageUrl;
-  final int likes;
 
   const AnnouncementBox({
     super.key,
@@ -15,7 +14,6 @@ class AnnouncementBox extends StatelessWidget {
     required this.message,
     required this.tag,
     this.imageUrl,
-    required this.likes,
   });
 
   String getUserInitials() {
@@ -131,55 +129,6 @@ class AnnouncementBox extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          if (imageUrl != null) ...[
-            const SizedBox(height: 8),
-            Container(
-              width: double.infinity,
-              height: 160,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Image.network(
-                  imageUrl!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      color: Colors.grey[200],
-                      child: const Center(
-                        child: Icon(
-                          Icons.image_outlined,
-                          size: 40,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ],
-          
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Icon(
-                Icons.thumb_up_outlined,
-                size: 20,
-                color: Colors.grey[600],
-              ),
-              const SizedBox(width: 4),
-              Text(
-                likes.toString(),
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey[600],
-                ),
-              ),
-            ],
           ),
           const SizedBox(height: 8),
           const Divider(

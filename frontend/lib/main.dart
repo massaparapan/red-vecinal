@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
-import 'package:frontend/features/membership/presentation/screens/community_members_screen.dart';
 import 'package:frontend/features/community/presentation/screens/events/createEvent.dart';
 import 'package:frontend/features/community/presentation/screens/events/eventsAdmin.dart';
 import 'package:frontend/features/community/presentation/screens/announcements/announcements.dart';
@@ -63,7 +62,6 @@ class MyApp extends StatelessWidget {
         AppRoutes.adminHome: (context) => const AdminHomeScreen(),
         AppRoutes.memberHome: (context) => const MemberHomeScreen(),
         AppRoutes.noCommunityHome: (context) => const NoCommunityScreen(),
-        AppRoutes.communityMembers: (context) => const CommunityMembersScreen()
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
         AppRoutes.adminEventsScreen: (context) => const EventsAdminScreen(),
