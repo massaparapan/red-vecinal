@@ -8,7 +8,7 @@ En muchas comunidades, la falta de comunicación y organización es un problema 
 
 ### **1. Gestión de Usuarios**
 * Registro y acceso seguro mediante número telefónico y contraseña.
-* Permitir a los usuarios modificar sus datos personales y número telefónico.
+* Permitir a los usuarios modificar sus datos personales.
 
 ### **2. Para Usuarios Nuevos**
 * Visualizar comunidades (juntas de vecinos) cercanas según la ubicación registrada.
@@ -19,7 +19,6 @@ En muchas comunidades, la falta de comunicación y organización es un problema 
 ### **3. Para Miembros de una Comunidad**
 * **Anuncios:**
     * Visualizar anuncios de la comunidad.
-    * Interactuar con un "Me gusta" en los anuncios.
 * **Eventos:**
     * Acceder a un calendario con días de eventos marcados.
     * Ver listado de eventos con sus fechas.
@@ -32,9 +31,5 @@ En muchas comunidades, la falta de comunicación y organización es un problema 
 
 ### **4. Para Administradores de Comunidad**
 * **Gestión de Contenido:**
-    * Crear anuncios con etiquetas específicas: `Anuncio`, `Encuesta`, `Emergencia`, `Reunión`.
-    * Crear eventos ingresando: descripción, fecha e imagen.
-    * Eliminar anuncios o eventos creados previamente.
-* **Gestión de la Junta:**
-    * Modificar los límites geográficos de la junta mediante una interfaz intuitiva.
-    * Agregar, editar o eliminar información en la sección descriptiva de la junta de vecinos.
+    * Crear anuncios con etiquetas específicas: `Anuncio`, `Emergencia`, `Reunión`.
+    * Crear eventos ingresando: descripción, fecha.
