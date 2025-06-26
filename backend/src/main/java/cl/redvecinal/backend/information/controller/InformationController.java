@@ -18,7 +18,7 @@ public class InformationController {
     public ResponseEntity<SuccessResponse> getMyCommunity() {
         return ResponseHelper.success(informationService.getMyCommunityInformations());
     }
-    @PostMapping("")
+    @PostMapping()
     public ResponseEntity<SuccessResponse> createInformation(@RequestBody @Valid InformationCreateDto request) {
         return ResponseHelper.success(informationService.createInformation(request));
     }
