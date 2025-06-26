@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.information.model;
 
-import cl.redvecinal.backend.model.Community;
+import cl.redvecinal.backend.community.model.Community;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

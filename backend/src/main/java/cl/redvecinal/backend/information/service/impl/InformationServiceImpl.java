@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.information.service.impl;
 
-import cl.redvecinal.backend.model.Community;
+import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.config.services.IAuthContext;
 import cl.redvecinal.backend.information.dto.InformationMapper;
 import cl.redvecinal.backend.information.dto.request.InformationCreateDto;

@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.membership.model;
 
-import cl.redvecinal.backend.model.Community;
+import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.membership.model.enums.MembershipRole;
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
 import cl.redvecinal.backend.user.model.User;
