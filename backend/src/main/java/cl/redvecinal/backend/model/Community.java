@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.community.model;
+package cl.redvecinal.backend.model;
 
 import cl.redvecinal.backend.information.model.Information;
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
