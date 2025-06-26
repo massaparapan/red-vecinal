@@ -1,7 +1,6 @@
-package cl.redvecinal.backend.community.model;
+package cl.redvecinal.backend.model;
 
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
-import cl.redvecinal.backend.model.Announcement;
 import cl.redvecinal.backend.event.model.Event;
 import cl.redvecinal.backend.membership.model.Membership;
 import jakarta.persistence.*;
