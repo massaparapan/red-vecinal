@@ -21,6 +21,7 @@ public class EventController {
     }
     @PostMapping()
     public ResponseEntity<SuccessResponse> createCommunity(@RequestBody @Valid EventCreateDto request) {
+        System.out.println("Creating event: " + request);
         return ResponseHelper.success(eventService.create(request));
     }
     @DeleteMapping("/{id}")

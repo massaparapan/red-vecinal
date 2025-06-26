@@ -20,7 +20,6 @@ public class Event {
     private Long id;
     private String title;
     private String description;
-    @CreationTimestamp
     private LocalDate date;
     @ManyToOne
     private User createdBy;
