@@ -48,6 +48,7 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.campaign,
                     label: 'Anuncios',
                     color: const Color(0xFFE27B56),
+                    onTap: () => NavegationService().navigateTo('/home/admin/announcements')
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
