@@ -25,7 +25,7 @@ class AnnouncementBox extends StatelessWidget {
     switch (tag.toLowerCase()) {
       case 'emergencia':
         return const Color(0xFFFF8C8C);
-      case 'reunion':
+      case 'reunión':
         return const Color(0xFF79DD5F).withOpacity(0.8);
       case 'anuncio':
         return const Color(0xFFFFF28C);

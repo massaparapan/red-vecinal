@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/announcements/models/response/announcementResponseDto.dart';
+import 'package:frontend/features/announcements/services/announcements_service.dart';
 import 'package:frontend/features/announcements/presentation/widgets/announcements_box.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
@@ -11,28 +13,54 @@ class AnnouncementAdminScreen extends StatefulWidget {
 }
 
 class _AnnouncementAdminScreenState extends State<AnnouncementAdminScreen> {
-  final bool _isLoading = false;
+  final announcementsService = AnnouncementsService.withDefaults();
+  bool _isLoading = false;
+  List<AnnouncementResponse> _announcements = [];
 
-  final List<Map<String, dynamic>> _fakeAnnouncements = [
-    {
-      'userName': 'Juan Perez',
-      'time': '· 00h',
-      'message': 'Lorem ipsum dolor sit amet. Quo tempora aliquid ea quos aliquam...',
-      'tag': 'Reunion',
-    },
-    {
-      'userName': 'Ana Gomez',
-      'time': '· 00h',
-      'message': 'Lorem ipsum dolor sit amet. Quo tempora aliquid ea quos aliquam...',
-      'tag': 'Emergencia',
-    },
-    {
-      'userName': 'Martin Zuñiga',
-      'time': '· 00h',
-      'message': 'Lorem ipsum dolor sit amet. Quo tempora aliquid ea quos aliquam...',
-      'tag': 'Anuncio',
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _fetchAnnouncements();
+  }
+
+  Future<void> _fetchAnnouncements() async {
+    setState(() => _isLoading = true);
+    try {
+      final data = await announcementsService.getAnnouncementsByMyCommunity();
+      data.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      setState(() {
+        _announcements = data;
+      });
+    } catch (e) {
+      print('Error fetching announcements: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  String _formatTime(DateTime utcTime) {
+    final dt = utcTime.subtract(const Duration(hours: -4));
+    final now = DateTime.now();
+    final diff = now.difference(dt);
+
+    if (diff.inMinutes < 1) return 'ahora';
+    if (diff.inHours < 1) return '${diff.inMinutes}m';
+    if (diff.inDays < 1) return '${diff.inHours}h';
+    return '${diff.inDays}d';
+  }
+
+  String _mapTagLabel(String type) {
+    switch (type) {
+      case 'EMERGENCY':
+        return 'Emergencia';
+      case 'ANNOUNCEMENT':
+        return 'Anuncio';
+      case 'MEETING':
+        return 'Reunión';
+      default:
+        return type;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +93,16 @@ class _AnnouncementAdminScreenState extends State<AnnouncementAdminScreen> {
                   ),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: ListView.builder(
-                        itemCount: _fakeAnnouncements.length,
+                        itemCount: _announcements.length,
                         itemBuilder: (context, index) {
-                          final a = _fakeAnnouncements[index];
+                          final a = _announcements[index];
                           return AnnouncementBox(
-                            username: a['userName'],
-                            time: a['time'],
-                            message: a['message'],
-                            tag: a['tag'],
+                            username: a.createdBy.username,
+                            time: '· ${_formatTime(a.createdAt)}',
+                            message: a.content,
+                            tag: _mapTagLabel(a.type),
                           );
                         },
                       ),
