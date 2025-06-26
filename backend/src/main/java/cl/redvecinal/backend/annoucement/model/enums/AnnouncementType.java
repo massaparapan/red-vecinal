@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.annoucement.model;
+package cl.redvecinal.backend.annoucement.model.enums;
 
 public enum AnnouncementType {
     EMERGENCY,

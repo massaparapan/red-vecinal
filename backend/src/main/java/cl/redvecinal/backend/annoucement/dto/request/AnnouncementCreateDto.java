@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.annoucement.dto.request;
 
-import cl.redvecinal.backend.annoucement.model.AnnouncementType;
+import cl.redvecinal.backend.annoucement.model.enums.AnnouncementType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
