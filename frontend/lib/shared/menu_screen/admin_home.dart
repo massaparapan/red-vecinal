@@ -73,6 +73,7 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.calendar_month,
                     label: 'Calendario',
                     color: const Color(0xFF2F9CB4),
+                    onTap: () => NavegationService().navigateTo('/home/admin/events'),
                   ),
                 ],
               ),

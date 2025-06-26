@@ -2,6 +2,7 @@ package cl.redvecinal.backend.user.service.impl;
 
 import cl.redvecinal.backend.config.services.IAuthContext;
 import cl.redvecinal.backend.user.dto.UserMapper;
+import cl.redvecinal.backend.user.dto.request.UpdateProfileDto;
 import cl.redvecinal.backend.user.dto.response.UserMyProfileDto;
 import cl.redvecinal.backend.user.dto.response.UserProfileDto;
 import cl.redvecinal.backend.user.exception.UserNotFoundException;
@@ -43,5 +44,13 @@ public class UserServiceImpl implements IUserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con el ID proporcionado: " + id));
         return userMapper.toUserProfileDto(user);
+    }
+
+    @Override
+    public void updateMyProfile(UpdateProfileDto request) {
+        User user = authContext.getCurrentUser();
+        user.setUsername(request.getUsername());
+        user.setDescription(request.getDescription());
+        userRepository.save(user);
     }
 }

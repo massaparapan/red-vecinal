@@ -4,6 +4,7 @@ import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
 import cl.redvecinal.backend.config.JwtTokenProvider;
 import cl.redvecinal.backend.user.dto.request.ResetPasswordDto;
+import cl.redvecinal.backend.user.dto.request.UpdateProfileDto;
 import cl.redvecinal.backend.user.exception.PhoneNumberMismatchException;
 import cl.redvecinal.backend.user.service.IUserService;
 import jakarta.validation.Valid;
@@ -45,5 +46,11 @@ public class UserController {
     @GetMapping("/profile/{id}")
     public ResponseEntity<SuccessResponse> getUserProfile(@PathVariable @Valid Long id) {
         return ResponseHelper.success(userService.showProfileUser(id));
+    }
+
+    @PatchMapping("/profile/me")
+    public ResponseEntity<SuccessResponse> updateUserProfile(@RequestBody @Valid UpdateProfileDto request) {
+        userService.updateMyProfile(request);
+        return ResponseHelper.success("Perfil actualizado correctamente");
     }
 }
