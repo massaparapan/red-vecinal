@@ -11,6 +11,7 @@ import 'package:frontend/features/community/presentation/screens/information.dar
 import 'package:frontend/features/community/presentation/screens/informationMember.dart';
 import 'package:frontend/features/community/presentation/screens/reminder_screen.dart';
 import 'package:frontend/features/join-request/presentation/screens/requests.dart';
+import 'package:frontend/features/membership/presentation/screens/members_screen.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
 import 'package:frontend/shared/menu_screen/no_community_home.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
         AppRoutes.adminEventsScreen: (context) => const EventsAdminScreen(),
+        AppRoutes.communityMembers: (context) => const MembershipScreen(),
         AppRoutes.createEventScreen: (context) => const CreateEventScreen(),
         AppRoutes.announcements: (context) => const AnnouncementsScreen(),
         AppRoutes.announcementsAdmin: (context) => const AnnouncementAdminScreen(),

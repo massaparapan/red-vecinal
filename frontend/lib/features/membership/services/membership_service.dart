@@ -26,4 +26,10 @@ abstract class MembershipService {
 
   @GET("/my-community")
   Future<List<MembershipRequest>> getMyCommunityMemberships();
+  
+  @PATCH("/assign-admin/{id}")
+  Future<void> assignAdmin(@Path("id") int membershipId);
+
+  @PATCH("/unassign-roles/{id}")
+  Future<void> unassignRoles(@Path("id") int membershipId);
 }
