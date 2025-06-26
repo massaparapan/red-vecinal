@@ -1,5 +1,7 @@
 package cl.redvecinal.backend.model;
 
+import cl.redvecinal.backend.annoucement.model.AnnouncementType;
+import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.user.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,7 @@ public class Announcement {
     private Long id;
     private String title;
     private String content;
+    private AnnouncementType type;
     @ManyToOne
     private User createdBy;
     @ManyToOne
