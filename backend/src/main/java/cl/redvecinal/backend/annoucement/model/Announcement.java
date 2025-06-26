@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,6 +22,8 @@ public class Announcement {
     private Long id;
     private String title;
     private String content;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
     private AnnouncementType type;
     @ManyToOne
     private User createdBy;
