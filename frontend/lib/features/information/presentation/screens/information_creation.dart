@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/user/services/user_service.dart';
+import 'package:frontend/features/information/models/request/information_create_dto.dart';
+import 'package:frontend/features/information/services/information_service.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
 
@@ -11,11 +12,9 @@ class CreateInformationScreen extends StatefulWidget {
 }
 
 class _CreateInformationScreenState extends State<CreateInformationScreen> {
-  final userService = UserService.withDefaults();
-
+  final _informationService = InformationService.withDefaults();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
-
   bool _showSaveButton = false;
 
   @override
@@ -30,6 +29,19 @@ class _CreateInformationScreenState extends State<CreateInformationScreen> {
       _showSaveButton =
           _titleController.text.trim().isNotEmpty && _contentController.text.trim().isNotEmpty;
     });
+  }
+
+  void _saveInformation() async {
+    final dto = InformationCreateDto(
+      title: _titleController.text.trim(),
+      content: _contentController.text.trim(),
+    );
+    try {
+      await _informationService.createInformation(dto);
+      if (mounted) Navigator.pop(context);
+    } catch (e) {
+      print("Error al guardar: $e");
+    }
   }
 
   @override
@@ -81,16 +93,13 @@ class _CreateInformationScreenState extends State<CreateInformationScreen> {
               if (_showSaveButton)
                 PrimaryButton(
                   label: "Guardar cambios",
-                  onPressed: () {
-                  },
+                  onPressed: _saveInformation,
                   width: double.infinity,
                 ),
               const SizedBox(height: 10),
               AltButton(
                 label: 'Volver',
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
                 width: double.infinity,
               ),
             ],

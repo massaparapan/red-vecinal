@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/features/information/presentation/screens/information_view.dart';
 
 class InformationBox extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
+  final String content;
+  final VoidCallback? onTap; 
+  final int? id; 
 
   const InformationBox({
     super.key,
     required this.title,
-    required this.onTap,
+    required this.content,
+    this.onTap,
+    this.id,
   });
 
   @override
@@ -32,7 +37,19 @@ class InformationBox extends StatelessWidget {
           Icons.chevron_right,
           color: Colors.grey,
         ),
-        onTap: onTap,
+        onTap: onTap ??
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewInformationScreen(
+                    title: title,
+                    content: content,
+                    id: id ?? 0, 
+                  ),
+                ),
+              );
+            },
       ),
     );
   }
