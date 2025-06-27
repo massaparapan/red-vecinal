@@ -1,5 +1,6 @@
-package cl.redvecinal.backend.config;
+package cl.redvecinal.backend.security.config;
 
+import cl.redvecinal.backend.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

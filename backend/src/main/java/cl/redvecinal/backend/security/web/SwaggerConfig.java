@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.config;
+package cl.redvecinal.backend.security.web;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;

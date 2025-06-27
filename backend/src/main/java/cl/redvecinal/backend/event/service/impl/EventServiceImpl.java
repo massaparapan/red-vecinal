@@ -1,7 +1,7 @@
 package cl.redvecinal.backend.event.service.impl;
 
 import cl.redvecinal.backend.community.model.Community;
-import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.event.dto.request.EventCreateDto;
 import cl.redvecinal.backend.event.dto.EventMapper;
 import cl.redvecinal.backend.event.dto.response.EventResponseDto;
@@ -23,7 +23,7 @@ public class EventServiceImpl implements EventService {
     private final EventParticipationRepository eventParticipationRepository;
 
     private final EventMapper eventMapper;
-    private final IAuthContext authContext;
+    private final AuthContext authContext;
     @Override
     public EventResponseDto create(EventCreateDto request) {
         User user = authContext.getCurrentUser();

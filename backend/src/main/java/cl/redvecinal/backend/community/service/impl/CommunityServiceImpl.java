@@ -5,8 +5,8 @@ import cl.redvecinal.backend.community.dto.CommunityMapper;
 import cl.redvecinal.backend.community.dto.response.CommunityPreviewDto;
 import cl.redvecinal.backend.community.exception.AlreadyMemberException;
 import cl.redvecinal.backend.community.model.Community;
-import cl.redvecinal.backend.community.service.ICommunityService;
-import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.community.service.CommunityService;
+import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.membership.model.Membership;
 import cl.redvecinal.backend.membership.model.enums.MembershipRole;
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
@@ -20,11 +20,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CommunityServiceImpl implements ICommunityService {
+public class CommunityServiceImpl implements CommunityService {
     private final CommunityRepository communityRepository;
 
     private final CommunityMapper communityMapper;
-    private final IAuthContext authContext;
+    private final AuthContext authContext;
 
     @Override
     public Community create(CommunityCreateDto request) {

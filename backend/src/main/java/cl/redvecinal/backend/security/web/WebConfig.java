@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.config;
+package cl.redvecinal.backend.security.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

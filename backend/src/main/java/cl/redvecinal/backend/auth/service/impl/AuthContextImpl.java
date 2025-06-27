@@ -1,7 +1,7 @@
-package cl.redvecinal.backend.config.services.impl;
+package cl.redvecinal.backend.auth.service.impl;
 
-import cl.redvecinal.backend.config.CustomUserDetails;
-import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.security.userdetails.CustomUserDetails;
+import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AuthContextImpl implements IAuthContext {
+public class AuthContextImpl implements AuthContext {
     private final UserRepository userRepository;
 
     public User getCurrentUser() {

@@ -4,7 +4,7 @@ import cl.redvecinal.backend.user.dto.request.UpdateProfileDto;
 import cl.redvecinal.backend.user.dto.response.UserMyProfileDto;
 import cl.redvecinal.backend.user.dto.response.UserProfileDto;
 
-public interface IUserService {
+public interface UserService {
     boolean isUserRegistered(String phoneNumber);
     void resetPassword(String phoneNumber, String password);
     UserMyProfileDto showMyProfile();

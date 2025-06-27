@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.user.service.impl;
 
-import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.user.dto.UserMapper;
 import cl.redvecinal.backend.user.dto.request.UpdateProfileDto;
 import cl.redvecinal.backend.user.dto.response.UserMyProfileDto;
@@ -8,18 +8,18 @@ import cl.redvecinal.backend.user.dto.response.UserProfileDto;
 import cl.redvecinal.backend.user.exception.UserNotFoundException;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
-import cl.redvecinal.backend.user.service.IUserService;
+import cl.redvecinal.backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final IAuthContext authContext;
+    private final AuthContext authContext;
     private final UserMapper userMapper;
     @Override
     public boolean isUserRegistered(String phoneNumber) {

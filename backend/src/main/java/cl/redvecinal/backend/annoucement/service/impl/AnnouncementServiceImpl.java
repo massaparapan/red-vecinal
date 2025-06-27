@@ -7,7 +7,7 @@ import cl.redvecinal.backend.annoucement.model.Announcement;
 import cl.redvecinal.backend.annoucement.repository.AnnouncementRepository;
 import cl.redvecinal.backend.annoucement.service.AnnouncementService;
 import cl.redvecinal.backend.community.model.Community;
-import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
 public class AnnouncementServiceImpl implements AnnouncementService {
     private final AnnouncementRepository announcementRepository;
 
-    private final IAuthContext authContext;
+    private final AuthContext authContext;
     private final AnnouncementMapper announcementMapper;
     @Override
     public List<AnnouncementResponseDto> getAnnouncementsByMyCommunity() {

@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.config;
+package cl.redvecinal.backend.security.userdetails;
 
 import cl.redvecinal.backend.user.model.User;
 import org.springframework.security.core.GrantedAuthority;

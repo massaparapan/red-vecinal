@@ -2,7 +2,7 @@ package cl.redvecinal.backend.otp.controller;
 
 import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
-import cl.redvecinal.backend.config.JwtTokenProvider;
+import cl.redvecinal.backend.security.jwt.JwtTokenProvider;
 import cl.redvecinal.backend.otp.service.OtpService;
 import cl.redvecinal.backend.otp.dto.OtpVerifyRequest;
 import jakarta.validation.Valid;

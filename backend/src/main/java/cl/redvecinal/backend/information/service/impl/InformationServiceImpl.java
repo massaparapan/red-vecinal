@@ -1,7 +1,7 @@
 package cl.redvecinal.backend.information.service.impl;
 
 import cl.redvecinal.backend.community.model.Community;
-import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.information.dto.InformationMapper;
 import cl.redvecinal.backend.information.dto.request.InformationCreateDto;
 import cl.redvecinal.backend.information.dto.response.InformationResponseDto;
@@ -20,7 +20,7 @@ import java.util.List;
 public class InformationServiceImpl implements InformationService {
     private final InformationRepository informationRepository;
 
-    private final IAuthContext authContext;
+    private final AuthContext authContext;
     private final InformationMapper informationMapper;
 
     @Override

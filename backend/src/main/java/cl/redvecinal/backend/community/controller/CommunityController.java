@@ -2,7 +2,7 @@ package cl.redvecinal.backend.community.controller;
 
 import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
-import cl.redvecinal.backend.community.service.ICommunityService;
+import cl.redvecinal.backend.community.service.CommunityService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class CommunityController {
-    private final ICommunityService communityService;
+    private final CommunityService communityService;
 
     @PostMapping("/create")
     public ResponseEntity<SuccessResponse> createCommunity(@RequestBody @Valid CommunityCreateDto request) {

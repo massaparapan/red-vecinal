@@ -4,9 +4,9 @@ import cl.redvecinal.backend.auth.dto.LoginRequest;
 import cl.redvecinal.backend.auth.dto.RegisterRequest;
 import cl.redvecinal.backend.auth.exception.IncorrectPasswordException;
 import cl.redvecinal.backend.auth.exception.PhoneAlreadyExistsException;
-import cl.redvecinal.backend.auth.service.IAuthService;
-import cl.redvecinal.backend.config.CustomUserDetails;
-import cl.redvecinal.backend.config.JwtTokenProvider;
+import cl.redvecinal.backend.auth.service.AuthService;
+import cl.redvecinal.backend.security.userdetails.CustomUserDetails;
+import cl.redvecinal.backend.security.jwt.JwtTokenProvider;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl implements IAuthService {
+public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;

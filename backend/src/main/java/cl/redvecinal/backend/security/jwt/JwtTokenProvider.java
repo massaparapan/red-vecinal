@@ -1,6 +1,6 @@
-package cl.redvecinal.backend.config;
+package cl.redvecinal.backend.security.jwt;
 
-import cl.redvecinal.backend.config.exception.TokenInvalidException;
+import cl.redvecinal.backend.auth.exception.TokenInvalidException;
 import cl.redvecinal.backend.user.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.config.exception;
+package cl.redvecinal.backend.auth.exception;
 
 import cl.redvecinal.backend.common.exception.ApiException;
 import org.springframework.http.HttpStatus;

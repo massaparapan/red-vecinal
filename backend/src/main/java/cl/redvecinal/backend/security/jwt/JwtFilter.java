@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.config;
+package cl.redvecinal.backend.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

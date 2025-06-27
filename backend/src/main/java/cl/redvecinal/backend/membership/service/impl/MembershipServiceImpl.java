@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.membership.service.impl;
 
-import cl.redvecinal.backend.config.services.IAuthContext;
+import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.membership.dto.response.CommunityMemberDto;
 import cl.redvecinal.backend.membership.dto.response.MembershipDto;
 import cl.redvecinal.backend.membership.dto.MembershipMapper;
@@ -25,7 +25,7 @@ public class MembershipServiceImpl implements IMembershipService {
     private final MembershipRepository membershipRepository;
 
     private final MembershipMapper membershipMapper;
-    private final IAuthContext authService;
+    private final AuthContext authService;
 
     @Override
     public Membership create(Membership membership){
