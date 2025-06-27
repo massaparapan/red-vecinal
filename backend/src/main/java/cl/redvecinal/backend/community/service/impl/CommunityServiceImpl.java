@@ -1,6 +1,7 @@
 package cl.redvecinal.backend.community.service.impl;
 
 import cl.redvecinal.backend.common.exception.ConflictException;
+import cl.redvecinal.backend.common.exception.NotFoundException;
 import cl.redvecinal.backend.community.dto.request.CommunityCreateDto;
 import cl.redvecinal.backend.community.dto.CommunityMapper;
 import cl.redvecinal.backend.community.dto.response.CommunityPreviewDto;
@@ -11,7 +12,6 @@ import cl.redvecinal.backend.membership.model.Membership;
 import cl.redvecinal.backend.membership.model.enums.MembershipRole;
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
 import cl.redvecinal.backend.user.model.User;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import cl.redvecinal.backend.community.repository.CommunityRepository;
@@ -50,7 +50,7 @@ public class CommunityServiceImpl implements CommunityService {
         if (user.getMembership() != null) throw new ConflictException("Ya eres miembro de una comunidad");
 
         Community community = communityRepository.findById(communityId)
-                .orElseThrow(() -> new EntityNotFoundException("Comunidad no encontrada"));
+                .orElseThrow(() -> new NotFoundException("Comunidad no encontrada"));
 
         Membership m = Membership.builder()
                 .user(authContext.getCurrentUser())
