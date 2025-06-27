@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
     EventResponseDto toResponseDto(Event event);
+    @Mapping(target = "date", expression = "java(eventCreateDto.getDateAsLocalDate())")
     Event toEntity(EventCreateDto eventCreateDto);
     @Mapping(target = "id", ignore = true)
     EventParticipation toParticipation(User user, Event event);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/features/profile/models/MyProfileDto.dart';
+import 'package:frontend/features/profile/models/UpdateProfileDto.dart';
 import 'package:frontend/features/profile/presentation/screens/white_recovery_section/white_recovery.dart';
 import 'package:frontend/features/user/services/user_service.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
@@ -18,6 +19,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _isLoading = true;
   final userService = UserService.withDefaults();
 
+  late String originalName;
+  late String originalDescription;
+
   @override
   void initState() {
     super.initState();
@@ -29,10 +33,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
       final result = await userService.getMyProfile();
       setState(() {
         user = result;
+        originalName = result.username;
+        originalDescription = result.description;
         _isLoading = false;
       });
     } catch (e) {
-      print("Error al cargar el perfil: $e");
+      print("Error cargando el perfil: $e");
+    }
+  }
+
+  bool get _hasChanges {
+    return user.username != originalName || user.description != originalDescription;
+  }
+
+  Future<void> _saveChanges() async {
+    try {
+      final updateDto = UpdateProfileDto(
+        username: user.username,
+        description: user.description,
+      );
+      await userService.updateMyProfile(updateDto);
+      setState(() {
+        originalName = user.username;
+        originalDescription = user.description;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Perfil actualizado con éxito')),
+      );
+    } catch (e) {
+      print("Error al actualizar el perfil: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Error al actualizar el perfil')),
+      );
     }
   }
 
@@ -69,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         backgroundColor: Colors.blue[100],
                         child: Text(
                           user.username.isNotEmpty ? user.username[0].toUpperCase() : '?',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 40,
                             color: Colors.white,
                           ),
@@ -87,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                       ProfileField(
-                        label: "Teléfono",
+                        label: "Número de Teléfono",
                         value: user.phoneNumber,
                         editable: false,
                       ),
@@ -102,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         },
                       ),
                       ProfileField(
-                        label: "Mi junta de vecinos",
+                        label: "Mi Comunidad",
                         value: user.nameOfCommunity,
                         editable: false,
                       ),
@@ -119,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Cambiar número telefónico',
+                            'Cambiar contraseña',
                             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
@@ -129,12 +161,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      PrimaryButton(label: "Guardar Cambios",
-                       onPressed: () {
-                       
-                       },
-                      width: double.infinity,
-                      ),
+                      if (_hasChanges)
+                        PrimaryButton(
+                          label: "Guardar Cambios",
+                          onPressed: _saveChanges,
+                          width: double.infinity,
+                        ),
                       const SizedBox(height: 10),
                       AltButton(
                         label: 'Volver',

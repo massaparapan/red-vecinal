@@ -1,0 +1,275 @@
+paths:
+  /api/communities/create:
+    post:
+      tags:
+        - Communities
+      summary: Create a new community
+      description: |
+        Creates a new community with the authenticated user as the administrator.
+      operationId: createCommunity
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunityCreateDto'
+            examples:
+              new_community:
+                value:
+                  name: "Villa Los Álamos"
+                  description: "Comunidad vecinal del sector Villa Los Álamos"
+                  address: "Av. Los Álamos 123, Temuco"
+                  latitude: -38.7359
+                  longitude: -72.5904
+      responses:
+        '200':
+          description: Community created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Community'
+              examples:
+                community_created:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      id: 1
+                      name: "Villa Los Álamos"
+                      description: "Comunidad vecinal del sector Villa Los Álamos"
+                      address: "Av. Los Álamos 123, Temuco"
+                      latitude: -38.7359
+                      longitude: -72.5904
+                      createdAt: "2025-06-26T14:30:00Z"
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Community already exists at this location
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/communities/close:
+    get:
+      tags:
+        - Communities
+      summary: Get nearby communities
+      description: |
+        Retrieves communities near the specified coordinates.
+        Returns communities within a certain radius of the given location.
+      operationId: getCloseCommunities
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          description: Latitude coordinate
+          schema:
+            type: number
+            format: double
+            minimum: -90
+            maximum: 90
+            example: -38.7359
+        - name: lon
+          in: query
+          required: true
+          description: Longitude coordinate
+          schema:
+            type: number
+            format: double
+            minimum: -180
+            maximum: 180
+            example: -72.5904
+      responses:
+        '200':
+          description: List of nearby communities
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Community'
+              examples:
+                close_communities:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: [
+                      {
+                        id: 1,
+                        name: "Villa Los Álamos",
+                        description: "Comunidad vecinal del sector Villa Los Álamos",
+                        address: "Av. Los Álamos 123, Temuco",
+                        latitude: -38.7359,
+                        longitude: -72.5904,
+                        distance: 0.5
+                      },
+                      {
+                        id: 2,
+                        name: "Barrio Centro",
+                        description: "Comunidad del centro de Temuco",
+                        address: "Calle Principal 456, Temuco",
+                        latitude: -38.7370,
+                        longitude: -72.5920,
+                        distance: 1.2
+                      }
+                    ]
+        '400':
+          description: Invalid coordinates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/communities/request-join:
+    post:
+      tags:
+        - Communities
+      summary: Request to join a community
+      description: |
+        Sends a request to join the specified community.
+        The community administrators will review the request.
+      operationId: requestJoinCommunity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: communityId
+          in: query
+          required: true
+          description: Community ID to join
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Join request sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                request_sent:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Solicitud enviada a la comunidad con éxito."
+        '404':
+          description: Community not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Already a member or request already pending
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    CommunityCreateDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Community name
+          example: "Villa Los Álamos"
+        description:
+          type: string
+          maxLength: 500
+          description: Community description
+          example: "Comunidad vecinal del sector Villa Los Álamos"
+        address:
+          type: string
+          minLength: 1
+          maxLength: 200
+          description: Community address
+          example: "Av. Los Álamos 123, Temuco"
+        latitude:
+          type: number
+          format: double
+          minimum: -90
+          maximum: 90
+          description: Latitude coordinate
+          example: -38.7359
+        longitude:
+          type: number
+          format: double
+          minimum: -180
+          maximum: 180
+          description: Longitude coordinate
+          example: -72.5904
+      required:
+        - name
+        - address
+        - latitude
+        - longitude
+
+    Community:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Community ID
+        name:
+          type: string
+          description: Community name
+        description:
+          type: string
+          description: Community description
+        address:
+          type: string
+          description: Community address
+        latitude:
+          type: number
+          format: double
+          description: Latitude coordinate
+        longitude:
+          type: number
+          format: double
+          description: Longitude coordinate
+        distance:
+          type: number
+          format: double
+          description: Distance from query point (only in search results)
+        memberCount:
+          type: integer
+          description: Number of community members
+        createdAt:
+          type: string
+          format: date-time
+          description: Community creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Community last update timestamp
+      required:
+        - id
+        - name
+        - address
+        - latitude
+        - longitude
+        - createdAt

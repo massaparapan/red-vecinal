@@ -3,7 +3,7 @@ package cl.redvecinal.backend.auth.controller;
 import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.auth.dto.LoginRequest;
 import cl.redvecinal.backend.auth.dto.RegisterRequest;
-import cl.redvecinal.backend.auth.service.IAuthService;
+import cl.redvecinal.backend.auth.service.AuthService;
 import cl.redvecinal.backend.common.util.ResponseHelper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-    private final IAuthService authService;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<SuccessResponse> login(@Valid @RequestBody LoginRequest request) {

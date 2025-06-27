@@ -31,6 +31,7 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.map_outlined,
                     label: 'Mapa',
                     color: const Color(0xFF42A45C),
+                    onTap: () => NavegationService().navigateTo(AppRoutes.map),
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
@@ -75,7 +76,7 @@ class AdminHomeScreen extends StatelessWidget {
                     icon: Icons.calendar_month,
                     label: 'Calendario',
                     color: const Color(0xFF2F9CB4),
-                    onTap: () => NavegationService().navigateTo('/home/admin/events'),
+                    onTap: () => NavegationService().navigateTo('/home/events'),
                   ),
                 ],
               ),

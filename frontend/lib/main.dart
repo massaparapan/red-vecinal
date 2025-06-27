@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/features/auth/presentation/screens/auth_page.dart';
-import 'package:frontend/features/community/presentation/screens/events/createEvent.dart';
-import 'package:frontend/features/community/presentation/screens/events/eventsAdmin.dart';
-import 'package:frontend/features/community/presentation/screens/announcements/announcements.dart';
-import 'package:frontend/features/community/presentation/screens/announcements/announcements_admin.dart';
-import 'package:frontend/features/community/presentation/screens/announcements/create_announcement.dart';
-import 'package:frontend/features/community/presentation/screens/information.dart';
-import 'package:frontend/features/community/presentation/screens/informationMember.dart';
-import 'package:frontend/features/community/presentation/screens/reminder_screen.dart';
+import 'package:frontend/features/community/presentation/screens/nearby_communities_map.dart';
+import 'package:frontend/features/event/presentation/screens/createEvent.dart';
+import 'package:frontend/features/event/presentation/screens/events_screen.dart';
+import 'package:frontend/features/announcements/presentation/screens/announcements.dart';
+import 'package:frontend/features/announcements/presentation/screens/announcements_admin.dart';
+import 'package:frontend/features/announcements/presentation/screens/create_announcement.dart';
+import 'package:frontend/features/information/presentation/screens/information.dart';
+import 'package:frontend/features/information/presentation/screens/informationMember.dart';
+import 'package:frontend/features/event/presentation/screens/reminder_screen.dart';
 import 'package:frontend/features/join-request/presentation/screens/requests.dart';
+import 'package:frontend/features/membership/presentation/screens/members_screen.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
 import 'package:frontend/shared/menu_screen/no_community_home.dart';
@@ -64,7 +66,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.noCommunityHome: (context) => const NoCommunityScreen(),
         AppRoutes.profile: (context) => const ProfileScreen(),
         AppRoutes.communityRequests: (context) => const JoinRequestsScreen(),
-        AppRoutes.adminEventsScreen: (context) => const EventsAdminScreen(),
+        AppRoutes.eventsScreen: (context) => const EventsScreen(),
+        AppRoutes.communityMembers: (context) => const MembershipScreen(),
         AppRoutes.createEventScreen: (context) => const CreateEventScreen(),
         AppRoutes.announcements: (context) => const AnnouncementsScreen(),
         AppRoutes.announcementsAdmin: (context) => const AnnouncementAdminScreen(),
@@ -72,6 +75,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.informationScreen: (context) => const InformationScreen(),
         AppRoutes.informationMemberScreen: (context) => const InformationMemberScreen(),
         AppRoutes.reminderScreen: (context) => const ReminderScreen(),
+        AppRoutes.map: (context) => const NearbyCommunitiesMap(),
       },
     );
   }

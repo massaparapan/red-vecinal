@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/core/navigation/app_routes.dart';
 import 'package:frontend/core/navigation/navegation_service.dart';
 import 'package:frontend/shared/menu_screen/local_widgets/menu-tile.dart';
 
@@ -31,13 +32,14 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.map_outlined,
                     label: 'Mapa',
                     color: const Color(0xFF42A45C),
+                    onTap: () => NavegationService().navigateTo(AppRoutes.map),
                   ),
                   const SizedBox(width: 20),
                   MenuTile(
                     icon: Icons.groups,
                     label: 'Miembros',
                     color: const Color(0xFF5988FF),
-                    onTap: () => NavegationService().navigateTo('/members'),
+                    onTap: () => NavegationService().navigateTo(AppRoutes.communityMembers),
                   ),
                 ],
               ),
@@ -75,6 +77,7 @@ class MemberHomeScreen extends StatelessWidget {
                     icon: Icons.calendar_month,
                     label: 'Calendario',
                     color: const Color(0xFF2F9CB4),
+                    onTap: () => NavegationService().navigateTo('/home/events'),
                   ),
                 ],
               ),

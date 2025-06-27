@@ -8,6 +8,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface AnnouncementMapper {
     AnnouncementResponseDto toResponseDto(Announcement announcement);
-
     Announcement toEntity(AnnouncementCreateDto request);
 }

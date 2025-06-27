@@ -9,22 +9,42 @@ class MembershipRepository {
   MembershipRepository() : _membershipService = MembershipService.withDefaults();
   final _storage = FlutterSecureStorage();
 
-  Future<List<CommunityMemberResponse>> getMembers () async {
+  Future<List<CommunityMemberResponse>> getMembers() async {
     return await _membershipService.getCommunityMembers();
   }
 
-  Future<MyMembershipResponse> fetchMyMembership () async {
+  Future<MyMembershipResponse> fetchMyMembership() async {
     try {
       final response = await _membershipService.getMyMembership();
-
-      _storage.write(key: "status", value: response.status);
-      _storage.write(key: "role", value: response.role);
-
+      await _storage.write(key: "status", value: response.status);
+      await _storage.write(key: "role", value: response.role);
       return response;
-    } on DioException{
+    } on DioException {
       return MyMembershipResponse(status: null, role: null);
     }
   }
 
-  deleteMember(int membershipId) {}
+  Future<void> deleteMember(int membershipId) async {
+    try {
+      await _membershipService.rejectMembership(membershipId);
+    } on DioException catch (e) {
+      throw Exception('Error al eliminar miembro: ${e.message}');
+    }
+  }
+
+  Future<void> assignAdmin(int membershipId) async {
+    try {
+      await _membershipService.assignAdmin(membershipId);
+    } on DioException catch (e) {
+      throw Exception('Error al asignar administrador: ${e.message}');
+    }
+  }
+
+  Future<void> unassignRoles(int membershipId) async {
+    try {
+      await _membershipService.unassignRoles(membershipId);
+    } on DioException catch (e) {
+      throw Exception('Error al quitar roles: ${e.message}');
+    }
+  }
 }

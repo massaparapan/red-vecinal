@@ -45,7 +45,6 @@ public class MembershipController {
         membershipService.acceptMembership(membershipId);
         return ResponseHelper.success("Solicitud de membresía aceptada con éxito.");
     }
-
     @PatchMapping("/assign-admin/{membershipId}")
     public ResponseEntity<SuccessResponse> assignAdmin(@PathVariable Long membershipId) {
         membershipService.assignAdmin(membershipId);
