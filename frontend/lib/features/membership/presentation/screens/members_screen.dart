@@ -153,6 +153,7 @@ class _MembershipScreenState extends State<MembershipScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: FutureBuilder<List<CommunityMemberResponse>>(
           future: _membersFuture,
