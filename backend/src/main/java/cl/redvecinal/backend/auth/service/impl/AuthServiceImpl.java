@@ -17,6 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the AuthService interface for managing authentication-related operations.
+ * This service provides methods for user login and registration.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -24,6 +28,15 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder encoder;
+
+    /**
+     * Authenticates a user based on the provided login request.
+     * The method attempts to authenticate the user using their phone number and password.
+     * If authentication is successful, a JWT token is generated and returned.
+     *
+     * @param request the LoginRequest containing the user's phone number and password
+     * @return a JWT token as a String if authentication is successful
+     */
     @Override
     public String login(LoginRequest request) {
         try {
@@ -40,6 +53,12 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    /**
+     * Registers a new user based on the provided registration request.
+     *
+     * @param request the RegisterRequest containing the user's username, phone number, and password
+     * @return a JWT token as a String for the newly registered user
+     */
     @Override
     public String register(RegisterRequest request) {
         boolean phoneExists = userRepository.existsByPhoneNumber(request.getPhoneNumber());

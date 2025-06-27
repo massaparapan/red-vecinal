@@ -9,10 +9,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service implementation of the UserDetailsService interface to load user-specific data.
+ * This service is responsible for retrieving user details based on the phone number.
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
+    /**
+     * Loads the user details by the provided phone number.
+     *
+     * @param phoneNumber the phone number identifying the user whose data is required
+     * @return a UserDetails object containing the user's information
+     * @throws UsernameNotFoundException if the user is not found
+     */
     @Override
     public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
         User user = userRepository.findByPhoneNumber(phoneNumber)

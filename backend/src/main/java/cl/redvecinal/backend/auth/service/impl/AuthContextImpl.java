@@ -9,6 +9,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+/**
+ * Implementation of the AuthContext interface for managing authentication-related operations.
+ * This component provides methods to retrieve the currently authenticated user.
+ */
 @Component
 @RequiredArgsConstructor
 public class AuthContextImpl implements AuthContext {

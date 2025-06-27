@@ -18,6 +18,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of the EventService interface for managing event-related operations.
+ * This service provides methods for creating events, retrieving events, deleting events,
+ * participating in events, and retrieving user participations.
+ */
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
@@ -26,6 +31,13 @@ public class EventServiceImpl implements EventService {
 
     private final EventMapper eventMapper;
     private final AuthContext authContext;
+
+    /**
+     * Creates a new event for the community of the currently authenticated user.
+     *
+     * @param request the EventCreateDto containing the details of the event to be created
+     * @return an EventResponseDto representing the created event
+     */
     @Override
     public EventResponseDto create(EventCreateDto request) {
         User user = authContext.getCurrentUser();
@@ -37,6 +49,12 @@ public class EventServiceImpl implements EventService {
         return eventMapper.toResponseDto(eventRepository.save(event));
     }
 
+    /**
+     * Retrieves all events associated with the community of the currently authenticated user.
+     * The method fetches the user's community and maps its events to a list of EventResponseDto objects.
+     *
+     * @return a list of EventResponseDto objects representing the events of the user's community
+     */
     @Override
     public List<EventResponseDto> getAllEvents() {
         User user = authContext.getCurrentUser();
@@ -47,6 +65,12 @@ public class EventServiceImpl implements EventService {
         );
     }
 
+    /**
+     * Deletes an event by its ID.
+     * This method ensures that the currently authenticated user has permission to delete the event.
+     *
+     * @param id the ID of the event to be deleted
+     */
     @Override
     public void delete(Long id) {
         User user = authContext.getCurrentUser();
@@ -60,6 +84,13 @@ public class EventServiceImpl implements EventService {
         eventRepository.delete(event);
     }
 
+    /**
+     * Allows the currently authenticated user to participate in an event by its ID.
+     * If the user is not already participating, a new participation is created and added to the event.
+     * The updated event is then saved to the repository.
+     *
+     * @param id the ID of the event the user wants to participate in
+     */
     @Override
     public void participateInEvent(Long id) {
         User user = authContext.getCurrentUser();

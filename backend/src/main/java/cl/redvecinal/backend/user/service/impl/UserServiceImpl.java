@@ -13,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the UserService interface for managing user-related operations.
+ * This service provides methods for user registration checks, password resets, profile retrieval, and profile updates.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -21,11 +25,24 @@ public class UserServiceImpl implements UserService {
 
     private final AuthContext authContext;
     private final UserMapper userMapper;
+
+    /**
+     * Checks if a user is registered based on their phone number.
+     *
+     * @param phoneNumber the phone number to check
+     */
     @Override
     public boolean isUserRegistered(String phoneNumber) {
         return userRepository.existsByPhoneNumber(phoneNumber);
     }
 
+    /**
+     * Resets the password for a user identified by their phone number.
+     * If the user is not found, a NotFoundException is thrown.
+     *
+     * @param phoneNumber the phone number of the user
+     * @param password the new password to set
+     */
     @Override
     public void resetPassword(String phoneNumber, String password) {
         User user = userRepository.findByPhoneNumber(phoneNumber)
@@ -34,11 +51,23 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Retrieves the profile of the currently authenticated user.
+     *
+     * @return a UserMyProfileDto containing the profile information of the current user
+     */
     @Override
     public UserMyProfileDto showMyProfile() {
         return userMapper.toUserMyProfileDto(authContext.getCurrentUser());
     }
 
+    /**
+     * Retrieves the profile of a user by their ID.
+     * If the user is not found, a NotFoundException is thrown.
+     *
+     * @param id the ID of the user
+     * @return a UserProfileDto containing the profile information of the user
+     */
     @Override
     public UserProfileDto showProfileUser(Long id) {
         User user = userRepository.findById(id)
@@ -46,6 +75,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserProfileDto(user);
     }
 
+    /**
+     * Updates the profile of the currently authenticated user.
+     *
+     * @param request an UpdateProfileDto containing the updated profile information
+     */
     @Override
     public void updateMyProfile(UpdateProfileDto request) {
         User user = authContext.getCurrentUser();

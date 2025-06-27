@@ -21,6 +21,18 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserDetailsService userDetailsService;
+
+    /**
+     * Processes incoming HTTP requests to validate and authenticate JWT tokens.
+     * If a valid JWT is found in the request, the user's authentication details
+     * are extracted and set in the SecurityContext for further processing.
+     *
+     * @param request     the HttpServletRequest containing the client request
+     * @param response    the HttpServletResponse for the client response
+     * @param filterChain the FilterChain to pass the request and response to the next filter
+     * @throws ServletException if an error occurs during the filtering process
+     * @throws IOException      if an I/O error occurs during the filtering process
+     */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -39,6 +51,15 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Extracts the JWT token from the Authorization header of the HTTP request.
+     * This method checks if the Authorization header is present and starts with "Bearer ".
+     * If the header is valid, it returns the JWT token by removing the "Bearer " prefix.
+     * If the header is absent or does not start with "Bearer ", it returns null.
+     *
+     * @param request the HttpServletRequest containing the client request
+     * @return the extracted JWT token, or null if the Authorization header is invalid or absent
+     */
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
