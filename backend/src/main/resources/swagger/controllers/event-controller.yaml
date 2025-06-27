@@ -1,0 +1,284 @@
+paths:
+  /api/events/my-community:
+    get:
+      tags:
+        - Events
+      summary: Get all community events
+      description: |
+        Retrieves all events from the authenticated user's community.
+      operationId: getAllEvents
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of community events
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Event'
+              examples:
+                events_list:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: [
+                      {
+                        id: 1,
+                        title: "Community Meeting",
+                        description: "Monthly community meeting",
+                        date: "2025-07-15T19:00:00Z",
+                        location: "Community Center"
+                      }
+                    ]
+
+  /api/events:
+    post:
+      tags:
+        - Events
+      summary: Create a new event
+      description: |
+        Creates a new event in the community.
+      operationId: createEvent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreateDto'
+            examples:
+              new_event:
+                value:
+                  title: "Community Meeting"
+                  description: "Monthly community meeting to discuss neighborhood issues"
+                  date: "2025-07-15T19:00:00Z"
+                  location: "Community Center"
+      responses:
+        '200':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Event'
+              examples:
+                event_created:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      id: 1
+                      title: "Community Meeting"
+                      description: "Monthly community meeting to discuss neighborhood issues"
+                      date: "2025-07-15T19:00:00Z"
+                      location: "Community Center"
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/events/{id}:
+    delete:
+      tags:
+        - Events
+      summary: Delete an event
+      description: |
+        Deletes an event by its ID. Only the event creator can delete it.
+      operationId: deleteEvent
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Event ID
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Event deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                event_deleted:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Evento eliminado con exito."
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Not authorized to delete this event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/events/participate/{id}:
+    post:
+      tags:
+        - Events
+      summary: Participate in an event
+      description: |
+        Registers the authenticated user as a participant in the specified event.
+      operationId: participateInEvent
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Event ID
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Participation registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                participation_success:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Participación en el evento registrada con éxito."
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Already participating in this event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/events/my-participations:
+    get:
+      tags:
+        - Events
+      summary: Get my event participations
+      description: |
+        Retrieves all events where the authenticated user is participating.
+      operationId: getMyParticipations
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of user's event participations
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Event'
+              examples:
+                my_participations:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: [
+                      {
+                        id: 1,
+                        title: "Community Meeting",
+                        description: "Monthly community meeting",
+                        date: "2025-07-15T19:00:00Z",
+                        location: "Community Center"
+                      }
+                    ]
+
+components:
+  schemas:
+    EventCreateDto:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Event title
+          example: "Community Meeting"
+        description:
+          type: string
+          description: Event description
+          example: "Monthly community meeting to discuss neighborhood issues"
+        date:
+          type: string
+          format: date-time
+          description: Event date and time
+          example: "2025-07-15T19:00:00Z"
+        location:
+          type: string
+          description: Event location
+          example: "Community Center"
+      required:
+        - title
+        - date
+        - location
+
+    Event:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Event ID
+        title:
+          type: string
+          description: Event title
+        description:
+          type: string
+          description: Event description
+        date:
+          type: string
+          format: date-time
+          description: Event date and time
+        location:
+          type: string
+          description: Event location
+        createdAt:
+          type: string
+          format: date-time
+          description: Event creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Event last update timestamp
+      required:
+        - id
+        - title
+        - date
+        - location
+        - createdAt

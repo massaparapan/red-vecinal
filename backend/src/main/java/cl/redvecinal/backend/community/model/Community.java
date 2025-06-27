@@ -1,9 +1,10 @@
 package cl.redvecinal.backend.community.model;
 
+import cl.redvecinal.backend.information.model.Information;
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
-import cl.redvecinal.backend.model.Announcement;
-import cl.redvecinal.backend.model.Event;
+import cl.redvecinal.backend.event.model.Event;
 import cl.redvecinal.backend.membership.model.Membership;
+import cl.redvecinal.backend.annoucement.model.Announcement;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,8 @@ public class Community {
     private Set<Announcement> announcements;
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Event> events;
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Information> informations;
 
     public int getMembersCount() {
         return (int) memberships.stream()

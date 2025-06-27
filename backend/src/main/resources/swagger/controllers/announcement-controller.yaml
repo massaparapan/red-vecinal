@@ -1,0 +1,214 @@
+paths:
+  /api/announcements/my-community:
+    get:
+      tags:
+        - Announcements
+      summary: Get announcements for the user’s community
+      description: |
+        Retrieves all announcements belonging to the currently authenticated user’s active community.
+        Returns a success response containing an array of announcement objects.
+      operationId: getAnnouncementsByMyCommunity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Announcements retrieved successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AnnouncementResponseDto'
+              examples:
+                multiple_announcements:
+                  summary: A list of announcements
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      - id: 42
+                        content: "Convocatoria a reunión el próximo lunes"
+                        type: "GENERAL"
+                        createdAt: "2025-06-20T14:00:00"
+                        createdBy:
+                          id: 1
+                          username: "vecino1"
+                          phoneNumber: "+56911111111"
+                      - id: 43
+                        content: "Corte programado para este viernes"
+                        type: "INFORMATIVO"
+                        createdAt: "2025-06-22T09:30:00"
+                        createdBy:
+                          id: 2
+                          username: "vecina2"
+                          phoneNumber: "+56922222222"
+
+  /api/announcements:
+    post:
+      tags:
+        - Announcements
+      summary: Create a new announcement
+      description: |
+        Creates a new announcement in the authenticated user’s community.
+        Expects a valid AnnouncementCreateDto payload.
+      operationId: createAnnouncement
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnnouncementCreateDto'
+            examples:
+              new_announcement:
+                summary: Create announcement request
+                value:
+                  content: "Se informa que el acceso estará cerrado mañana."
+                  type: "ALERTA"
+      responses:
+        '200':
+          description: Announcement created successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AnnouncementResponseDto'
+              examples:
+                created_announcement:
+                  summary: Created announcement
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      id: 44
+                      content: "Se informa que el acceso estará cerrado mañana."
+                      type: "ALERTA"
+                      createdAt: "2025-06-26T22:00:00"
+                      createdBy:
+                        id: 1
+                        username: "admin"
+                        phoneNumber: "+56933333333"
+
+  /api/announcements/{id}:
+    delete:
+      tags:
+        - Announcements
+      summary: Delete an announcement
+      description: |
+        Deletes the announcement with the given ID.
+        Only announcements in the user’s community may be deleted.
+      operationId: deleteAnnouncement
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the announcement to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+          example: 44
+      responses:
+        '200':
+          description: Announcement deleted successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: string
+                        example: "Anuncio eliminado exitosamente"
+              examples:
+                deleted:
+                  summary: Deletion confirmation
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Anuncio eliminado exitosamente"
+
+components:
+  schemas:
+    AnnouncementCreateDto:
+      type: object
+      properties:
+        content:
+          type: string
+          description: The content of the announcement
+          example: "Habrá corte de agua mañana"
+        type:
+          type: string
+          description: The type of the announcement
+          enum: [GENERAL, INFORMATIVO, ALERTA]
+          example: "GENERAL"
+      required:
+        - content
+        - type
+
+    AnnouncementResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 42
+        content:
+          type: string
+          example: "Reunión vecinal este viernes"
+        type:
+          type: string
+          enum: [GENERAL, INFORMATIVO, ALERTA]
+          example: "GENERAL"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-06-20T14:00:00"
+        createdBy:
+          $ref: '#/components/schemas/UserDto'
+
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        username:
+          type: string
+          example: "vecino123"
+        phoneNumber:
+          type: string
+          example: "+56912345678"
+      required:
+        - id
+        - username
+        - phoneNumber
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation successful"
+        data:
+          nullable: true
+      required:
+        - success
+        - message
