@@ -7,9 +7,6 @@ import lombok.Data;
 
 @Data
 public class AnnouncementCreateDto {
-    @NotBlank(message = "El título es obligatorio")
-    private String title;
-
     @NotBlank(message = "El contenido es obligatorio")
     private String content;
 

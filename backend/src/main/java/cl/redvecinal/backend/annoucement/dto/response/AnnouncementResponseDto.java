@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Data
 public class AnnouncementResponseDto {
     private Long id;
-    private String title;
     private String content;
     private LocalDateTime createdAt;
     private AnnouncementType type;
