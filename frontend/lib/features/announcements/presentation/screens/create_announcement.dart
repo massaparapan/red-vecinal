@@ -12,11 +12,10 @@ class CreateAnnouncementScreen extends StatefulWidget {
 }
 
 class _CreateAnnouncementScreenState extends State<CreateAnnouncementScreen> {
-  final TextEditingController _titleController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
   final announcementsService = AnnouncementsService.withDefaults();
 
-  String selectedTag = 'ANNOUNCEMENT'; // valor inicial válido para el backend
+  String selectedTag = 'ANNOUNCEMENT';
 
   void _showTagSelector() {
     showModalBottomSheet(
@@ -66,7 +65,6 @@ class _CreateAnnouncementScreenState extends State<CreateAnnouncementScreen> {
 
   Future<void> _createAnnouncement() async {
     final dto = CreateAnnouncementDto(
-      title: _titleController.text.trim(),
       content: _messageController.text.trim(),
       type: selectedTag,
     );
@@ -124,16 +122,6 @@ class _CreateAnnouncementScreenState extends State<CreateAnnouncementScreen> {
                     const Divider(
                       color: Color(0xFF5988FF),
                       thickness: 2,
-                    ),
-                    const SizedBox(height: 20),
-                    TextField(
-                      controller: _titleController,
-                      decoration: const InputDecoration(
-                        labelText: 'Título',
-                        hintText: 'Ej. Corte de agua',
-                        labelStyle: TextStyle(fontSize: 20, color: Colors.black87),
-                        border: UnderlineInputBorder(),
-                      ),
                     ),
                     const SizedBox(height: 24),
                     TextField(
