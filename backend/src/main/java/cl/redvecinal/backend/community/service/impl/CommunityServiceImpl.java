@@ -1,9 +1,9 @@
 package cl.redvecinal.backend.community.service.impl;
 
+import cl.redvecinal.backend.common.exception.ConflictException;
 import cl.redvecinal.backend.community.dto.request.CommunityCreateDto;
 import cl.redvecinal.backend.community.dto.CommunityMapper;
 import cl.redvecinal.backend.community.dto.response.CommunityPreviewDto;
-import cl.redvecinal.backend.community.exception.AlreadyMemberException;
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.community.service.CommunityService;
 import cl.redvecinal.backend.auth.service.AuthContext;
@@ -47,7 +47,7 @@ public class CommunityServiceImpl implements CommunityService {
     public void requestJoinCommunity(Long communityId) {
         User user = authContext.getCurrentUser();
 
-        if (user.getMembership() != null) throw new AlreadyMemberException("Ya eres miembro de una comunidad");
+        if (user.getMembership() != null) throw new ConflictException("Ya eres miembro de una comunidad");
 
         Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new EntityNotFoundException("Comunidad no encontrada"));

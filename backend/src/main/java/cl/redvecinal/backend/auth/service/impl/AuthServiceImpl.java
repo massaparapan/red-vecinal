@@ -2,9 +2,9 @@ package cl.redvecinal.backend.auth.service.impl;
 
 import cl.redvecinal.backend.auth.dto.LoginRequest;
 import cl.redvecinal.backend.auth.dto.RegisterRequest;
-import cl.redvecinal.backend.auth.exception.IncorrectPasswordException;
-import cl.redvecinal.backend.auth.exception.PhoneAlreadyExistsException;
 import cl.redvecinal.backend.auth.service.AuthService;
+import cl.redvecinal.backend.common.exception.AuthenticationException;
+import cl.redvecinal.backend.common.exception.ConflictException;
 import cl.redvecinal.backend.security.userdetails.CustomUserDetails;
 import cl.redvecinal.backend.security.jwt.JwtTokenProvider;
 import cl.redvecinal.backend.user.model.User;
@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             return jwtTokenProvider.generateToken(userDetails.user());
         } catch (BadCredentialsException e) {
-            throw new IncorrectPasswordException("La contraseña es incorrecta");
+            throw new AuthenticationException("La contraseña es incorrecta");
         }
     }
 
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService {
     public String register(RegisterRequest request) {
         boolean phoneExists = userRepository.existsByPhoneNumber(request.getPhoneNumber());
         if (phoneExists) {
-            throw new PhoneAlreadyExistsException("El telefono " + request.getPhoneNumber() + " ya esta en uso");
+            throw new ConflictException("El telefono " + request.getPhoneNumber() + " ya esta en uso");
         }
         User user = new User(request.getUsername(), request.getPhoneNumber(), encoder.encode(request.getPassword()));
         userRepository.save(user);

@@ -1,5 +1,6 @@
 package cl.redvecinal.backend.information.service.impl;
 
+import cl.redvecinal.backend.common.exception.NotFoundException;
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.information.dto.InformationMapper;
@@ -56,7 +57,7 @@ public class InformationServiceImpl implements InformationService {
     @Override
     public void deleteInformation(Long id) {
         Information i = informationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Información no encontrada"));
+                .orElseThrow(() -> new NotFoundException("Información no encontrada"));
         informationRepository.delete(i);
     }
 }

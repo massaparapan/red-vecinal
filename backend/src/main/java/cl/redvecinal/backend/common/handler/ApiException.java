@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.common.exception;
+package cl.redvecinal.backend.common.handler;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,5 +1,7 @@
 package cl.redvecinal.backend.event.service.impl;
 
+import cl.redvecinal.backend.common.exception.ConflictException;
+import cl.redvecinal.backend.common.exception.NotFoundException;
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.event.dto.request.EventCreateDto;
@@ -50,10 +52,10 @@ public class EventServiceImpl implements EventService {
         User user = authContext.getCurrentUser();
         Community community = user.getMembership().getCommunity();
         Event event = eventRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Evento no encontrado")
+                () -> new NotFoundException("Evento no encontrado")
         );
         if (!event.getCommunity().equals(community)) {
-            throw new IllegalArgumentException("No tienes permiso para eliminar este evento");
+            throw new ConflictException("No tienes permiso para eliminar este evento");
         }
         eventRepository.delete(event);
     }
@@ -62,10 +64,10 @@ public class EventServiceImpl implements EventService {
     public void participateInEvent(Long id) {
         User user = authContext.getCurrentUser();
         Event event = eventRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("Evento no encontrado")
+                () -> new NotFoundException("Evento no encontrado")
         );
         if (event.getParticipations().stream().anyMatch(p -> p.getUser().equals(user))) {
-            throw new IllegalArgumentException("Ya estás participando en este evento");
+            throw new ConflictException("Ya estás participando en este evento");
         }
         event.getParticipations().add(eventMapper.toParticipation(user, event));
         eventRepository.save(event);

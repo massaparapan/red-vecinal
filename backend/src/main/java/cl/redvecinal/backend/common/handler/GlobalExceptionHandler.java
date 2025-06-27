@@ -1,4 +1,4 @@
-package cl.redvecinal.backend.common.exception;
+package cl.redvecinal.backend.common.handler;
 
 import cl.redvecinal.backend.common.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;

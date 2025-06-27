@@ -6,6 +6,8 @@ import cl.redvecinal.backend.annoucement.dto.response.AnnouncementResponseDto;
 import cl.redvecinal.backend.annoucement.model.Announcement;
 import cl.redvecinal.backend.annoucement.repository.AnnouncementRepository;
 import cl.redvecinal.backend.annoucement.service.AnnouncementService;
+import cl.redvecinal.backend.common.exception.ConflictException;
+import cl.redvecinal.backend.common.exception.NotFoundException;
 import cl.redvecinal.backend.community.model.Community;
 import cl.redvecinal.backend.auth.service.AuthContext;
 import cl.redvecinal.backend.user.model.User;
@@ -46,10 +48,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public void deleteAnnouncement(Long id) {
         Announcement announcement = announcementRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Anuncio no encontrado"));
+                .orElseThrow(() -> new NotFoundException("Anuncio no encontrado"));
         User user = authContext.getCurrentUser();
         if (!announcement.getCreatedBy().equals(user)) {
-            throw new IllegalArgumentException("No tienes permiso para eliminar este anuncio");
+            throw new ConflictException("No tienes permiso para eliminar este anuncio");
         }
         announcementRepository.delete(announcement);
     }

@@ -1,7 +1,7 @@
 package cl.redvecinal.backend.otp.service.impl;
 
-import cl.redvecinal.backend.otp.exception.NoSuccessSendOTP;
-import cl.redvecinal.backend.otp.exception.VerifyCodeNotFoundException;
+import cl.redvecinal.backend.common.exception.ConflictException;
+import cl.redvecinal.backend.common.exception.NotFoundException;
 import cl.redvecinal.backend.otp.service.OtpService;
 import com.twilio.Twilio;
 import com.twilio.rest.verify.v2.service.Verification;
@@ -32,7 +32,7 @@ public class OtpServiceImpl implements OtpService {
                     .create();
             System.out.println("OTP enviado a: " + phoneNumber + " con SID: " + verification.getStatus());
         } catch (RuntimeException e) {
-            throw new NoSuccessSendOTP("Error al enviar el codigo al telefono: " + phoneNumber);
+            throw new ConflictException("Error al enviar el codigo al telefono: " + phoneNumber);
         }
     }
 
@@ -43,7 +43,7 @@ public class OtpServiceImpl implements OtpService {
                     .create();
             return verificationCheck.getValid();
         } catch (RuntimeException e) {
-            throw new VerifyCodeNotFoundException("Codigo no enviado al telefono: " + phoneNumber);
+            throw new NotFoundException("Codigo no enviado al telefono: " + phoneNumber);
         }
     }
 }

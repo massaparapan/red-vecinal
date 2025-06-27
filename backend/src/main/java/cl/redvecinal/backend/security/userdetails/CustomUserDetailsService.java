@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.security.userdetails;
 
-import cl.redvecinal.backend.auth.exception.CredentialsNotFoundException;
+import cl.redvecinal.backend.common.exception.AuthenticationException;
 import cl.redvecinal.backend.user.model.User;
 import cl.redvecinal.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
         User user = userRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new CredentialsNotFoundException("El telefono no fue encontrado"));
+                .orElseThrow(() -> new AuthenticationException("El telefono no fue encontrado"));
         return new CustomUserDetails(user);
     }
 }

@@ -1,6 +1,6 @@
 package cl.redvecinal.backend.security.jwt;
 
-import cl.redvecinal.backend.auth.exception.TokenInvalidException;
+import cl.redvecinal.backend.common.exception.AuthenticationException;
 import cl.redvecinal.backend.user.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -68,7 +68,7 @@ public class JwtTokenProvider {
             extractAllClaims(token);
             return !isTokenExpired(token);
         } catch (JwtException | IllegalArgumentException e) {
-            throw new TokenInvalidException("Token no valido");
+            throw new AuthenticationException("Token no valido");
         }
     }
     private boolean isTokenExpired(String token) {
