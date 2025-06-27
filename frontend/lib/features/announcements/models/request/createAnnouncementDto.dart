@@ -4,12 +4,10 @@ part 'createAnnouncementDto.g.dart';
 
 @JsonSerializable()
 class CreateAnnouncementDto {
-  final String title;
   final String content;
   final String type;
 
   CreateAnnouncementDto({
-    required this.title,
     required this.content,
     required this.type,
   });

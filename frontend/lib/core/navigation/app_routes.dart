@@ -19,7 +19,7 @@ class AppRoutes {
   static const String map = '/home/map';
 
   static String getRouteByRole(String? status, String? role) {
-    if (status == null || status.isEmpty) return AppRoutes.noCommunityHome;
+    if (status == null || status.isEmpty || status == "PENDING") return AppRoutes.noCommunityHome;
     if (role == "ADMIN") return adminHome;
     return memberHome;
   }
