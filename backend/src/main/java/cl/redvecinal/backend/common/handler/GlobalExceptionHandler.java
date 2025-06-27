@@ -4,6 +4,7 @@ import cl.redvecinal.backend.common.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
 /**
  * Global exception handler for the application.
  * This class is annotated with \@RestControllerAdvice to provide centralized exception handling

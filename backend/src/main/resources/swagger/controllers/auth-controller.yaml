@@ -1,0 +1,173 @@
+paths:
+  /api/auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: |
+        Authenticates a user with phone number and password.
+        Returns a JWT token upon successful authentication.
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            examples:
+              valid_login:
+                value:
+                  phoneNumber: "+56912345678"
+                  password: "securePassword123"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                            format: jwt
+                            description: JWT authentication token
+                        required:
+                          - token
+              examples:
+                login_success:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalid_credentials:
+                  value:
+                    success: false
+                    message: "Invalid credentials"
+                    error: "UNAUTHORIZED"
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: User registration
+      description: |
+        Registers a new user in the system.
+        Returns a JWT token upon successful registration.
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            examples:
+              valid_registration:
+                value:
+                  username: "juanperez"
+                  phoneNumber: "+56912345678"
+                  password: "securePassword123"
+      responses:
+        '200':
+          description: Registration successful
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          token:
+                            type: string
+                            format: jwt
+                            description: JWT authentication token
+                        required:
+                          - token
+              examples:
+                registration_success:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                user_exists:
+                  value:
+                    success: false
+                    message: "User already exists"
+                    error: "USER_ALREADY_EXISTS"
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          pattern: '^(\+56)?[1-9][0-9]{8}$'
+          description: Chilean phone number with or without country code
+          example: "+56912345678"
+        password:
+          type: string
+          minLength: 1
+          description: User password
+          example: "securePassword123"
+      required:
+        - phoneNumber
+        - password
+
+    RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          description: User's username
+          example: "juanperez"
+        phoneNumber:
+          type: string
+          pattern: '^(\+56)?[1-9][0-9]{8}$'
+          description: Chilean phone number with or without country code
+          example: "+56912345678"
+        password:
+          type: string
+          minLength: 1
+          description: User password
+          example: "securePassword123"
+      required:
+        - username
+        - phoneNumber
+        - password

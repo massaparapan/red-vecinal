@@ -15,19 +15,41 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+/**
+ * Security configuration class for the application.
+ * Configures authentication, authorization, and security filters.
+ */
 @EnableWebSecurity
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
+
+    /**
+     * Bean definition for the password encoder.
+     * Uses BCrypt with a strength of 12 for encoding passwords.
+     *
+     * @return a PasswordEncoder instance
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
+
+    /**
+     * Configures the security filter chain for the application.
+     * Disables CSRF, configures URL-based authorization, sets session management to stateless,
+     * and adds a JWT filter before the UsernamePasswordAuthenticationFilter.
+     *
+     * @param httpSecurity the HttpSecurity object to configure
+     * @return the configured SecurityFilterChain
+     * @throws Exception if an error occurs during configuration
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(AbstractHttpConfigurer::disable).
-                authorizeHttpRequests(request -> request
+        return httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(request -> request
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/api/users/consult-phoneNumber",
@@ -44,8 +66,17 @@ public class SecurityConfig {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
+    /**
+     * Bean definition for the authentication manager.
+     * Retrieves the authentication manager from the provided AuthenticationConfiguration.
+     *
+     * @param configuration the AuthenticationConfiguration object
+     * @return the AuthenticationManager instance
+     * @throws Exception if an error occurs during retrieval
+     */
     @Bean
-    public AuthenticationManager authenticationManager (AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 }

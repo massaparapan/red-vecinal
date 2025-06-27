@@ -3,6 +3,7 @@ package cl.redvecinal.backend.common.util;
 import cl.redvecinal.backend.common.dto.SuccessResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+
 /**
  * Utility class for creating standardized success responses.
  * This class is annotated with \@Component to allow it to be managed by the Spring container.

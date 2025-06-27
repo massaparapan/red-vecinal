@@ -87,7 +87,6 @@ public class EventServiceImpl implements EventService {
     /**
      * Allows the currently authenticated user to participate in an event by its ID.
      * If the user is not already participating, a new participation is created and added to the event.
-     * The updated event is then saved to the repository.
      *
      * @param id the ID of the event the user wants to participate in
      */
@@ -104,6 +103,12 @@ public class EventServiceImpl implements EventService {
         eventRepository.save(event);
     }
 
+    /**
+     * Retrieves a list of events that the currently authenticated user is participating in.
+     * The method fetches the user's participations, extracts the associated events.
+     *
+     * @return a list of EventResponseDto objects representing the events the user is participating in
+     */
     @Override
     public List<EventResponseDto> getMyParticipations() {
         User user = authContext.getCurrentUser();

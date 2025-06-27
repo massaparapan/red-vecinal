@@ -5,11 +5,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+
 /**
  * Custom implementation of the UserDetails interface to represent the authenticated user.
  * This class is implemented as a record, encapsulating a User object.
  */
 public record CustomUserDetails(User user) implements UserDetails {
+
     /**
      * Retrieves the authorities granted to the user.
      * Currently, this method returns null as no authorities are defined.
@@ -20,6 +22,7 @@ public record CustomUserDetails(User user) implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
+
     /**
      * Retrieves the password of the user.
      *
@@ -29,6 +32,7 @@ public record CustomUserDetails(User user) implements UserDetails {
     public String getPassword() {
         return user.getPassword();
     }
+
     /**
      * Retrieves the username of the user.
      *

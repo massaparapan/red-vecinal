@@ -13,6 +13,7 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import io.jsonwebtoken.io.Decoders;
 import java.util.function.Function;
+
 /**
  * Component responsible for handling JWT token operations such as generation, validation, and extraction of claims.
  */
@@ -25,6 +26,7 @@ public class JwtTokenProvider {
     private String secretKey = "";
     @Value("${jwt.expiration}")
     private long jwtExpiration;
+
     /**
      * Generates a JWT token for the given user.
      *
@@ -43,6 +45,7 @@ public class JwtTokenProvider {
                 .signWith(getKey())
                 .compact();
     }
+
     /**
      * Generates a password reset JWT token for the given phone number.
      *
@@ -58,6 +61,7 @@ public class JwtTokenProvider {
                 .signWith(getKey())
                 .compact();
     }
+
     /**
      * Decodes the secret key and returns it as a SecretKey object.
      *
@@ -67,6 +71,7 @@ public class JwtTokenProvider {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
     /**
      * Extracts the phone number claim from the given JWT token.
      *
@@ -76,6 +81,7 @@ public class JwtTokenProvider {
     public String extractPhoneNumber (String token) {
         return extractClaim(token, claims -> claims.get(PHONE_NUMBER_CLAIM, String.class));
     }
+
     /**
      * Extracts a specific claim from the given JWT token using a claim resolver function.
      *
@@ -88,6 +94,7 @@ public class JwtTokenProvider {
         final Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
     }
+
     /**
      * Extracts all claims from the given JWT token.
      *
@@ -101,6 +108,7 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token)
                 .getPayload();
     }
+
     /**
      * Validates the given JWT token.
      *

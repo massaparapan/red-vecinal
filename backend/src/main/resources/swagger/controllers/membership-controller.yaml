@@ -1,0 +1,445 @@
+paths:
+  /api/memberships/me:
+    get:
+      tags:
+        - Memberships
+      summary: Get my membership information
+      description: |
+        Retrieves the authenticated user's current community membership information.
+      operationId: getMyMembership
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User's membership information
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/Membership'
+              examples:
+                my_membership:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      id: 1
+                      userId: 123
+                      communityId: 45
+                      status: "ACTIVE"
+                      role: "MEMBER"
+                      joinedAt: "2025-06-01T10:00:00Z"
+        '404':
+          description: User is not a member of any community
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/memberships/my-community:
+    get:
+      tags:
+        - Memberships
+      summary: Get my community memberships
+      description: |
+        Retrieves all membership requests and active memberships for the authenticated user's community.
+        Only available for community administrators.
+      operationId: getMyCommunityMemberships
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of community memberships
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/MembershipWithUser'
+              examples:
+                community_memberships:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: [
+                      {
+                        id: 1,
+                        userId: 123,
+                        communityId: 45,
+                        status: "PENDING",
+                        role: null,
+                        requestedAt: "2025-06-26T10:00:00Z",
+                        user: {
+                          id: 123,
+                          firstName: "Juan",
+                          lastName: "Pérez",
+                          phoneNumber: "+56912345678"
+                        }
+                      }
+                    ]
+        '403':
+          description: Not authorized - user is not a community administrator
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/memberships/my-community/members:
+    get:
+      tags:
+        - Memberships
+      summary: Get my community members
+      description: |
+        Retrieves all active members of the authenticated user's community.
+      operationId: getMyCommunityMembers
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of community members
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/MembershipWithUser'
+              examples:
+                community_members:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: [
+                      {
+                        id: 1,
+                        userId: 123,
+                        communityId: 45,
+                        status: "ACTIVE",
+                        role: "ADMIN",
+                        joinedAt: "2025-06-01T10:00:00Z",
+                        user: {
+                          id: 123,
+                          firstName: "Juan",
+                          lastName: "Pérez",
+                          phoneNumber: "+56912345678"
+                        }
+                      },
+                      {
+                        id: 2,
+                        userId: 124,
+                        communityId: 45,
+                        status: "ACTIVE",
+                        role: "MEMBER",
+                        joinedAt: "2025-06-15T14:30:00Z",
+                        user: {
+                          id: 124,
+                          firstName: "María",
+                          lastName: "González",
+                          phoneNumber: "+56987654321"
+                        }
+                      }
+                    ]
+
+  /api/memberships/leave:
+    delete:
+      tags:
+        - Memberships
+      summary: Leave community
+      description: |
+        Allows the authenticated user to leave their current community.
+      operationId: leaveCommunity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successfully left the community
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                left_community:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Has salido de la comunidad con éxito."
+        '404':
+          description: User is not a member of any community
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/memberships/{membershipId}:
+    delete:
+      tags:
+        - Memberships
+      summary: Reject membership request
+      description: |
+        Rejects a membership request. Only available for community administrators.
+      operationId: rejectMembership
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: membershipId
+          in: path
+          required: true
+          description: Membership ID to reject
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Membership request rejected successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                rejected:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Solicitud de membresía rechazada con éxito."
+        '404':
+          description: Membership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Not authorized to reject this membership
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/memberships/accept/{membershipId}:
+    patch:
+      tags:
+        - Memberships
+      summary: Accept membership request
+      description: |
+        Accepts a pending membership request. Only available for community administrators.
+      operationId: acceptMembership
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: membershipId
+          in: path
+          required: true
+          description: Membership ID to accept
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Membership request accepted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                accepted:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Solicitud de membresía aceptada con éxito."
+        '404':
+          description: Membership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Not authorized to accept this membership
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/memberships/assign-admin/{membershipId}:
+    patch:
+      tags:
+        - Memberships
+      summary: Assign admin role
+      description: |
+        Assigns administrator role to a community member. Only available for community administrators.
+      operationId: assignAdmin
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: membershipId
+          in: path
+          required: true
+          description: Membership ID to assign admin role
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Admin role assigned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                admin_assigned:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Membresía asignada como administrador con éxito."
+        '404':
+          description: Membership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Not authorized to assign admin roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/memberships/unassign-roles/{membershipId}:
+    patch:
+      tags:
+        - Memberships
+      summary: Unassign roles from member
+      description: |
+        Removes all special roles from a community member, making them a regular member.
+        Only available for community administrators.
+      operationId: unassignRoles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: membershipId
+          in: path
+          required: true
+          description: Membership ID to unassign roles from
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        '200':
+          description: Roles unassigned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                roles_unassigned:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "Roles desasignado con éxito."
+        '404':
+          description: Membership not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Not authorized to unassign roles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    Membership:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Membership ID
+        userId:
+          type: integer
+          format: int64
+          description: User ID
+        communityId:
+          type: integer
+          format: int64
+          description: Community ID
+        status:
+          type: string
+          enum: [PENDING, ACTIVE, REJECTED, INACTIVE]
+          description: Membership status
+        role:
+          type: string
+          enum: [MEMBER, ADMIN, MODERATOR]
+          description: User role in the community
+          nullable: true
+        requestedAt:
+          type: string
+          format: date-time
+          description: When the membership was requested
+        joinedAt:
+          type: string
+          format: date-time
+          description: When the user joined the community
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Membership creation timestamp
+        updatedAt:
+          type: string
+          format: date-time
+          description: Membership last update timestamp
+      required:
+        - id
+        - userId
+        - communityId
+        - status
+        - createdAt
+
+    MembershipWithUser:
+      allOf:
+        - $ref: '#/components/schemas/Membership'
+        - type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/UserBasicInfo'
+
+    UserBasicInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: User ID
+        firstName:
+          type: string
+          description: User's first name
+        lastName:
+          type: string
+          description: User's last name
+        phoneNumber:
+          type: string
+          description: User's phone number
+      required:
+        - id
+        - firstName
+        - lastName
+        - phoneNumber

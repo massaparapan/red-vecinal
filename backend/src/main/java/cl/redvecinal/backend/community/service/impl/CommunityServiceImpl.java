@@ -35,7 +35,7 @@ public class CommunityServiceImpl implements CommunityService {
      * Creates a new community based on the provided CommunityCreateDto request.
      * The method retrieves the currently authenticated user and maps the request data to a Community entity.
      * A new membership is created for the user with a status of ACTIVE and a role of ADMIN.
-     * The membership is associated with the user and the community, and the community is saved to the repository.
+     * The membership is associated with the user and the community.
      *
      * @param request the CommunityCreateDto containing the details of the community to be created
      * @return the created Community entity

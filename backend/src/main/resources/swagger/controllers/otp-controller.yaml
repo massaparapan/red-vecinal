@@ -1,0 +1,142 @@
+paths:
+  /api/otp/send:
+    post:
+      tags:
+        - OTP
+      summary: Send OTP code
+      description: |
+        Sends a One-Time Password (OTP) code to the specified phone number.
+        Used for phone number verification and password reset processes.
+      operationId: sendOtpCode
+      parameters:
+        - name: phoneNumber
+          in: query
+          required: true
+          description: Phone number to send the OTP code to
+          schema:
+            type: string
+            pattern: '^(\+56)?[0-9]{8,9}$'
+            example: "+56912345678"
+      responses:
+        '200':
+          description: OTP code sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                otp_sent:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data: "OTP enviado correctamente"
+        '400':
+          description: Invalid phone number format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Failed to send OTP code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/otp/verify:
+    post:
+      tags:
+        - OTP
+      summary: Verify OTP code
+      description: |
+        Verifies the OTP code sent to the phone number.
+        If verification is successful, returns a password reset token.
+      operationId: verifyOtpCode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OtpVerifyRequest'
+            examples:
+              verify_otp:
+                value:
+                  phoneNumber: "+56912345678"
+                  code: "123456"
+      responses:
+        '200':
+          description: OTP verification result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/SuccessResponse'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/OtpVerifyResponse'
+              examples:
+                verification_success:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      valid: true
+                      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIrNTY5MTIzNDU2NzgiLCJpYXQiOjE2MzUyNDM2MDB9.example"
+                verification_failed:
+                  value:
+                    success: true
+                    message: "Operation successful"
+                    data:
+                      valid: false
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: OTP code not found or expired
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    OtpVerifyRequest:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+          pattern: '^(\+56)?[0-9]{8,9}$'
+          description: Phone number that received the OTP
+          example: "+56912345678"
+        code:
+          type: string
+          pattern: '^[0-9]{4,6}$'
+          description: OTP code received via SMS
+          example: "123456"
+      required:
+        - phoneNumber
+        - code
+
+    OtpVerifyResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+          description: Whether the OTP code is valid
+          example: true
+        token:
+          type: string
+          description: Password reset token (only included when valid is true)
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIrNTY5MTIzNDU2NzgiLCJpYXQiOjE2MzUyNDM2MDB9.example"
+      required:
+        - valid

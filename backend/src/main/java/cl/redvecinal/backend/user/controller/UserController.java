@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/profile/me")
-    public ResponseEntity<SuccessResponse> getUserProfile() {
+    public ResponseEntity<SuccessResponse> getUserMyProfile() {
         return ResponseHelper.success(userService.showMyProfile());
     }
 
