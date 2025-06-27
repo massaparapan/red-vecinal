@@ -15,16 +15,18 @@ import io.jsonwebtoken.io.Decoders;
 import java.util.function.Function;
 @Component
 public class JwtTokenProvider {
+    private static final long PASSWORD_RESET_EXPIRATION = 600000;
+    private static final String PHONE_NUMBER_CLAIM = "phoneNumber";
+
     @Value("${secret.key.jwt}")
     private String secretKey = "";
     @Value("${jwt.expiration}")
     private long jwtExpiration;
-    private static final long passwordResetExpiration = 600000;
     public String generateToken(User user) {
         Date now = new Date();
         return Jwts.builder()
                 .claims()
-                .add("phoneNumber", user.getPhoneNumber())
+                .add(PHONE_NUMBER_CLAIM, user.getPhoneNumber())
                 .subject(String.valueOf(user.getId()))
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + jwtExpiration))
@@ -36,9 +38,9 @@ public class JwtTokenProvider {
     public String generatePasswordResetToken(String phoneNumber) {
         Date now = new Date();
         return Jwts.builder()
-                .claim("phoneNumber", phoneNumber)
+                .claim(PHONE_NUMBER_CLAIM, phoneNumber)
                 .issuedAt(now)
-                .expiration(new Date(now.getTime() + passwordResetExpiration))
+                .expiration(new Date(now.getTime() + PASSWORD_RESET_EXPIRATION))
                 .signWith(getKey())
                 .compact();
     }
@@ -48,7 +50,7 @@ public class JwtTokenProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     public String extractPhoneNumber (String token) {
-        return extractClaim(token, claims -> claims.get("phoneNumber", String.class));
+        return extractClaim(token, claims -> claims.get(PHONE_NUMBER_CLAIM, String.class));
     }
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
