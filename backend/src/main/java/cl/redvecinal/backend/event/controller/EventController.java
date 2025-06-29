@@ -19,15 +19,18 @@ public class EventController {
     public ResponseEntity<SuccessResponse> getAllEvents() {
         return ResponseHelper.success(eventService.getAllEvents());
     }
+
     @PostMapping()
     public ResponseEntity<SuccessResponse> createEvent(@RequestBody @Valid EventCreateDto request) {
         return ResponseHelper.success(eventService.create(request));
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<SuccessResponse> deleteEvent(@PathVariable Long id) {
         eventService.delete(id);
         return ResponseHelper.success("Evento eliminado con exito.");
     }
+
     @PostMapping("/participate/{id}")
     public ResponseEntity<SuccessResponse> participateInEvent(@PathVariable Long id) {
         eventService.participateInEvent(id);

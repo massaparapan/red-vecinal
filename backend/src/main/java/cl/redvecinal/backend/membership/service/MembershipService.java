@@ -7,7 +7,7 @@ import cl.redvecinal.backend.membership.model.Membership;
 
 import java.util.List;
 
-public interface IMembershipService {
+public interface MembershipService {
     Membership create (Membership membership);
     MembershipDto getMyMembership();
     List<MembershipRequestDto> getMyCommunityMemberships();
