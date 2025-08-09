@@ -1,4 +1,4 @@
-# RED VECINAL
+# Red Vecinal
 
 ## Problemática
 
