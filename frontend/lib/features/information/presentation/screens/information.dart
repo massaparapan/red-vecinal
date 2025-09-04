@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/information/models/response/information_response_dto.dart';
+import 'package:frontend/features/information/models/response/information_response.dart';
 import 'package:frontend/features/information/presentation/screens/information_creation.dart';
 import 'package:frontend/features/information/presentation/screens/information_view.dart';
 import 'package:frontend/features/information/presentation/widgets/information_box.dart';
@@ -16,7 +16,7 @@ class InformationScreen extends StatefulWidget {
 
 class _InformationScreenState extends State<InformationScreen> {
   final informationService = InformationService.withDefaults();
-  List<InformationResponseDto> _infoList = [];
+  List<InformationResponse> _infoList = [];
   bool _isLoading = false;
 
   @override
@@ -37,7 +37,7 @@ class _InformationScreenState extends State<InformationScreen> {
     }
   }
 
-  Future<void> _goToDetail(InformationResponseDto info) async {
+  Future<void> _goToDetail(InformationResponse info) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -49,7 +49,7 @@ class _InformationScreenState extends State<InformationScreen> {
       ),
     );
     if (result == true) {
-      _fetchInformation(); // Recargar si se eliminó
+      _fetchInformation();
     }
   }
 

@@ -21,7 +21,7 @@ class _AnnouncementsService implements AnnouncementsService {
   String? baseUrl;
 
   @override
-  Future<dynamic> createAnnouncement(CreateAnnouncementDto dto) async {
+  Future<dynamic> createAnnouncement(CreateAnnouncementRequest dto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};

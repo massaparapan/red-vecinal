@@ -16,7 +16,7 @@ import 'package:frontend/features/membership/presentation/screens/members_screen
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
 import 'package:frontend/shared/menu_screen/no_community_home.dart';
-import 'package:frontend/features/profile/presentation/screens/profile.dart';
+import 'package:frontend/features/user/presentation/screens/profile.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

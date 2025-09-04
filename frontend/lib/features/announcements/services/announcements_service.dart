@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/core/network/api_client.dart';
-import 'package:frontend/features/announcements/models/request/createAnnouncementDto.dart';
-import 'package:frontend/features/announcements/models/response/announcementResponseDto.dart';
+import 'package:frontend/features/announcements/models/request/create_announcement_request.dart';
+import 'package:frontend/features/announcements/models/response/announcement_response.dart';
 import 'package:retrofit/http.dart';
 
 part 'announcements_service.g.dart';
@@ -12,7 +12,7 @@ abstract class AnnouncementsService {
   factory AnnouncementsService.withDefaults() => AnnouncementsService(ApiClient.instance);
 
   @POST("")
-  Future<dynamic> createAnnouncement(@Body() CreateAnnouncementDto dto);
+  Future<dynamic> createAnnouncement(@Body() CreateAnnouncementRequest dto);
 
   @GET("/my-community")
   Future<List<AnnouncementResponse>> getAnnouncementsByMyCommunity();

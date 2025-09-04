@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/information/models/request/information_create_dto.dart';
+import 'package:frontend/features/information/models/request/information_create_request.dart';
 import 'package:frontend/features/information/services/information_service.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
@@ -7,7 +7,7 @@ import 'package:frontend/shared/widgets/alt_button.dart';
 class CreateInformationScreen extends StatefulWidget {
   const CreateInformationScreen({super.key});
 
-  @override
+  @override   
   State<CreateInformationScreen> createState() => _CreateInformationScreenState();
 }
 
@@ -32,7 +32,7 @@ class _CreateInformationScreenState extends State<CreateInformationScreen> {
   }
 
   void _saveInformation() async {
-    final dto = InformationCreateDto(
+    final dto = InformationCreateRequest(
       title: _titleController.text.trim(),
       content: _contentController.text.trim(),
     );

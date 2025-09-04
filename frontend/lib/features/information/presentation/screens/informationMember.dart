@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/information/models/response/information_response_dto.dart';
+import 'package:frontend/features/information/models/response/information_response.dart';
 import 'package:frontend/features/information/presentation/widgets/information_box.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
 import 'package:frontend/features/information/services/information_service.dart';
@@ -15,7 +15,7 @@ class InformationMemberScreen extends StatefulWidget {
 class _InformationMemberScreenState extends State<InformationMemberScreen> {
   final informationService = InformationService.withDefaults();
   bool _isLoading = false;
-  List<InformationResponseDto> informations = [];
+  List<InformationResponse> informations = [];
 
   @override
   void initState() {

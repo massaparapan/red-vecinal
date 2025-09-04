@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/profile/models/otherprofileDto.dart';
+import 'package:frontend/features/user/models/response/other_profile_response.dart';
 import 'package:frontend/features/user/services/user_service.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
 
@@ -14,7 +14,7 @@ class OtherPersonProfileScreen extends StatefulWidget {
 
 class _OtherPersonProfileScreenState extends State<OtherPersonProfileScreen> {
   final _userService = UserService.withDefaults();
-  late OtherProfileDto user;
+  late OtherProfileResponse user;
   bool _isLoading = true;
 
   @override

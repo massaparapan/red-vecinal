@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:frontend/features/user/models/request/reset_password_request.dart';
+import 'package:frontend/features/auth/models/request/reset_password_request.dart';
 import 'package:frontend/features/user/services/user_service.dart';
 
 class UserRepository {
