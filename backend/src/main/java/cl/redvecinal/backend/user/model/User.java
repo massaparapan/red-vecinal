@@ -21,10 +21,11 @@ public class User {
     private String phoneNumber;
     @NonNull
     private String password;
-    private String description;
+    private String description = "";
     private String imageProfileUrl;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Membership membership;
+
     public String getNameOfCommunity() {
         if (membership == null) {
             return "No has solicitado unirte a una comunidad";
