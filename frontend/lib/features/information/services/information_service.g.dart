@@ -21,13 +21,13 @@ class _InformationService implements InformationService {
   String? baseUrl;
 
   @override
-  Future<List<InformationResponseDto>> getMyCommunityInformations() async {
+  Future<List<InformationResponse>> getMyCommunityInformations() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<List<InformationResponseDto>>(Options(
+    final _result = await _dio
+        .fetch<List<dynamic>>(_setStreamType<List<InformationResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -45,21 +45,21 @@ class _InformationService implements InformationService {
             ))));
     var value = _result.data!
         .map((dynamic i) =>
-            InformationResponseDto.fromJson(i as Map<String, dynamic>))
+            InformationResponse.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
 
   @override
-  Future<InformationResponseDto> createInformation(
-      InformationCreateDto dto) async {
+  Future<InformationResponse> createInformation(
+      InformationCreateRequest information) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(dto.toJson());
+    _data.addAll(information.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<InformationResponseDto>(Options(
+        _setStreamType<InformationResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -75,7 +75,7 @@ class _InformationService implements InformationService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = InformationResponseDto.fromJson(_result.data!);
+    final value = InformationResponse.fromJson(_result.data!);
     return value;
   }
 

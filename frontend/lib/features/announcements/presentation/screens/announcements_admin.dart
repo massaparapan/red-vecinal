@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/announcements/models/response/announcementResponseDto.dart';
+import 'package:frontend/features/announcements/models/response/announcement_response.dart';
 import 'package:frontend/features/announcements/services/announcements_service.dart';
 import 'package:frontend/features/announcements/presentation/widgets/announcements_box.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';

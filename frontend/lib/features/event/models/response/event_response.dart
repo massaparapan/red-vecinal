@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:frontend/features/user/models/user_response.dart';
+import 'package:frontend/features/user/models/response/user_response.dart';
 
 part 'event_response.g.dart';
 

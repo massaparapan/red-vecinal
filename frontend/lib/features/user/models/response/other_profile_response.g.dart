@@ -1,19 +1,23 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'UpdateProfileDto.dart';
+part of 'other_profile_response.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UpdateProfileDto _$UpdateProfileDtoFromJson(Map<String, dynamic> json) =>
-    UpdateProfileDto(
+OtherProfileResponse _$OtherProfileResponseFromJson(
+        Map<String, dynamic> json) =>
+    OtherProfileResponse(
       username: json['username'] as String,
       description: json['description'] as String,
+      nameOfCommunity: json['nameOfCommunity'] as String,
     );
 
-Map<String, dynamic> _$UpdateProfileDtoToJson(UpdateProfileDto instance) =>
+Map<String, dynamic> _$OtherProfileResponseToJson(
+        OtherProfileResponse instance) =>
     <String, dynamic>{
       'username': instance.username,
       'description': instance.description,
+      'nameOfCommunity': instance.nameOfCommunity,
     };

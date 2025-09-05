@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/announcements/models/request/createAnnouncementDto.dart';
+import 'package:frontend/features/announcements/models/request/create_announcement_request.dart';
 import 'package:frontend/features/announcements/services/announcements_service.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
@@ -64,7 +64,7 @@ class _CreateAnnouncementScreenState extends State<CreateAnnouncementScreen> {
   }
 
   Future<void> _createAnnouncement() async {
-    final dto = CreateAnnouncementDto(
+    final dto = CreateAnnouncementRequest(
       content: _messageController.text.trim(),
       type: selectedTag,
     );

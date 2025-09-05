@@ -1,20 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'createAnnouncementDto.dart';
+part of 'create_announcement_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CreateAnnouncementDto _$CreateAnnouncementDtoFromJson(
+CreateAnnouncementRequest _$CreateAnnouncementRequestFromJson(
         Map<String, dynamic> json) =>
-    CreateAnnouncementDto(
+    CreateAnnouncementRequest(
       content: json['content'] as String,
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$CreateAnnouncementDtoToJson(
-        CreateAnnouncementDto instance) =>
+Map<String, dynamic> _$CreateAnnouncementRequestToJson(
+        CreateAnnouncementRequest instance) =>
     <String, dynamic>{
       'content': instance.content,
       'type': instance.type,

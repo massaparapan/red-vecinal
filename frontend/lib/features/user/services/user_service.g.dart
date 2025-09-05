@@ -50,14 +50,15 @@ class _UserService implements UserService {
 
   @override
   Future<void> resetPassword(
-    dynamic resetPasswordRequest,
+    ResetPasswordRequest resetPasswordRequest,
     String resetToken,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'Reset-Token': resetToken};
     _headers.removeWhere((k, v) => v == null);
-    final _data = resetPasswordRequest;
+    final _data = <String, dynamic>{};
+    _data.addAll(resetPasswordRequest.toJson());
     await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'PATCH',
       headers: _headers,
@@ -77,13 +78,13 @@ class _UserService implements UserService {
   }
 
   @override
-  Future<MyProfileDto> getMyProfile() async {
+  Future<MyProfileResponse> getMyProfile() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<MyProfileDto>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<MyProfileResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -99,18 +100,18 @@ class _UserService implements UserService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = MyProfileDto.fromJson(_result.data!);
+    final value = MyProfileResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<OtherProfileDto> getUserProfile(int id) async {
+  Future<OtherProfileResponse> getUserProfile(int id) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<OtherProfileDto>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OtherProfileResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -126,17 +127,18 @@ class _UserService implements UserService {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = OtherProfileDto.fromJson(_result.data!);
+    final value = OtherProfileResponse.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<void> updateMyProfile(UpdateProfileDto updateProfileDto) async {
+  Future<void> updateMyProfile(
+      UpdateProfileRequest updateProfileRequest) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(updateProfileDto.toJson());
+    _data.addAll(updateProfileRequest.toJson());
     await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'PATCH',
       headers: _headers,

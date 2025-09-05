@@ -9,14 +9,14 @@ import 'package:frontend/features/announcements/presentation/screens/announcemen
 import 'package:frontend/features/announcements/presentation/screens/announcements_admin.dart';
 import 'package:frontend/features/announcements/presentation/screens/create_announcement.dart';
 import 'package:frontend/features/information/presentation/screens/information.dart';
-import 'package:frontend/features/information/presentation/screens/informationMember.dart';
+import 'package:frontend/features/information/presentation/screens/information_member.dart';
 import 'package:frontend/features/event/presentation/screens/reminder_screen.dart';
 import 'package:frontend/features/join-request/presentation/screens/requests.dart';
 import 'package:frontend/features/membership/presentation/screens/members_screen.dart';
 import 'package:frontend/shared/menu_screen/admin_home.dart';
 import 'package:frontend/shared/menu_screen/member_home.dart';
 import 'package:frontend/shared/menu_screen/no_community_home.dart';
-import 'package:frontend/features/profile/presentation/screens/profile.dart';
+import 'package:frontend/features/user/presentation/screens/profile.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -2,7 +2,7 @@ package cl.redvecinal.backend.membership.controller;
 
 import cl.redvecinal.backend.common.dto.SuccessResponse;
 import cl.redvecinal.backend.common.util.ResponseHelper;
-import cl.redvecinal.backend.membership.service.IMembershipService;
+import cl.redvecinal.backend.membership.service.MembershipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 public class MembershipController {
-    private final IMembershipService membershipService;
+    private final MembershipService membershipService;
 
     @GetMapping("/me")
     public ResponseEntity<SuccessResponse> getMyMembership() {
@@ -45,6 +45,7 @@ public class MembershipController {
         membershipService.acceptMembership(membershipId);
         return ResponseHelper.success("Solicitud de membresía aceptada con éxito.");
     }
+
     @PatchMapping("/assign-admin/{membershipId}")
     public ResponseEntity<SuccessResponse> assignAdmin(@PathVariable Long membershipId) {
         membershipService.assignAdmin(membershipId);

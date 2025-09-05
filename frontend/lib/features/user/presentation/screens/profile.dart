@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/features/profile/models/MyProfileDto.dart';
-import 'package:frontend/features/profile/models/UpdateProfileDto.dart';
-import 'package:frontend/features/profile/presentation/screens/white_recovery_section/white_recovery.dart';
+import 'package:frontend/features/user/models/response/my_profile_response.dart';
+import 'package:frontend/features/user/models/request/update_profile_request.dart';
+import 'package:frontend/features/user/presentation/screens/white_recovery.dart';
 import 'package:frontend/features/user/services/user_service.dart';
 import 'package:frontend/shared/widgets/primary_button.dart';
 import 'package:frontend/shared/widgets/alt_button.dart';
-import 'package:frontend/features/profile/presentation/screens/profile_field.dart';
+import 'package:frontend/features/user/presentation/wigdets/profile_field.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,7 +15,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late MyProfileDto user;
+  late MyProfileResponse user;
   bool _isLoading = true;
   final userService = UserService.withDefaults();
 
@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         user = result;
         originalName = result.username;
-        originalDescription = result.description;
+        originalDescription = result.description ?? "";
         _isLoading = false;
       });
     } catch (e) {
@@ -48,14 +48,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _saveChanges() async {
     try {
-      final updateDto = UpdateProfileDto(
+      final updateDto = UpdateProfileRequest(
         username: user.username,
-        description: user.description,
+        description: user.description ?? "",
       );
       await userService.updateMyProfile(updateDto);
       setState(() {
         originalName = user.username;
-        originalDescription = user.description;
+        originalDescription = user.description ?? "";
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Perfil actualizado con éxito')),
@@ -125,7 +125,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       ProfileField(
                         label: "Descripción",
-                        value: user.description,
+                        value: user.description ?? "",
                         editable: true,
                         onChanged: (value) {
                           setState(() {

@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class InformationController {
     private final InformationService informationService;
+
     @GetMapping("/my-community")
     public ResponseEntity<SuccessResponse> getMyCommunity() {
         return ResponseHelper.success(informationService.getMyCommunityInformations());
     }
+
     @PostMapping()
     public ResponseEntity<SuccessResponse> createInformation(@RequestBody @Valid InformationCreateDto request) {
         return ResponseHelper.success(informationService.createInformation(request));

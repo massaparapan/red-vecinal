@@ -10,7 +10,7 @@ import cl.redvecinal.backend.membership.model.Membership;
 import cl.redvecinal.backend.membership.model.enums.MembershipRole;
 import cl.redvecinal.backend.membership.model.enums.MembershipStatus;
 import cl.redvecinal.backend.membership.repository.MembershipRepository;
-import cl.redvecinal.backend.membership.service.IMembershipService;
+import cl.redvecinal.backend.membership.service.MembershipService;
 import cl.redvecinal.backend.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class MembershipServiceImpl implements IMembershipService {
+public class MembershipServiceImpl implements MembershipService {
     private final MembershipRepository membershipRepository;
 
     private final MembershipMapper membershipMapper;
