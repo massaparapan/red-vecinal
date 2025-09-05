@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/features/auth/presentation/widgets/auth_decorative_circle.dart';
 import 'package:frontend/features/auth/presentation/screens/sections_recovery_password/recovery_password.dart';
 import 'package:frontend/features/auth/presentation/screens/sections_recovery_password/recovery_password_code.dart';
-import 'package:frontend/features/auth/presentation/screens/sections_recovery_password/recovery_password_newPassword.dart';
+import 'package:frontend/features/auth/presentation/screens/sections_recovery_password/recovery_password_new_password.dart';
 
 class RecoverySections extends StatefulWidget {
 

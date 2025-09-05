@@ -8,15 +8,15 @@ class MyProfileResponse {
 
   String username;
   final String phoneNumber;
-  String description;
+  String? description;
   final String nameOfCommunity;
 
   MyProfileResponse({
     required this.username,
     required this.phoneNumber,
-    required this.description,
+    String? description,
     required this.nameOfCommunity,
-  });
+  }) : description = description ?? '';
 
   factory MyProfileResponse.fromJson(Map<String, dynamic> json) => _$MyProfileResponseFromJson(json);
   Map<String, dynamic> toJson() => _$MyProfileResponseToJson(this);
